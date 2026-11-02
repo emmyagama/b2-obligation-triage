@@ -1,0 +1,15 @@
+# Phase A4 .gitignore — B2 obligation triage
+# data/ and secrets
+data/
+.env
+cache/scratch/
+annotation/workspace/
+eval_results/scratch/
+__pycache__/
+.venv/
+
+# Test-gold embargo (removed in Phase F)
+cases/src/test-*.yaml
+cases/test.json
+eval_results/**/*test*
+cache/llm/
