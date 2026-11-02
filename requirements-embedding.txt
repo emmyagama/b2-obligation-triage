@@ -1,0 +1,2 @@
+# Optional B1-compatible local encoder; install explicitly before building embeddings.
+sentence-transformers==6.1.0

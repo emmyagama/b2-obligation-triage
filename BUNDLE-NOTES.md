@@ -1,0 +1,22 @@
+# B2 bundle v1 — Phases 1 and 2
+
+## Included
+Data-independent agent core, SQLite schema, record/replay and evaluation scaffolding, offline tests, corpus selector and embeddings builder, 41-category blank taxonomy skeleton, annotation workspace generator, human case compiler/validator, deterministic adversarial mutators, composite helper, and the three-reviewer kit. No real CUAD contracts, generated annotation workspaces, human gold, API cache, model output, evaluation results or reviewer verdicts are included. Emmanuel authors all gold and taxonomy judgments.
+
+## Verified
+- Python 3.11.14: fresh dependency installation and **52 offline tests passed**, including a full synthetic Chroma-backed held-out replay, repeated frozen replay without changing the stored index, README drift detection, guarded test access, database constraints/rollback, idempotency, retries, cache misses, deterministic requests, mutation offsets and reviewer agreement. `B2_OFFLINE=1` was set for tests. These are synthetic fixtures, not real-world performance results.
+- Independently downloaded the public CUAD archive with the exact SHA-256 documented by OpenCode, without touching a user's account. Against CUADv1.json, selection produced 40 documents across the 25 user-approved project buckets, 18 conflict candidates and no swaps. All 2,075 selected label spans loaded and matched their source offsets, including 22 repeated-start spans in 16 documents. Chunking generated 14,903 chunks of at most 700 characters, with no source-offset errors; prompt hygiene also passed against the selected corpus. A separate temporary full-corpus smoke test used fake 384-dimensional vectors to exercise the Chroma builder and reload; it is not an evaluation and is not included.
+- OpenCode's published Phase A report and integration log were read; its existing ignore rules were retained. OpenCode reports Python 3.11.9 on Windows and a corrected CUAD download URL.
+
+## Approved specification adjustments
+Emmanuel approved the smallest required schema change: uniqueness is now `(document_id, category, char_start, char_end)` so distinct CUAD answers sharing a start are retained verbatim. Emmanuel also approved deterministic normalization into 25 project-defined title buckets; these are not official CUAD families. See `DECISIONS.md` and `config/family_priority.yaml` for the rules and their limits. Schema version is 2.
+
+## OpenCode handoff
+Read `handoff/OPENCODE-PHASE2.md` before integrating. It records the resolved Python 3.11 issue, Windows alternatives, source and adapter contracts, setup order, embargo, and testing limitations. This is a prepared handoff, not a message already sent to OpenCode. Do not overwrite Phase A files or local data. The B1 embedder adapter must be written by OpenCode; real weights and sentence-transformers are not included. An optional encoder dependency file is supplied.
+
+## Limits and prerequisites
+- The guide and obligation taxonomy are unfilled; the human must complete and freeze them. The corpus, mutations, embeddings, 50 cases and calibration are generated/created locally in the prescribed order. No metrics can be published yet. CI's held-out replay cannot pass until a valid frozen live test run and its cache are released.
+- Real Groq calls, the real embedding adapter/model, actual translation, Windows execution and GitHub Actions were not tested by the build agent. The optional Argos package/model installation is explicit and untested. Non-English excerpts do not acquire CUAD annotations through translation.
+- A partially resumed live case without an earlier complete transaction measurement has unavailable end-to-end latency; it is excluded from that denominator. The conservative date parser escalates unsupported or ambiguous formats. Conflict candidates are not adjudicated conflicts. See `DECISIONS.md`.
+- The configured model and price figures come from OpenCode's Phase A report and must be verified again before live use. `B2_OFFLINE=1` blocks TCP/IP sockets in agent-importing processes, not arbitrary separate programs. Each cache miss fails hard in replay; there is no network fallback.
+- Review packets contain excerpts and verdict files may contain sensitive reviewer notes; they are gitignored. Ingest only real volunteer verdicts after the frozen full run. No agreement is claimed before then. The project remains unfinished until the specification's evaluation, README, CI and real-human review criteria are met.

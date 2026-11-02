@@ -1,0 +1,23 @@
+name: offline verification
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env: {B2_OFFLINE: '1'}
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -r requirements.txt
+      - run: make test
+  replay:
+    runs-on: ubuntu-latest
+    env: {B2_OFFLINE: '1'}
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -r requirements.txt
+      - run: python run_eval.py --split test && python check_readme.py

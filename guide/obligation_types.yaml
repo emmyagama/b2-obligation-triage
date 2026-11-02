@@ -1,0 +1,248 @@
+# Human-authored taxonomy: complete each field before freezing the guide.
+categories:
+- category: Document Name
+  include: null
+  code: null
+  name: null
+  deadline_behaviour: null
+  escalates_by_default: null
+- category: Parties
+  include: null
+  code: null
+  name: null
+  deadline_behaviour: null
+  escalates_by_default: null
+- category: Agreement Date
+  include: null
+  code: null
+  name: null
+  deadline_behaviour: null
+  escalates_by_default: null
+- category: Effective Date
+  include: null
+  code: null
+  name: null
+  deadline_behaviour: null
+  escalates_by_default: null
+- category: Expiration Date
+  include: null
+  code: null
+  name: null
+  deadline_behaviour: null
+  escalates_by_default: null
+- category: Renewal Term
+  include: null
+  code: null
+  name: null
+  deadline_behaviour: null
+  escalates_by_default: null
+- category: Notice Period To Terminate Renewal
+  include: null
+  code: null
+  name: null
+  deadline_behaviour: null
+  escalates_by_default: null
+- category: Governing Law
+  include: null
+  code: null
+  name: null
+  deadline_behaviour: null
+  escalates_by_default: null
+- category: Most Favored Nation
+  include: null
+  code: null
+  name: null
+  deadline_behaviour: null
+  escalates_by_default: null
+- category: Non-Compete
+  include: null
+  code: null
+  name: null
+  deadline_behaviour: null
+  escalates_by_default: null
+- category: Exclusivity
+  include: null
+  code: null
+  name: null
+  deadline_behaviour: null
+  escalates_by_default: null
+- category: No-Solicit Of Customers
+  include: null
+  code: null
+  name: null
+  deadline_behaviour: null
+  escalates_by_default: null
+- category: Competitive Restriction Exception
+  include: null
+  code: null
+  name: null
+  deadline_behaviour: null
+  escalates_by_default: null
+- category: No-Solicit Of Employees
+  include: null
+  code: null
+  name: null
+  deadline_behaviour: null
+  escalates_by_default: null
+- category: Non-Disparagement
+  include: null
+  code: null
+  name: null
+  deadline_behaviour: null
+  escalates_by_default: null
+- category: Termination For Convenience
+  include: null
+  code: null
+  name: null
+  deadline_behaviour: null
+  escalates_by_default: null
+- category: Rofr/Rofo/Rofn
+  include: null
+  code: null
+  name: null
+  deadline_behaviour: null
+  escalates_by_default: null
+- category: Change Of Control
+  include: null
+  code: null
+  name: null
+  deadline_behaviour: null
+  escalates_by_default: null
+- category: Anti-Assignment
+  include: null
+  code: null
+  name: null
+  deadline_behaviour: null
+  escalates_by_default: null
+- category: Revenue/Profit Sharing
+  include: null
+  code: null
+  name: null
+  deadline_behaviour: null
+  escalates_by_default: null
+- category: Price Restrictions
+  include: null
+  code: null
+  name: null
+  deadline_behaviour: null
+  escalates_by_default: null
+- category: Minimum Commitment
+  include: null
+  code: null
+  name: null
+  deadline_behaviour: null
+  escalates_by_default: null
+- category: Volume Restriction
+  include: null
+  code: null
+  name: null
+  deadline_behaviour: null
+  escalates_by_default: null
+- category: Ip Ownership Assignment
+  include: null
+  code: null
+  name: null
+  deadline_behaviour: null
+  escalates_by_default: null
+- category: Joint Ip Ownership
+  include: null
+  code: null
+  name: null
+  deadline_behaviour: null
+  escalates_by_default: null
+- category: License Grant
+  include: null
+  code: null
+  name: null
+  deadline_behaviour: null
+  escalates_by_default: null
+- category: Non-Transferable License
+  include: null
+  code: null
+  name: null
+  deadline_behaviour: null
+  escalates_by_default: null
+- category: Affiliate License-Licensor
+  include: null
+  code: null
+  name: null
+  deadline_behaviour: null
+  escalates_by_default: null
+- category: Affiliate License-Licensee
+  include: null
+  code: null
+  name: null
+  deadline_behaviour: null
+  escalates_by_default: null
+- category: Unlimited/All-You-Can-Eat-License
+  include: null
+  code: null
+  name: null
+  deadline_behaviour: null
+  escalates_by_default: null
+- category: Irrevocable Or Perpetual License
+  include: null
+  code: null
+  name: null
+  deadline_behaviour: null
+  escalates_by_default: null
+- category: Source Code Escrow
+  include: null
+  code: null
+  name: null
+  deadline_behaviour: null
+  escalates_by_default: null
+- category: Post-Termination Services
+  include: null
+  code: null
+  name: null
+  deadline_behaviour: null
+  escalates_by_default: null
+- category: Audit Rights
+  include: null
+  code: null
+  name: null
+  deadline_behaviour: null
+  escalates_by_default: null
+- category: Uncapped Liability
+  include: null
+  code: null
+  name: null
+  deadline_behaviour: null
+  escalates_by_default: null
+- category: Cap On Liability
+  include: null
+  code: null
+  name: null
+  deadline_behaviour: null
+  escalates_by_default: null
+- category: Liquidated Damages
+  include: null
+  code: null
+  name: null
+  deadline_behaviour: null
+  escalates_by_default: null
+- category: Warranty Duration
+  include: null
+  code: null
+  name: null
+  deadline_behaviour: null
+  escalates_by_default: null
+- category: Insurance
+  include: null
+  code: null
+  name: null
+  deadline_behaviour: null
+  escalates_by_default: null
+- category: Covenant Not To Sue
+  include: null
+  code: null
+  name: null
+  deadline_behaviour: null
+  escalates_by_default: null
+- category: Third Party Beneficiary
+  include: null
+  code: null
+  name: null
+  deadline_behaviour: null
+  escalates_by_default: null

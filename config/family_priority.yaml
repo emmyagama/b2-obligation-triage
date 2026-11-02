@@ -1,0 +1,29 @@
+# Project-defined buckets, not official CUAD contract families.
+# First matching rule wins; normalize underscores to spaces before matching.
+priority: [licence, maintenance, distribution, development, supply, service, manufacturing, franchise, outsourcing, consulting, agency, collaboration, cooperation, endorsement, intellectual_property, joint_filing, joint_venture, promotion, reseller, sponsorship, strategic_alliance, transportation, marketing, branding, other]
+rules:
+  licence: '\blicen[cs]'
+  maintenance: '\bmaintenan'
+  distribution: '\bdistribut'
+  development: '\bdevelop'
+  supply: '\bsupply\b'
+  service: '\bservic'
+  manufacturing: '\bmanufactur'
+  franchise: '\bfranchise'
+  outsourcing: '\boutsourc'
+  consulting: '\bconsult'
+  agency: '\bagency\b'
+  collaboration: '\bcollaborat'
+  cooperation: '\bcooperat'
+  endorsement: '\bendorse'
+  intellectual_property: '\bintellectual property'
+  joint_filing: '\bjoint filing'
+  joint_venture: '\bjoint venture'
+  promotion: '\bpromot'
+  reseller: '\bresell'
+  sponsorship: '\bsponsor'
+  strategic_alliance: '\bstrategic alliance'
+  transportation: '\btransport'
+  marketing: '\bmarket'
+  branding: '\bbrand'
+min_conflict_candidates: 14

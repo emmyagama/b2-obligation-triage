@@ -1,0 +1,7 @@
+# OpenCode Phase A provider report, read 2026-11-02. Verify again before live use.
+model: openai/gpt-oss-120b
+input_per_million_usd: 0.15
+cached_input_per_million_usd: 0.075
+output_per_million_usd: 0.60
+source: https://console.groq.com/docs/model/openai/gpt-oss-120b
+verified_on: '2026-11-02'

@@ -1,15 +1,24 @@
-# Phase A4 .gitignore — B2 obligation triage
-# data/ and secrets
-data/
-.env
-cache/scratch/
-annotation/workspace/
-eval_results/scratch/
-__pycache__/
 .venv/
-
-# Test-gold embargo (removed in Phase F)
+__pycache__/
+.pytest_cache/
+annotation/workspace/
+cache/scratch/
+.env
+# Pre-freeze embargo; force-add only after a completed valid held-out live run.
 cases/src/test-*.yaml
 cases/test.json
-eval_results/**/*test*
 cache/llm/
+eval_results/run_test_*
+eval_results/run_all_*
+eval_results/summary_test.md
+eval_results/metrics_test.json
+eval_results/cost_latency.csv
+eval_results/deadline_breakdown.csv
+eval_results/drift.csv
+# Preserved from OpenCode Phase A.
+data/
+eval_results/scratch/
+eval_results/**/*test*
+# Review packets may include held-out excerpts and identifiable reviewer feedback.
+reviews/packets/
+corpus/adversarial/source/
