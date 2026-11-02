@@ -1,248 +1,674 @@
-# Human-authored taxonomy: complete each field before freezing the guide.
+# guide/obligation_types.yaml
+#
+# Obligation taxonomy for CUAD-based obligation extraction. Version 1.0.0, issued, frozen.
+# Companion to guide/annotation-guide.md; both files always carry the same version number.
+#
+# HOW TO READ THIS FILE
+#   - One entry per CUAD category. All 41 categories appear, in the order used by the corpus report (§3).
+#   - `include: true`  -> the category can produce obligations; `code` is the obligation type code.
+#   - `include: false` -> the category is not an obligation type; `code` is still assigned (prefix EXC-)
+#                         so the mapping stays total and auditable. The build filters on `include`.
+#   - The five original fields (category, include, code, name, deadline_behaviour, escalates_by_default)
+#     keep their names and meanings. The remaining fields are additional normative detail.
+#   - `deadline_behaviour` is a DEFAULT PRIOR for the type, not a per-instance straitjacket;
+#     an annotator overrides it on a specific obligation when the clause differs (guide §6.2).
+#   - `cuad_v1_contracts_with_label` comes from corpus-report.md §6 (CUADv1.json, n = 510).
+#     Triage information only; it did not decide inclusion.
+#   - `code` values are stable identifiers: they are never renamed and never reused (guide §11.2).
+
+meta:
+  version: "1.0.0"
+  status: frozen                     # gold-producing; stamped on every record as guideline_version
+  status_values: [frozen, amended]   # the only gold statuses (guide §11.1); suffix-bearing versions are never gold
+  version_bump_rule: "guide §11.2 - PATCH = wording only, MINOR = rule/type/field added or a default changed, MAJOR = enum or semantic change that invalidates earlier labels, RE-ISSUE = new frozen guide under a new number"
+  owner: Emmanuel Agama
+  approver: Emmanuel Agama
+  issued: 2026-11-02
+  supersedes: null                   # first issued version
+  companion_guide: guide/annotation-guide.md
+  run_gate: "no production run before the pilot is double-annotated and adjudicated and the agreement targets are met (guide §11.3 rules 4-6)"
+  source_basis:
+    - "corpus-report.md §3 (exact category strings, 41, identical across all 3 files)"
+    - "corpus-report.md §6 (label counts, CUADv1.json)"
+    - "corpus-report.md §7 (conflict-prone pairs)"
+    - "corpus-report.md §8 (answer_start offsets verified 30/30; context byte-identical)"
+  counts:
+    categories_total: 41
+    included: 29
+    excluded: 12
+    excluded_codes_prefixed_EXC: true
+    deadline_defaults: {relative: 12, recurring: 8, none: 9, absolute: 0}
+    escalates_by_default_1: 14
+
+enums:
+  include: [true, false]
+  deadline_behaviour: [absolute, relative, recurring, none]
+  escalates_by_default: [0, 1]
+  owed_by: [provider, customer, both, unclear]
+  obligation_class: [performance, restraint, payment, notification, risk_allocation]
+  difficulty: [1, 2, 3]
+  escalation: [E1, E2, E3]
+
+# Party mapping (guide §5). licensor = provider, licensee = customer.
+party_mapping:
+  provider: [licensor, seller, supplier, vendor, service_provider, contractor, developer, consultant, lessor, assignor_of_ip]
+  customer: [licensee, buyer, purchaser, customer, client, end_user, recipient, distributor, reseller, lessee]
+  both: "one indivisible joint duty only (e.g. 'the parties shall jointly appoint...')"
+  unclear: "cannot be determined from the contract text"
+  rules:
+    - "owed_by is decided per obligation, never per contract"
+    - "owed_by names the party who must perform, not the party who benefits"
+    - "a clause binding each party separately is TWO obligations (provider + customer), not 'both'"
+    - "distributors and resellers map to customer in a provider-to-distributor contract"
+
+# Escalation codes (guide §8). Precedence when more than one applies: E2 > E1 > E3.
+escalation_codes:
+  E1:
+    name: no_obligation
+    definition: "The span or category yields zero duties (permission, recital, definition, allocation, absence). A null is a positive claim and needs human confirmation."
+    evidence: [quote_or_searched_category, categories_checked, reason_not_a_duty]
+    not_for: ["hard calls; those are E3"]
+  E2:
+    name: conflict
+    definition: "Two operative clauses cannot both be performed: same subject matter, same party, overlapping scope, no precedence or carve-out reconciling them."
+    evidence: [span_a, span_b, duty_a, duty_b, party, failed_reconciliation, conflict_pair_id]
+    not_for: ["clauses that merely differ", "intra-clause tension (use E3)", "strict + loose pairs", "label co-occurrence"]
+  E3:
+    name: conditional_or_ambiguous
+    definition: "Duty existence, party, scope, object or deadline anchor cannot be settled from the contract text."
+    evidence: [ambiguous_text, competing_readings, which_field_left_null]
+    not_for: ["routine conditionality (invoice triggers, request-triggered services, insolvency-triggered escrow)"]
+
+# Conflict pairs worth a standing check (corpus-report.md §7). Co-occurrence is NOT a conflict;
+# each pair lists what must additionally be true. See guide §7.3.
+conflict_watch:
+  - id: CW-01
+    type_a: LIA-CAP
+    type_b: LIA-UNCAPPED
+    cuad_contracts_with_both: 111
+    of_total: 510
+    genuine_only_if: "same liability, same party, capped and expressly uncapped, with no carve-out exempting it"
+  - id: CW-02
+    type_a: EXC-LICENCE-IRREVOCABLE   # qualifier read off LIC-GRANT.grant_qualifiers
+    type_b: TRM-CONVENIENCE
+    cuad_contracts_with_both: 40
+    of_total: 510
+    genuine_only_if: "licence is perpetual/irrevocable and licensor may terminate for convenience with no carve-out for the licensed rights"
+  - id: CW-03
+    type_a: COV-NON-COMPETE
+    type_b: COV-EXCLUSIVITY
+    cuad_contracts_with_both: 68
+    of_total: 510
+    genuine_only_if: "one clause demands exclusive dealing with X while the other forbids dealing in that market at all, and no exception reconciles them"
+
+# Difficulty scale (guide §9). Per obligation. Orthogonal to escalation.
+difficulty_scale:
+  1: "One party, one duty, one sentence, explicit modal, deadline absolute/absent or anchored in the same sentence, no condition, no cross-reference, no conflict candidate."
+  2: "One step of resolution: anchor from another clause/document field, one routine condition or exception, a clean two-party split, a role-table lookup, or a deadline that needs computing."
+  3: "Unresolvable condition, competing readings, unresolved anchor, unattributable party, split-of-span is the judgement, right-vs-duty call, or a conflict candidate."
+  rules:
+    - "E2 pairs and E3 obligations are at least difficulty 2"
+    - "difficulty 3 must be escalated unless the only driver is span length (say so in notes)"
+    - "pilot sampling must include at least 25% difficulty 3"
+
+# ---------------------------------------------------------------------------
+# Categories: 41 entries, CUAD order.
+# ---------------------------------------------------------------------------
+
 categories:
+
+# --- 1-8: identity, dates, term mechanics, forum (NOT obligations) ----------
 - category: Document Name
-  include: null
-  code: null
-  name: null
-  deadline_behaviour: null
-  escalates_by_default: null
+  include: false
+  code: EXC-DOC-NAME
+  name: Document name / exhibit label
+  deadline_behaviour: none
+  escalates_by_default: 0
+  owed_by_default: null
+  obligation_class: null
+  cuad_v1_contracts_with_label: 510
+  rationale: "Identifier only; nobody owes anything."
+  used_as: context_field
+
 - category: Parties
-  include: null
-  code: null
-  name: null
-  deadline_behaviour: null
-  escalates_by_default: null
+  include: false
+  code: EXC-PARTIES
+  name: Parties identification
+  deadline_behaviour: none
+  escalates_by_default: 0
+  owed_by_default: null
+  obligation_class: null
+  cuad_v1_contracts_with_label: 509
+  rationale: "Identifier only; but it feeds the provider/customer mapping."
+  used_as: context_field
+
 - category: Agreement Date
-  include: null
-  code: null
-  name: null
-  deadline_behaviour: null
-  escalates_by_default: null
+  include: false
+  code: EXC-DATE-AGREEMENT
+  name: Agreement (signature) date
+  deadline_behaviour: none
+  escalates_by_default: 0
+  owed_by_default: null
+  obligation_class: null
+  cuad_v1_contracts_with_label: 470
+  rationale: "A date, not a duty."
+  used_as: anchor_field
+
 - category: Effective Date
-  include: null
-  code: null
-  name: null
-  deadline_behaviour: null
-  escalates_by_default: null
+  include: false
+  code: EXC-DATE-EFFECTIVE
+  name: Effective date
+  deadline_behaviour: none
+  escalates_by_default: 0
+  owed_by_default: null
+  obligation_class: null
+  cuad_v1_contracts_with_label: 390
+  rationale: "A date, not a duty; it is the most-used relative-deadline anchor."
+  used_as: anchor_field
+  note: "Missing in 120 of 510 contracts -> relative deadlines anchored here cannot be resolved there (guide §6.4)."
+
 - category: Expiration Date
-  include: null
-  code: null
-  name: null
-  deadline_behaviour: null
-  escalates_by_default: null
+  include: false
+  code: EXC-DATE-EXPIRY
+  name: Expiration date
+  deadline_behaviour: none
+  escalates_by_default: 0
+  owed_by_default: null
+  obligation_class: null
+  cuad_v1_contracts_with_label: 413
+  rationale: "A date, not a duty; anchor for notice windows and survival periods."
+  used_as: anchor_field
+  note: "Missing in 97 of 510 contracts (guide §6.4)."
+
 - category: Renewal Term
-  include: null
-  code: null
-  name: null
-  deadline_behaviour: null
-  escalates_by_default: null
+  include: false
+  code: EXC-TERM-RENEWAL
+  name: Renewal-term mechanics
+  deadline_behaviour: none
+  escalates_by_default: 0
+  owed_by_default: null
+  obligation_class: null
+  cuad_v1_contracts_with_label: 176
+  rationale: "Automatic-renewal mechanics state no duty; the duty lives in the notice category."
+  used_as: anchor_field
+  fold_into: TRM-RENEWAL-NOTICE
+
 - category: Notice Period To Terminate Renewal
-  include: null
-  code: null
-  name: null
-  deadline_behaviour: null
-  escalates_by_default: null
+  include: true
+  code: TRM-RENEWAL-NOTICE
+  name: Notice to prevent renewal
+  deadline_behaviour: relative
+  escalates_by_default: 1
+  owed_by_default: both
+  obligation_class: notification
+  cuad_v1_contracts_with_label: 111
+  rationale: "An express duty to notify within a window; anchor (expiry / renewal date) and the question of which party must act make a clean read unusual."
+  split_rule: "One obligation per party named; typically two."
+  note: "Both-party drafting is the norm ('unless either party notifies'), so expect two records."
+
 - category: Governing Law
-  include: null
-  code: null
-  name: null
-  deadline_behaviour: null
-  escalates_by_default: null
+  include: false
+  code: EXC-GOVERNING-LAW
+  name: Governing law / forum
+  deadline_behaviour: none
+  escalates_by_default: 0
+  owed_by_default: null
+  obligation_class: null
+  cuad_v1_contracts_with_label: 437
+  rationale: "Chooses a law and a forum; no performance duty."
+  used_as: context_field
+
+# --- 9-19: restrictive covenants, term rights, transfer --------------------
 - category: Most Favored Nation
-  include: null
-  code: null
-  name: null
-  deadline_behaviour: null
-  escalates_by_default: null
+  include: true
+  code: PRC-MFN
+  name: Most-favoured-nation commitment
+  deadline_behaviour: recurring
+  escalates_by_default: 1
+  owed_by_default: provider
+  obligation_class: restraint
+  cuad_v1_contracts_with_label: 28
+  rationale: "A standing duty to match the best terms given to others; the comparison class and the trigger need judgement every time."
+  note: "Usually fires on each new comparable agreement -> recurring, not relative."
+
 - category: Non-Compete
-  include: null
-  code: null
-  name: null
-  deadline_behaviour: null
-  escalates_by_default: null
+  include: true
+  code: COV-NON-COMPETE
+  name: Non-compete restriction
+  deadline_behaviour: relative
+  escalates_by_default: 0
+  owed_by_default: both
+  obligation_class: restraint
+  cuad_v1_contracts_with_label: 119
+  rationale: "A clear restraint on an identified party; scope words are hard but the duty is not in doubt."
+  conflict_watch: [CW-03]
+  note: "Duration usually runs during the term plus a survival period -> relative, anchored to termination. No stated limit -> none."
+  fold_in: [EXC-COMPETITIVE-EXCEPTION]
+
 - category: Exclusivity
-  include: null
-  code: null
-  name: null
-  deadline_behaviour: null
-  escalates_by_default: null
+  include: true
+  code: COV-EXCLUSIVITY
+  name: Exclusivity / exclusive dealing
+  deadline_behaviour: relative
+  escalates_by_default: 0
+  owed_by_default: both
+  obligation_class: restraint
+  cuad_v1_contracts_with_label: 180
+  rationale: "A restraint on dealing with third parties; usually one-way but readable from the clause."
+  conflict_watch: [CW-03]
+  note: "One-way exclusivity (supplier shall not appoint others / customer shall not buy elsewhere) is one obligation on that party, not 'both'."
+
 - category: No-Solicit Of Customers
-  include: null
-  code: null
-  name: null
-  deadline_behaviour: null
-  escalates_by_default: null
+  include: true
+  code: COV-NO-SOLICIT-CUSTOMER
+  name: No-solicitation of customers
+  deadline_behaviour: relative
+  escalates_by_default: 0
+  owed_by_default: both
+  obligation_class: restraint
+  cuad_v1_contracts_with_label: 34
+  rationale: "A restraint with a stated survival period; attribution is normally explicit."
+
 - category: Competitive Restriction Exception
-  include: null
-  code: null
-  name: null
-  deadline_behaviour: null
-  escalates_by_default: null
+  include: false
+  code: EXC-COMPETITIVE-EXCEPTION
+  name: Carve-out to a competitive restriction
+  deadline_behaviour: none
+  escalates_by_default: 0
+  owed_by_default: null
+  obligation_class: null
+  cuad_v1_contracts_with_label: 76
+  rationale: "Narrows an existing restriction; it creates no duty of its own."
+  fold_into: [COV-NON-COMPETE, COV-EXCLUSIVITY]
+  used_as: exceptions_field
+
 - category: No-Solicit Of Employees
-  include: null
-  code: null
-  name: null
-  deadline_behaviour: null
-  escalates_by_default: null
+  include: true
+  code: COV-NO-SOLICIT-EMPLOYEE
+  name: No-solicitation of employees
+  deadline_behaviour: relative
+  escalates_by_default: 0
+  owed_by_default: both
+  obligation_class: restraint
+  cuad_v1_contracts_with_label: 59
+  rationale: "A restraint with a stated survival period; attribution is normally explicit."
+
 - category: Non-Disparagement
-  include: null
-  code: null
-  name: null
-  deadline_behaviour: null
-  escalates_by_default: null
+  include: true
+  code: COV-NON-DISPARAGEMENT
+  name: Non-disparagement
+  deadline_behaviour: relative
+  escalates_by_default: 0
+  owed_by_default: both
+  obligation_class: restraint
+  cuad_v1_contracts_with_label: 38
+  rationale: "A plain restraint; usually mutual, so one obligation per party."
+  note: "No stated survival period -> none."
+
 - category: Termination For Convenience
-  include: null
-  code: null
-  name: null
-  deadline_behaviour: null
-  escalates_by_default: null
+  include: true
+  code: TRM-CONVENIENCE
+  name: Termination for convenience
+  deadline_behaviour: relative
+  escalates_by_default: 1
+  owed_by_default: both
+  obligation_class: notification
+  cuad_v1_contracts_with_label: 183
+  rationale: "The duty, if any, is only the notice; deciding permission-vs-obligation is exactly the call that needs review."
+  conflict_watch: [CW-02]
+  note: "A bare right with no notice requirement and no other duty -> no obligation, escalate E1 (guide §3.4)."
+
 - category: Rofr/Rofo/Rofn
-  include: null
-  code: null
-  name: null
-  deadline_behaviour: null
-  escalates_by_default: null
+  include: true
+  code: TRM-ROFR-ROFO-ROFN
+  name: Right of first refusal / offer / negotiation
+  deadline_behaviour: relative
+  escalates_by_default: 1
+  owed_by_default: provider
+  obligation_class: notification
+  cuad_v1_contracts_with_label: 85
+  rationale: "Record the duty on the grantor (to offer first), not the holder's right; distinguishing ROFR/ROFO/ROFN changes the duty."
+  note: "Anchor is the third-party offer; if no offer procedure is described -> E3."
+
 - category: Change Of Control
-  include: null
-  code: null
-  name: null
-  deadline_behaviour: null
-  escalates_by_default: null
+  include: true
+  code: CTL-CHANGE-OF-CONTROL
+  name: Change-of-control notice / consent
+  deadline_behaviour: none
+  escalates_by_default: 1
+  owed_by_default: unclear
+  obligation_class: notification
+  cuad_v1_contracts_with_label: 121
+  rationale: "Conditional by construction: the duty exists only if the defined trigger occurs, and who owes it depends on which side is acquired."
+  note: "If the clause is only a definition of 'Change of Control' with no duty -> no obligation, escalate E1."
+
 - category: Anti-Assignment
-  include: null
-  code: null
-  name: null
-  deadline_behaviour: null
-  escalates_by_default: null
+  include: true
+  code: CTL-NO-ASSIGNMENT
+  name: No assignment without consent
+  deadline_behaviour: none
+  escalates_by_default: 0
+  owed_by_default: both
+  obligation_class: restraint
+  cuad_v1_contracts_with_label: 374
+  rationale: "A clear consent requirement; the highest-yield restraint type in the corpus."
+
+# --- 20-23: money and volume ----------------------------------------------
 - category: Revenue/Profit Sharing
-  include: null
-  code: null
-  name: null
-  deadline_behaviour: null
-  escalates_by_default: null
+  include: true
+  code: PAY-REVENUE-SHARE
+  name: Revenue / profit sharing
+  deadline_behaviour: recurring
+  escalates_by_default: 1
+  owed_by_default: customer
+  obligation_class: payment
+  cuad_v1_contracts_with_label: 166
+  rationale: "A repeating payment duty whose base (gross vs net, deductions, reports) decides the obligation every time."
+
 - category: Price Restrictions
-  include: null
-  code: null
-  name: null
-  deadline_behaviour: null
-  escalates_by_default: null
+  include: true
+  code: PAY-PRICE-RESTRICTION
+  name: Price restriction (floor / cap / resale)
+  deadline_behaviour: recurring
+  escalates_by_default: 1
+  owed_by_default: customer
+  obligation_class: restraint
+  cuad_v1_contracts_with_label: 15
+  rationale: "Restraint on pricing that applies to every sale; whether it binds, or is only 'suggested', needs reading."
+  note: "Rare in CUAD (15/510; 0 in test.json) -> low priority for the pilot, but keep it in the schema."
+
 - category: Minimum Commitment
-  include: null
-  code: null
-  name: null
-  deadline_behaviour: null
-  escalates_by_default: null
+  include: true
+  code: PUR-MINIMUM-COMMITMENT
+  name: Minimum purchase commitment
+  deadline_behaviour: recurring
+  escalates_by_default: 1
+  owed_by_default: customer
+  obligation_class: payment
+  cuad_v1_contracts_with_label: 165
+  rationale: "Threshold duty per period; period length, carry-over and shortfall remedy decide what is owed."
+
 - category: Volume Restriction
-  include: null
-  code: null
-  name: null
-  deadline_behaviour: null
-  escalates_by_default: null
+  include: true
+  code: PUR-VOLUME-RESTRICTION
+  name: Volume restriction
+  deadline_behaviour: recurring
+  escalates_by_default: 1
+  owed_by_default: customer
+  obligation_class: restraint
+  cuad_v1_contracts_with_label: 82
+  rationale: "Cap duty whose measuring period is often unstated; the cap without a period is the ambiguity."
+
+# --- 24-31: IP and licensing ---------------------------------------------
 - category: Ip Ownership Assignment
-  include: null
-  code: null
-  name: null
-  deadline_behaviour: null
-  escalates_by_default: null
+  include: true
+  code: IP-OWNERSHIP-ASSIGNMENT
+  name: IP ownership assignment
+  deadline_behaviour: none
+  escalates_by_default: 0
+  owed_by_default: both
+  obligation_class: performance
+  cuad_v1_contracts_with_label: 124
+  rationale: "Creates a duty to transfer and to execute further documents; the transferor is normally explicit."
+  note: "Present-tense assignment ('hereby assigns') is still a duty; deadline none unless a step has a date."
+
 - category: Joint Ip Ownership
-  include: null
-  code: null
-  name: null
-  deadline_behaviour: null
-  escalates_by_default: null
+  include: false
+  code: EXC-IP-JOINT
+  name: Joint IP ownership (allocation)
+  deadline_behaviour: none
+  escalates_by_default: 0
+  owed_by_default: null
+  obligation_class: null
+  cuad_v1_contracts_with_label: 46
+  rationale: "Allocates ownership between the parties rather than imposing a duty; carve-out language often grants mutual permissions."
+  fold_into: IP-OWNERSHIP-ASSIGNMENT
+  note: "Any embedded consent / accounting / registration duty is labelled under IP-OWNERSHIP-ASSIGNMENT."
+
 - category: License Grant
-  include: null
-  code: null
-  name: null
-  deadline_behaviour: null
-  escalates_by_default: null
+  include: true
+  code: LIC-GRANT
+  name: Licence grant (with scope qualifiers)
+  deadline_behaviour: none
+  escalates_by_default: 0
+  owed_by_default: provider
+  obligation_class: performance
+  cuad_v1_contracts_with_label: 255
+  rationale: "The core duty of a licence contract: the licensor must make the licensed rights available within the stated scope."
+  fold_in: [EXC-LICENCE-UNLIMITED, EXC-LICENCE-IRREVOCABLE]
+  note: "Scope qualifiers (perpetual, irrevocable, unlimited, exclusive, sublicensable) go in grant_qualifiers on this one obligation, not into extra records."
+
 - category: Non-Transferable License
-  include: null
-  code: null
-  name: null
-  deadline_behaviour: null
-  escalates_by_default: null
+  include: true
+  code: LIC-NO-TRANSFER
+  name: Non-transferable licence
+  deadline_behaviour: none
+  escalates_by_default: 0
+  owed_by_default: customer
+  obligation_class: restraint
+  cuad_v1_contracts_with_label: 138
+  rationale: "A restraint on the licensee (no assignment or sublicence); separately performed from the grant itself."
+
 - category: Affiliate License-Licensor
-  include: null
-  code: null
-  name: null
-  deadline_behaviour: null
-  escalates_by_default: null
+  include: true
+  code: LIC-AFFILIATE-PROVIDER
+  name: Affiliate licence — licensor side
+  deadline_behaviour: none
+  escalates_by_default: 0
+  owed_by_default: provider
+  obligation_class: performance
+  cuad_v1_contracts_with_label: 23
+  rationale: "Duty to extend or procure extension of the licence to licensor affiliates; attribution is explicit."
+
 - category: Affiliate License-Licensee
-  include: null
-  code: null
-  name: null
-  deadline_behaviour: null
-  escalates_by_default: null
+  include: true
+  code: LIC-AFFILIATE-CUSTOMER
+  name: Affiliate licence — licensee side
+  deadline_behaviour: none
+  escalates_by_default: 0
+  owed_by_default: customer
+  obligation_class: performance
+  cuad_v1_contracts_with_label: 59
+  rationale: "Duty on the licensee side (use by affiliates, compliance by affiliates); attribution is explicit."
+
 - category: Unlimited/All-You-Can-Eat-License
-  include: null
-  code: null
-  name: null
-  deadline_behaviour: null
-  escalates_by_default: null
+  include: false
+  code: EXC-LICENCE-UNLIMITED
+  name: Unlimited-use licence qualifier
+  deadline_behaviour: none
+  escalates_by_default: 0
+  owed_by_default: null
+  obligation_class: null
+  cuad_v1_contracts_with_label: 17
+  rationale: "A quality of the grant; counting it separately would double-count one sentence."
+  fold_into: LIC-GRANT
+  used_as: grant_qualifier
+
 - category: Irrevocable Or Perpetual License
-  include: null
-  code: null
-  name: null
-  deadline_behaviour: null
-  escalates_by_default: null
+  include: false
+  code: EXC-LICENCE-IRREVOCABLE
+  name: Irrevocable / perpetual licence qualifier
+  deadline_behaviour: none
+  escalates_by_default: 0
+  owed_by_default: null
+  obligation_class: null
+  cuad_v1_contracts_with_label: 70
+  rationale: "A quality of the grant, folded into LIC-GRANT as a qualifier."
+  fold_into: LIC-GRANT
+  used_as: grant_qualifier
+  conflict_watch: [CW-02]
+  note: "The conflict check reads this qualifier off LIC-GRANT.grant_qualifiers against TRM-CONVENIENCE."
+
+# --- 32-34: post-term and oversight ---------------------------------------
 - category: Source Code Escrow
-  include: null
-  code: null
-  name: null
-  deadline_behaviour: null
-  escalates_by_default: null
+  include: true
+  code: LIC-SOURCE-ESCROW
+  name: Source code escrow
+  deadline_behaviour: recurring
+  escalates_by_default: 1
+  owed_by_default: provider
+  obligation_class: performance
+  cuad_v1_contracts_with_label: 13
+  rationale: "Deposit and keep-updated duties repeat with each release; release conditions are the ambiguity."
+  note: "Rare (13/510; 1 in test.json). Deposit on signing can be relative on its first instance."
+
 - category: Post-Termination Services
-  include: null
-  code: null
-  name: null
-  deadline_behaviour: null
-  escalates_by_default: null
+  include: true
+  code: SVC-POST-TERMINATION
+  name: Post-termination / transition services
+  deadline_behaviour: relative
+  escalates_by_default: 0
+  owed_by_default: provider
+  obligation_class: performance
+  cuad_v1_contracts_with_label: 182
+  rationale: "A service duty running for a stated period after termination; request-triggered but normal, not escalated."
+
 - category: Audit Rights
-  include: null
-  code: null
-  name: null
-  deadline_behaviour: null
-  escalates_by_default: null
+  include: true
+  code: CTL-AUDIT-RIGHT
+  name: Audit / inspection rights
+  deadline_behaviour: recurring
+  escalates_by_default: 1
+  owed_by_default: provider
+  obligation_class: performance
+  cuad_v1_contracts_with_label: 214
+  rationale: "The audited party must permit access; who pays, how often, and on what notice is judgement in most instances."
+  note: "The customer's notice and cost-bearing duties in the same clause are separate obligations (guide §4.2)."
+
+# --- 35-41: liability, warranty, insurance, benefit -----------------------
 - category: Uncapped Liability
-  include: null
-  code: null
-  name: null
-  deadline_behaviour: null
-  escalates_by_default: null
+  include: true
+  code: LIA-UNCAPPED
+  name: Uncapped liability / no-cap carve-outs
+  deadline_behaviour: none
+  escalates_by_default: 1
+  owed_by_default: both
+  obligation_class: risk_allocation
+  cuad_v1_contracts_with_label: 111
+  rationale: "A restraint on the benefited party's ability to limit exposure; usually a carve-out list that must be read item by item."
+  conflict_watch: [CW-01]
+  note: "Co-occurring with LIA-CAP is normal, not a conflict; only same-liability/same-party/no-carve-out is genuine (guide §7.3)."
+
 - category: Cap On Liability
-  include: null
-  code: null
-  name: null
-  deadline_behaviour: null
-  escalates_by_default: null
+  include: true
+  code: LIA-CAP
+  name: Liability cap
+  deadline_behaviour: none
+  escalates_by_default: 1
+  owed_by_default: both
+  obligation_class: risk_allocation
+  cuad_v1_contracts_with_label: 275
+  rationale: "A duty of restraint on the claiming party; mutuality, the cap basis and carve-outs need reading every time."
+  conflict_watch: [CW-01]
+  note: "Record the restrained party (the one who cannot claim above the cap), per guide §5.3."
+
 - category: Liquidated Damages
-  include: null
-  code: null
-  name: null
-  deadline_behaviour: null
-  escalates_by_default: null
+  include: true
+  code: LIA-LIQUIDATED-DAMAGES
+  name: Liquidated damages
+  deadline_behaviour: relative
+  escalates_by_default: 1
+  owed_by_default: customer
+  obligation_class: payment
+  cuad_v1_contracts_with_label: 61
+  rationale: "A contingent payment duty: trigger and amount schedule decide the obligation."
+  note: "A figure attached to another duty stays as that duty's consequence unless it is drafted as a stand-alone payment obligation."
+
 - category: Warranty Duration
-  include: null
-  code: null
-  name: null
-  deadline_behaviour: null
-  escalates_by_default: null
+  include: true
+  code: WAR-DURATION
+  name: Warranty period
+  deadline_behaviour: relative
+  escalates_by_default: 0
+  owed_by_default: provider
+  obligation_class: performance
+  cuad_v1_contracts_with_label: 75
+  rationale: "A remedy duty running for a stated period from delivery or acceptance; anchor is usually in the same clause."
+
 - category: Insurance
-  include: null
-  code: null
-  name: null
-  deadline_behaviour: null
-  escalates_by_default: null
+  include: true
+  code: INS-COVERAGE
+  name: Insurance to be maintained
+  deadline_behaviour: recurring
+  escalates_by_default: 0
+  owed_by_default: both
+  obligation_class: performance
+  cuad_v1_contracts_with_label: 166
+  rationale: "A duty to maintain cover and often to evidence it, repeating each policy year."
+
 - category: Covenant Not To Sue
-  include: null
-  code: null
-  name: null
-  deadline_behaviour: null
-  escalates_by_default: null
+  include: true
+  code: COV-NO-SUE
+  name: Covenant not to sue
+  deadline_behaviour: relative
+  escalates_by_default: 0
+  owed_by_default: both
+  obligation_class: restraint
+  cuad_v1_contracts_with_label: 100
+  rationale: "A clear restraint on bringing proceedings, usually limited to a stated period."
+
 - category: Third Party Beneficiary
-  include: null
-  code: null
-  name: null
-  deadline_behaviour: null
-  escalates_by_default: null
+  include: false
+  code: EXC-THIRD-PARTY
+  name: Third-party beneficiary
+  deadline_behaviour: none
+  escalates_by_default: 0
+  owed_by_default: null
+  obligation_class: null
+  cuad_v1_contracts_with_label: 32
+  rationale: "Confers a right on a non-party; no duty runs between provider and customer, and owed_by has no value for a third party."
+  used_as: context_field
+  note: "If the clause also restricts the parties (e.g. no amendment without consent), label that restriction under the type it restrains or leave it to E3."
+
+summary:
+  included_codes:
+    - TRM-RENEWAL-NOTICE
+    - PRC-MFN
+    - COV-NON-COMPETE
+    - COV-EXCLUSIVITY
+    - COV-NO-SOLICIT-CUSTOMER
+    - COV-NO-SOLICIT-EMPLOYEE
+    - COV-NON-DISPARAGEMENT
+    - TRM-CONVENIENCE
+    - TRM-ROFR-ROFO-ROFN
+    - CTL-CHANGE-OF-CONTROL
+    - CTL-NO-ASSIGNMENT
+    - PAY-REVENUE-SHARE
+    - PAY-PRICE-RESTRICTION
+    - PUR-MINIMUM-COMMITMENT
+    - PUR-VOLUME-RESTRICTION
+    - IP-OWNERSHIP-ASSIGNMENT
+    - LIC-GRANT
+    - LIC-NO-TRANSFER
+    - LIC-AFFILIATE-PROVIDER
+    - LIC-AFFILIATE-CUSTOMER
+    - LIC-SOURCE-ESCROW
+    - SVC-POST-TERMINATION
+    - CTL-AUDIT-RIGHT
+    - LIA-UNCAPPED
+    - LIA-CAP
+    - LIA-LIQUIDATED-DAMAGES
+    - WAR-DURATION
+    - INS-COVERAGE
+    - COV-NO-SUE
+  excluded_codes:
+    - EXC-DOC-NAME
+    - EXC-PARTIES
+    - EXC-DATE-AGREEMENT
+    - EXC-DATE-EFFECTIVE
+    - EXC-DATE-EXPIRY
+    - EXC-TERM-RENEWAL
+    - EXC-GOVERNING-LAW
+    - EXC-COMPETITIVE-EXCEPTION
+    - EXC-IP-JOINT
+    - EXC-LICENCE-UNLIMITED
+    - EXC-LICENCE-IRREVOCABLE
+    - EXC-THIRD-PARTY
+  decisions_of_record:               # resolved at issue; bound by guide §12
+    - {id: D1, topic: rights_as_obligations, resolution: "a right is an obligation only where it implies a duty on the other party; a bare permission yields no obligation and is escalated E1"}
+    - {id: D2, topic: liability_caps, resolution: "liability caps and uncapped liability are in scope as risk_allocation types; owed_by for a cap is the restrained party"}
+    - {id: D3, topic: licence_qualifiers, resolution: "perpetual/irrevocable/unlimited are folded into LIC-GRANT as grant_qualifiers, never counted as separate obligations"}
+    - {id: D4, topic: meaning_of_both, resolution: "both is reserved for indivisible joint duties; drafting that binds each party separately is two obligations, provider and customer"}
+    - {id: D5, topic: default_escalations, resolution: "all 14 default escalations stand; review priority LIA-*/TRM-*, then PAY-*/PUR-*, then the rest"}
+    - {id: D6, topic: absolute_default, resolution: "no type defaults to absolute; absolute is assigned per instance when a fixed calendar date is stated"}
+    - {id: D7, topic: held_out_set, resolution: "test.json (102 contracts) is the sealed held-out set"}

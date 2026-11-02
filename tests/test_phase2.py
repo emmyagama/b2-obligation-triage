@@ -45,8 +45,10 @@ def test_selection_and_workspace_are_deterministic(tmp_path):
     (source/'CUADv1.json').write_text(json.dumps({'data':docs}))
     first=build_corpus(source,3,root); selection=(root/'corpus/selection.json').read_bytes()
     assert len(first['picks'])==3 and workspace(root)==3
-    with connect(root/'db/b2.sqlite') as d:
+    d=connect(root/'db/b2.sqlite')
+    with d:
         assert d.execute('SELECT count(*) FROM clause_labels').fetchone()[0]==6
+    d.close()  # Windows: sqlite must release db/b2.sqlite before the rebuild's os.replace
     assert build_corpus(source,3,root)==first and (root/'corpus/selection.json').read_bytes()==selection
 
 def seed(root):
@@ -63,7 +65,7 @@ def test_mutators_preserve_offsets_and_drop_overlaps(tmp_path):
     ids['empty']=mutate(root,'empty')
     supplied=tmp_path/'excerpt.txt';supplied.write_text('Ein Auszug.');ids['non_english']=mutate(root,'non_english','one',non_english_file=supplied)
     db=connect(root/'db/b2.sqlite')
-    assert len((root/'corpus/documents'/f"{ids['redacted']}.txt").read_text())==12
+    assert len((root/'corpus/documents'/f"{ids['redacted']}.txt").read_text(encoding='utf-8'))==12  # Windows: default locale encoding mangles U+2588
     assert db.execute('SELECT count(*) FROM clause_labels WHERE document_id=?',(ids['redacted'],)).fetchone()[0]==0
     assert len(get_clause(db,ids['exact_duplicate'],'C'))==2
     with pytest.raises(ClauseNotFound):get_clause(db,ids['non_english'],'C')

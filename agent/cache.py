@@ -17,13 +17,16 @@ class Cache:
     def get(self, request, case_id=None, seq=None):
         key = key_for(request); path = self.path / (key + '.json')
         if not path.exists(): raise CacheMiss(key, case_id, seq)
-        entry = json.loads(path.read_text())
+        try:
+            entry = json.loads(path.read_text(encoding='utf-8'))
+        except (UnicodeDecodeError, json.JSONDecodeError):
+            raise CacheMiss(key, case_id, seq)
         if entry.get('request') != request: raise ValueError('cache entry request mismatch')
         return entry
     def put(self, request, response, metadata):
         self.path.mkdir(parents=True, exist_ok=True)
         p = self.path / (key_for(request) + '.json'); tmp = p.with_suffix('.tmp')
-        tmp.write_text(canonical({'request': request, 'response': response, 'metadata': metadata})+'\n')
+        tmp.write_text(canonical({'request': request, 'response': response, 'metadata': metadata})+'\n', encoding='utf-8')
         os.replace(tmp, p)
 
 def ensure_online():

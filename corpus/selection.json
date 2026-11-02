@@ -1,0 +1,659 @@
+{
+  "bucket_counts": {
+    "agency": 15,
+    "branding": 20,
+    "collaboration": 11,
+    "consulting": 11,
+    "cooperation": 15,
+    "development": 32,
+    "distribution": 35,
+    "endorsement": 24,
+    "franchise": 15,
+    "intellectual_property": 16,
+    "joint_filing": 13,
+    "joint_venture": 10,
+    "licence": 44,
+    "maintenance": 30,
+    "manufacturing": 11,
+    "marketing": 7,
+    "other": 32,
+    "outsourcing": 18,
+    "promotion": 11,
+    "reseller": 12,
+    "service": 34,
+    "sponsorship": 30,
+    "strategic_alliance": 32,
+    "supply": 23,
+    "transportation": 9
+  },
+  "conflict_coverage": {
+    "after": 18,
+    "before": 18,
+    "candidate_not_adjudicated_conflict": true,
+    "minimum": 14,
+    "shortfall": 0
+  },
+  "family_definition": "project-defined title-derived buckets; not official CUAD families",
+  "family_priority": [
+    "licence",
+    "maintenance",
+    "distribution",
+    "development",
+    "supply",
+    "service",
+    "manufacturing",
+    "franchise",
+    "outsourcing",
+    "consulting",
+    "agency",
+    "collaboration",
+    "cooperation",
+    "endorsement",
+    "intellectual_property",
+    "joint_filing",
+    "joint_venture",
+    "promotion",
+    "reseller",
+    "sponsorship",
+    "strategic_alliance",
+    "transportation",
+    "marketing",
+    "branding",
+    "other"
+  ],
+  "family_rules": {
+    "agency": "\\bagency\\b",
+    "branding": "\\bbrand",
+    "collaboration": "\\bcollaborat",
+    "consulting": "\\bconsult",
+    "cooperation": "\\bcooperat",
+    "development": "\\bdevelop",
+    "distribution": "\\bdistribut",
+    "endorsement": "\\bendorse",
+    "franchise": "\\bfranchise",
+    "intellectual_property": "\\bintellectual property",
+    "joint_filing": "\\bjoint filing",
+    "joint_venture": "\\bjoint venture",
+    "licence": "\\blicen[cs]",
+    "maintenance": "\\bmaintenan",
+    "manufacturing": "\\bmanufactur",
+    "marketing": "\\bmarket",
+    "outsourcing": "\\boutsourc",
+    "promotion": "\\bpromot",
+    "reseller": "\\bresell",
+    "service": "\\bservic",
+    "sponsorship": "\\bsponsor",
+    "strategic_alliance": "\\bstrategic alliance",
+    "supply": "\\bsupply\\b",
+    "transportation": "\\btransport"
+  },
+  "picks": [
+    {
+      "char_count": 272018,
+      "conflict_candidate_pairs": [
+        [
+          "Exclusivity",
+          "Non-Compete"
+        ],
+        [
+          "Irrevocable Or Perpetual License",
+          "Termination For Convenience"
+        ]
+      ],
+      "document_id": "cuad_a0e14c30056968d88209",
+      "family": "licence",
+      "family_method": "fallback-last-dash",
+      "original_bucket": "licence",
+      "reason": "longest_per_bucket",
+      "source_family": "LICENSE, DEVELOPMENT AND COMMERCIALIZATION AGREEMENT",
+      "title": "Array BioPharma Inc. - LICENSE, DEVELOPMENT AND COMMERCIALIZATION AGREEMENT"
+    },
+    {
+      "char_count": 233248,
+      "conflict_candidate_pairs": [],
+      "document_id": "cuad_08636f6df2840b29991a",
+      "family": "maintenance",
+      "family_method": "last-ex-marker",
+      "original_bucket": "maintenance",
+      "reason": "longest_per_bucket",
+      "source_family": "10.3_Maintenance Agreement1",
+      "title": "AzulSa_20170303_F-1A_EX-10.3_9943903_EX-10.3_Maintenance Agreement1"
+    },
+    {
+      "char_count": 175770,
+      "conflict_candidate_pairs": [
+        [
+          "Cap On Liability",
+          "Uncapped Liability"
+        ],
+        [
+          "Exclusivity",
+          "Non-Compete"
+        ],
+        [
+          "Irrevocable Or Perpetual License",
+          "Termination For Convenience"
+        ]
+      ],
+      "document_id": "cuad_5dad919074219d103fb8",
+      "family": "distribution",
+      "family_method": "last-ex-marker",
+      "original_bucket": "distribution",
+      "reason": "longest_per_bucket",
+      "source_family": "10.2_Distributor Agreement",
+      "title": "ZogenixInc_20190509_10-Q_EX-10.2_11663313_EX-10.2_Distributor Agreement"
+    },
+    {
+      "char_count": 291873,
+      "conflict_candidate_pairs": [
+        [
+          "Exclusivity",
+          "Non-Compete"
+        ]
+      ],
+      "document_id": "cuad_1bc91c6dfb434b456f99",
+      "family": "development",
+      "family_method": "last-ex-marker",
+      "original_bucket": "development",
+      "reason": "longest_per_bucket",
+      "source_family": "10.21_Development Agreement",
+      "title": "PhasebioPharmaceuticalsInc_20200330_10-K_EX-10.21_12086810_EX-10.21_Development Agreement"
+    },
+    {
+      "char_count": 225094,
+      "conflict_candidate_pairs": [
+        [
+          "Cap On Liability",
+          "Uncapped Liability"
+        ]
+      ],
+      "document_id": "cuad_66e33fbe68d408120418",
+      "family": "supply",
+      "family_method": "last-ex-marker",
+      "original_bucket": "supply",
+      "reason": "longest_per_bucket",
+      "source_family": "2.6_Manufacturing Agreement_ Supply Agreement",
+      "title": "UpjohnInc_20200121_10-12G_EX-2.6_11948692_EX-2.6_Manufacturing Agreement_ Supply Agreement"
+    },
+    {
+      "char_count": 289615,
+      "conflict_candidate_pairs": [],
+      "document_id": "cuad_298ded523eb4fd77600d",
+      "family": "service",
+      "family_method": "last-ex-marker",
+      "original_bucket": "service",
+      "reason": "longest_per_bucket",
+      "source_family": "10.4_Service Agreement",
+      "title": "VerizonAbsLlc_20200123_8-K_EX-10.4_11952335_EX-10.4_Service Agreement"
+    },
+    {
+      "char_count": 109219,
+      "conflict_candidate_pairs": [
+        [
+          "Cap On Liability",
+          "Uncapped Liability"
+        ]
+      ],
+      "document_id": "cuad_96943dfc7ec66b62e263",
+      "family": "manufacturing",
+      "family_method": "fallback-last-dash",
+      "original_bucket": "manufacturing",
+      "reason": "longest_per_bucket",
+      "source_family": "Manufacturing Agreement ",
+      "title": "Sonos, Inc. - Manufacturing Agreement "
+    },
+    {
+      "char_count": 300768,
+      "conflict_candidate_pairs": [],
+      "document_id": "cuad_c92227514f576d98317e",
+      "family": "franchise",
+      "family_method": "last-ex-marker",
+      "original_bucket": "franchise",
+      "reason": "longest_per_bucket",
+      "source_family": "Franchise Agreement",
+      "title": "GOOSEHEADINSURANCE,INC_04_02_2018-EX-10.6-Franchise Agreement"
+    },
+    {
+      "char_count": 338211,
+      "conflict_candidate_pairs": [],
+      "document_id": "cuad_53e37eccb9aca3974dd0",
+      "family": "outsourcing",
+      "family_method": "last-ex-marker",
+      "original_bucket": "outsourcing",
+      "reason": "longest_per_bucket",
+      "source_family": "OUTSOURCING AGREEMENT",
+      "title": "MANUFACTURERSSERVICESLTD_06_05_2000-EX-10.14-OUTSOURCING AGREEMENT"
+    },
+    {
+      "char_count": 33425,
+      "conflict_candidate_pairs": [],
+      "document_id": "cuad_4dec9f284717d01e7349",
+      "family": "consulting",
+      "family_method": "last-ex-marker",
+      "original_bucket": "consulting",
+      "reason": "longest_per_bucket",
+      "source_family": "CONSULTING AGREEMENT",
+      "title": "SLINGERBAGINC_05_27_2020-EX-10.7-CONSULTING AGREEMENT"
+    },
+    {
+      "char_count": 221382,
+      "conflict_candidate_pairs": [
+        [
+          "Exclusivity",
+          "Non-Compete"
+        ]
+      ],
+      "document_id": "cuad_412f6a035ef9763e47c2",
+      "family": "agency",
+      "family_method": "fallback-last-dash",
+      "original_bucket": "agency",
+      "reason": "longest_per_bucket",
+      "source_family": "SECOND A_R EXCLUSIVE AGENCY AND MARKETING AGREEMENT ",
+      "title": "Monsanto Company - SECOND A_R EXCLUSIVE AGENCY AND MARKETING AGREEMENT "
+    },
+    {
+      "char_count": 335282,
+      "conflict_candidate_pairs": [],
+      "document_id": "cuad_7c7b9fab0f2daf6004b0",
+      "family": "collaboration",
+      "family_method": "last-ex-marker",
+      "original_bucket": "collaboration",
+      "reason": "longest_per_bucket",
+      "source_family": "Collaboration Agreement",
+      "title": "CERES,INC_01_25_2012-EX-10.20-Collaboration Agreement"
+    },
+    {
+      "char_count": 76425,
+      "conflict_candidate_pairs": [],
+      "document_id": "cuad_aa43b2240f866f2fc18d",
+      "family": "cooperation",
+      "family_method": "last-ex-marker",
+      "original_bucket": "cooperation",
+      "reason": "longest_per_bucket",
+      "source_family": "Cooperation Agreement on Mobile Game Business",
+      "title": "IDREAMSKYTECHNOLOGYLTD_07_03_2014-EX-10.39-Cooperation Agreement on Mobile Game Business"
+    },
+    {
+      "char_count": 68204,
+      "conflict_candidate_pairs": [],
+      "document_id": "cuad_2a450f18c7649b3d7561",
+      "family": "endorsement",
+      "family_method": "last-ex-marker",
+      "original_bucket": "endorsement",
+      "reason": "longest_per_bucket",
+      "source_family": "10.1_Endorsement Agreement",
+      "title": "PapaJohnsInternationalInc_20190617_8-K_EX-10.1_11707365_EX-10.1_Endorsement Agreement"
+    },
+    {
+      "char_count": 155463,
+      "conflict_candidate_pairs": [],
+      "document_id": "cuad_ae248d81c03ed8dc2225",
+      "family": "intellectual_property",
+      "family_method": "last-ex-marker",
+      "original_bucket": "intellectual_property",
+      "reason": "longest_per_bucket",
+      "source_family": "INTELLECTUAL PROPERTY AGREEMENT",
+      "title": "FIDELITYNATIONALINFORMATIONSERVICES,INC_08_05_2009-EX-10.3-INTELLECTUAL PROPERTY AGREEMENT"
+    },
+    {
+      "char_count": 5879,
+      "conflict_candidate_pairs": [],
+      "document_id": "cuad_cdbbcb9c511d8f86fe50",
+      "family": "joint_filing",
+      "family_method": "last-ex-marker",
+      "original_bucket": "joint_filing",
+      "reason": "longest_per_bucket",
+      "source_family": "JOINT FILING AGREEMENT",
+      "title": "ONEMAINHOLDINGS,INC_02_20_2020-EX-99.D-JOINT FILING AGREEMENT"
+    },
+    {
+      "char_count": 95181,
+      "conflict_candidate_pairs": [],
+      "document_id": "cuad_c1d38c5a7a05b88b6c21",
+      "family": "joint_venture",
+      "family_method": "last-ex-marker",
+      "original_bucket": "joint_venture",
+      "reason": "longest_per_bucket",
+      "source_family": "JOINT VENTURE AGREEMENT",
+      "title": "TRANSPHORM,INC_02_14_2020-EX-10.12(1)-JOINT VENTURE AGREEMENT"
+    },
+    {
+      "char_count": 175580,
+      "conflict_candidate_pairs": [
+        [
+          "Cap On Liability",
+          "Uncapped Liability"
+        ],
+        [
+          "Exclusivity",
+          "Non-Compete"
+        ]
+      ],
+      "document_id": "cuad_93a7191ff01200e8fe44",
+      "family": "promotion",
+      "family_method": "last-ex-marker",
+      "original_bucket": "promotion",
+      "reason": "longest_per_bucket",
+      "source_family": "10.2_Promotion Agreement",
+      "title": "DovaPharmaceuticalsInc_20181108_10-Q_EX-10.2_11414857_EX-10.2_Promotion Agreement"
+    },
+    {
+      "char_count": 117478,
+      "conflict_candidate_pairs": [],
+      "document_id": "cuad_b1fe09126a4d0b840349",
+      "family": "reseller",
+      "family_method": "last-ex-marker",
+      "original_bucket": "reseller",
+      "reason": "longest_per_bucket",
+      "source_family": "RESELLER AGREEMENT",
+      "title": "LOYALTYPOINTINC_11_16_2004-EX-10.2-RESELLER AGREEMENT"
+    },
+    {
+      "char_count": 96662,
+      "conflict_candidate_pairs": [],
+      "document_id": "cuad_c7256920fc58b74bbd37",
+      "family": "sponsorship",
+      "family_method": "last-ex-marker",
+      "original_bucket": "sponsorship",
+      "reason": "longest_per_bucket",
+      "source_family": "SPONSORSHIP AGREEMENT",
+      "title": "IPAYMENT,INC_05_14_2007-EX-10.1-SPONSORSHIP AGREEMENT"
+    },
+    {
+      "char_count": 122054,
+      "conflict_candidate_pairs": [],
+      "document_id": "cuad_1f9cab5d8d6e18e6f1a8",
+      "family": "strategic_alliance",
+      "family_method": "last-ex-marker",
+      "original_bucket": "strategic_alliance",
+      "reason": "longest_per_bucket",
+      "source_family": "STRATEGIC ALLIANCE AGREEMENT",
+      "title": "MOELIS_CO_03_24_2014-EX-10.19-STRATEGIC ALLIANCE AGREEMENT"
+    },
+    {
+      "char_count": 229670,
+      "conflict_candidate_pairs": [],
+      "document_id": "cuad_3c15a3be192ef6a9b14e",
+      "family": "transportation",
+      "family_method": "last-ex-marker",
+      "original_bucket": "transportation",
+      "reason": "longest_per_bucket",
+      "source_family": "TRANSPORTATION CONTRACT",
+      "title": "GRANTIERRAENERGYINC_05_07_2012-EX-10.6-TRANSPORTATION CONTRACT"
+    },
+    {
+      "char_count": 52106,
+      "conflict_candidate_pairs": [
+        [
+          "Exclusivity",
+          "Non-Compete"
+        ]
+      ],
+      "document_id": "cuad_646f2847afd01a811aa5",
+      "family": "marketing",
+      "family_method": "last-ex-marker",
+      "original_bucket": "marketing",
+      "reason": "longest_per_bucket",
+      "source_family": "10.28_Marketing Agreement",
+      "title": "XpresspaGroupInc_20190401_10-K_EX-10.28_11599457_EX-10.28_Marketing Agreement"
+    },
+    {
+      "char_count": 114759,
+      "conflict_candidate_pairs": [
+        [
+          "Cap On Liability",
+          "Uncapped Liability"
+        ]
+      ],
+      "document_id": "cuad_a08094c0e438a7a9c7e5",
+      "family": "branding",
+      "family_method": "last-ex-marker",
+      "original_bucket": "branding",
+      "reason": "longest_per_bucket",
+      "source_family": "10.2_Co-Branding Agreement",
+      "title": "InvendaCorp_20000828_S-1A_EX-10.2_2588206_EX-10.2_Co-Branding Agreement"
+    },
+    {
+      "char_count": 148691,
+      "conflict_candidate_pairs": [
+        [
+          "Exclusivity",
+          "Non-Compete"
+        ]
+      ],
+      "document_id": "cuad_c72abcf3341f1ecf6365",
+      "family": "other",
+      "family_method": "last-ex-marker",
+      "original_bucket": "other",
+      "reason": "longest_per_bucket",
+      "source_family": "HOSTING AND MANAGEMENT AGREEMENT (1)",
+      "title": "HEALTHGATEDATACORP_11_24_1999-EX-10.1-HOSTING AND MANAGEMENT AGREEMENT (1)"
+    },
+    {
+      "char_count": 161066,
+      "conflict_candidate_pairs": [
+        [
+          "Cap On Liability",
+          "Uncapped Liability"
+        ]
+      ],
+      "document_id": "cuad_5c2a9dcbe0cc7593bb1d",
+      "family": "licence",
+      "family_method": "last-ex-marker",
+      "original_bucket": "licence",
+      "reason": "second_longest_priority",
+      "source_family": "LICENSE AND HOSTING AGREEMENT",
+      "title": "CHANGEPOINTCORP_03_08_2000-EX-10.6-LICENSE AND HOSTING AGREEMENT"
+    },
+    {
+      "char_count": 228943,
+      "conflict_candidate_pairs": [
+        [
+          "Cap On Liability",
+          "Uncapped Liability"
+        ]
+      ],
+      "document_id": "cuad_bb70642fec2aa263b6d7",
+      "family": "maintenance",
+      "family_method": "last-ex-marker",
+      "original_bucket": "maintenance",
+      "reason": "second_longest_priority",
+      "source_family": "10.1_Maintenance Agreement",
+      "title": "AtnInternationalInc_20191108_10-Q_EX-10.1_11878541_EX-10.1_Maintenance Agreement"
+    },
+    {
+      "char_count": 89484,
+      "conflict_candidate_pairs": [
+        [
+          "Cap On Liability",
+          "Uncapped Liability"
+        ]
+      ],
+      "document_id": "cuad_424083274037f63d7530",
+      "family": "distribution",
+      "family_method": "last-ex-marker",
+      "original_bucket": "distribution",
+      "reason": "second_longest_priority",
+      "source_family": "DISTRIBUTOR AGREEMENT",
+      "title": "ACCURAYINC_09_01_2010-EX-10.31-DISTRIBUTOR AGREEMENT"
+    },
+    {
+      "char_count": 266213,
+      "conflict_candidate_pairs": [
+        [
+          "Cap On Liability",
+          "Uncapped Liability"
+        ],
+        [
+          "Exclusivity",
+          "Non-Compete"
+        ],
+        [
+          "Irrevocable Or Perpetual License",
+          "Termination For Convenience"
+        ]
+      ],
+      "document_id": "cuad_8535780896bd997df598",
+      "family": "development",
+      "family_method": "last-ex-marker",
+      "original_bucket": "development",
+      "reason": "second_longest_priority",
+      "source_family": "10.1_Development Agreement",
+      "title": "RevolutionMedicinesInc_20200117_S-1_EX-10.1_11948417_EX-10.1_Development Agreement"
+    },
+    {
+      "char_count": 188674,
+      "conflict_candidate_pairs": [
+        [
+          "Cap On Liability",
+          "Uncapped Liability"
+        ]
+      ],
+      "document_id": "cuad_ac330c6c3a9cc0496f44",
+      "family": "supply",
+      "family_method": "last-ex-marker",
+      "original_bucket": "supply",
+      "reason": "second_longest_priority",
+      "source_family": "Supply Agreement",
+      "title": "BELLICUMPHARMACEUTICALS,INC_05_07_2019-EX-10.1-Supply Agreement"
+    },
+    {
+      "char_count": 112910,
+      "conflict_candidate_pairs": [],
+      "document_id": "cuad_fca73dd7b89c2e571f11",
+      "family": "service",
+      "family_method": "last-ex-marker",
+      "original_bucket": "service",
+      "reason": "second_longest_priority",
+      "source_family": "10.22_Service Agreement",
+      "title": "ReynoldsConsumerProductsInc_20200121_S-1A_EX-10.22_11948918_EX-10.22_Service Agreement"
+    },
+    {
+      "char_count": 106786,
+      "conflict_candidate_pairs": [],
+      "document_id": "cuad_871f14e107390dae4b35",
+      "family": "manufacturing",
+      "family_method": "fallback-last-dash",
+      "original_bucket": "manufacturing",
+      "reason": "second_longest_priority",
+      "source_family": "Manufacturing Agreement",
+      "title": "Antares Pharma, Inc. - Manufacturing Agreement"
+    },
+    {
+      "char_count": 249359,
+      "conflict_candidate_pairs": [
+        [
+          "Exclusivity",
+          "Non-Compete"
+        ],
+        [
+          "Irrevocable Or Perpetual License",
+          "Termination For Convenience"
+        ]
+      ],
+      "document_id": "cuad_7714bf6314a468cda863",
+      "family": "franchise",
+      "family_method": "last-ex-marker",
+      "original_bucket": "franchise",
+      "reason": "second_longest_priority",
+      "source_family": "FRANCHISE AGREEMENT",
+      "title": "MRSFIELDSORIGINALCOOKIESINC_01_29_1998-EX-10-FRANCHISE AGREEMENT"
+    },
+    {
+      "char_count": 159336,
+      "conflict_candidate_pairs": [],
+      "document_id": "cuad_3d9c71ed150a6a3c3f1f",
+      "family": "outsourcing",
+      "family_method": "last-ex-marker",
+      "original_bucket": "outsourcing",
+      "reason": "second_longest_priority",
+      "source_family": "OUTSOURCING AGREEMENT",
+      "title": "OFGBANCORP_03_28_2007-EX-10.23-OUTSOURCING AGREEMENT"
+    },
+    {
+      "char_count": 29749,
+      "conflict_candidate_pairs": [],
+      "document_id": "cuad_7d139ce53ee5a9dbf8d5",
+      "family": "consulting",
+      "family_method": "last-ex-marker",
+      "original_bucket": "consulting",
+      "reason": "second_longest_priority",
+      "source_family": "CONSULTING AGREEMENT",
+      "title": "CORALGOLDRESOURCES,LTD_05_28_2020-EX-4.1-CONSULTING AGREEMENT"
+    },
+    {
+      "char_count": 161626,
+      "conflict_candidate_pairs": [],
+      "document_id": "cuad_052975b81f9779a680c0",
+      "family": "agency",
+      "family_method": "last-ex-marker",
+      "original_bucket": "agency",
+      "reason": "second_longest_priority",
+      "source_family": "AGENCY AGREEMENT",
+      "title": "BONTONSTORESINC_04_20_2018-EX-99.3-AGENCY AGREEMENT"
+    },
+    {
+      "char_count": 209067,
+      "conflict_candidate_pairs": [
+        [
+          "Cap On Liability",
+          "Uncapped Liability"
+        ],
+        [
+          "Irrevocable Or Perpetual License",
+          "Termination For Convenience"
+        ]
+      ],
+      "document_id": "cuad_03a1e0f461f5359c5502",
+      "family": "collaboration",
+      "family_method": "last-ex-marker",
+      "original_bucket": "collaboration",
+      "reason": "second_longest_priority",
+      "source_family": "COLLABORATION AGREEMENT",
+      "title": "BERKELEYLIGHTS,INC_06_26_2020-EX-10.12-COLLABORATION AGREEMENT"
+    },
+    {
+      "char_count": 59532,
+      "conflict_candidate_pairs": [],
+      "document_id": "cuad_2ef7ad1e760173ae3b0f",
+      "family": "cooperation",
+      "family_method": "last-ex-marker",
+      "original_bucket": "cooperation",
+      "reason": "second_longest_priority",
+      "source_family": "COOPERATION AGREEMENT",
+      "title": "MEETGROUP,INC_06_29_2017-EX-10.1-COOPERATION AGREEMENT"
+    },
+    {
+      "char_count": 48410,
+      "conflict_candidate_pairs": [
+        [
+          "Exclusivity",
+          "Non-Compete"
+        ]
+      ],
+      "document_id": "cuad_d39bf71d3da2729aca84",
+      "family": "endorsement",
+      "family_method": "last-ex-marker",
+      "original_bucket": "endorsement",
+      "reason": "second_longest_priority",
+      "source_family": "10.75_Endorsement Agreement",
+      "title": "NakedBrandGroupInc_20150731_POS AM (on S-1)_EX-10.75_9196027_EX-10.75_Endorsement Agreement"
+    },
+    {
+      "char_count": 127205,
+      "conflict_candidate_pairs": [],
+      "document_id": "cuad_944e0822aba9ea79bbd5",
+      "family": "intellectual_property",
+      "family_method": "last-ex-marker",
+      "original_bucket": "intellectual_property",
+      "reason": "second_longest_priority",
+      "source_family": "INTELLECTUAL PROPERTY AGREEMENT",
+      "title": "ZEBRATECHNOLOGIESCORP_04_16_2014-EX-10.1-INTELLECTUAL PROPERTY AGREEMENT"
+    }
+  ],
+  "reduced_bucket_coverage": false,
+  "rule": "longest per bucket, then second-longest in priority order; swap only second picks if conflict candidates below minimum; sort ties by title",
+  "source": "CUADv1.json",
+  "source_sha256": "ed0b77d85bdf4014d7495800e8e4a70565b48ee6f8a2e5dca9cf8655dbf10eae",
+  "swaps": []
+}
