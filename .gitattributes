@@ -1,0 +1,6 @@
+# Checksummed artefacts: manifests, corpus_version, freeze scripts and duplicate
+# checks hash raw bytes, so these must never receive CRLF conversion on
+# checkout/add regardless of core.autocrlf.
+corpus/** -text
+*.npy -text
+*.sqlite -text
