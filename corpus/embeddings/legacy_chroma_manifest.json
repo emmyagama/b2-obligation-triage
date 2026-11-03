@@ -1,0 +1,9 @@
+{
+  "chunks": 14903,
+  "collection": "b2_contracts",
+  "content_sha256": "1a0f089d6fe42953c1dcc827c71d2b1df65fee364608706eab9d0feac070b2a2",
+  "dimensions": 384,
+  "distance": "l2",
+  "model_id": "all-MiniLM-L6-v2",
+  "store": "chroma"
+}

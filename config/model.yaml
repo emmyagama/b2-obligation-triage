@@ -1,7 +1,7 @@
 model: openai/gpt-oss-120b
 prompt_version: system_v1
 schema_version: '2'
-corpus_version: unbuilt
+corpus_version: sha256:f31c766ca313c36cacf17a37e7d8c11dc417388c5c0c30d154605f242db82948
 max_turns: 8
 temperature: 0
 max_tokens: 4096

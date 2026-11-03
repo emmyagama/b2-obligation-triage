@@ -763,6 +763,247 @@
     "split": "dev"
   },
   {
+    "business_context": "licensor onboarding on a combined licence-and-outsourcing paper; which law governs if a dispute starts",
+    "class": "conflicting",
+    "conflict_clause_refs": [
+      {
+        "category": "Governing Law",
+        "char_end": 71548,
+        "char_start": 71307
+      },
+      {
+        "category": "Governing Law",
+        "char_end": 217826,
+        "char_start": 217681
+      }
+    ],
+    "conflict_pair_id": "CP-dev-22",
+    "constructed": true,
+    "difficulty": 3,
+    "document_id": "composite_d8416b5fddd1d8074804",
+    "gold_escalation_codes": [
+      "E2_CONFLICTING_CLAUSES"
+    ],
+    "gold_obligations": [
+      {
+        "clause_category": "Source Code Escrow",
+        "clause_ref": {
+          "category": "Source Code Escrow",
+          "char_end": 63335,
+          "char_start": 63120
+        },
+        "deadline": {
+          "anchor_event": "effective_date",
+          "deadline_text": "Within sixty (60) days of the Effective Date",
+          "kind": "relative",
+          "offset_days": 60
+        },
+        "owed_by": "provider",
+        "type": "LIC-SOURCE-ESCROW"
+      }
+    ],
+    "gold_should_escalate": true,
+    "id": "dev-22",
+    "intake_party": "licensor",
+    "rationale": "Clause A elects California law and excludes the CISG for this Agreement and sends disputes to AAA arbitration; clause B, spliced in from the second source, states that the same Agreement and the performance of every transaction under it are governed by New York law. Both are exclusive and neither contains precedence language, so no single course of performance satisfies both: the Agreement cannot be governed by California and New York at once, and a party pleading one law breaches the other. The pair is a constructed incompatibility - the two spans are verbatim from their own contracts and were brought together by the splice, not found in one negotiable instrument.",
+    "source_document_ids": [
+      "cuad_5c2a9dcbe0cc7593bb1d",
+      "cuad_53e37eccb9aca3974dd0"
+    ],
+    "split": "dev"
+  },
+  {
+    "business_context": "licensor onboarding; whether the irrevocable grant can be brought to an end at will",
+    "class": "conflicting",
+    "conflict_clause_refs": [
+      {
+        "category": "Irrevocable Or Perpetual License",
+        "char_end": 8913,
+        "char_start": 7675
+      },
+      {
+        "category": "Termination For Convenience",
+        "char_end": 302308,
+        "char_start": 302072
+      }
+    ],
+    "conflict_pair_id": "CP-dev-23",
+    "constructed": true,
+    "difficulty": 3,
+    "document_id": "composite_c5f9c6f4c2dbbf26ad52",
+    "gold_escalation_codes": [
+      "E2_CONFLICTING_CLAUSES"
+    ],
+    "gold_obligations": [
+      {
+        "clause_category": "Irrevocable Or Perpetual License",
+        "clause_ref": {
+          "category": "Irrevocable Or Perpetual License",
+          "char_end": 8913,
+          "char_start": 7675
+        },
+        "deadline": {
+          "kind": "none"
+        },
+        "owed_by": "provider",
+        "type": "LIC-GRANT"
+      }
+    ],
+    "gold_should_escalate": true,
+    "id": "dev-23",
+    "intake_party": "licensor",
+    "rationale": "Clause A grants the licence as irrevocable and payable up front; clause B, spliced in from the second source, lets either party terminate the Agreement for convenience on written notice, with no carve-out preserving the licensed rights. Keeping the grant irrevocable and ending the Agreement at will are not jointly performable: terminating on convenience revokes the licence that the first clause says cannot be revoked, and honouring the grant denies the termination right its effect. This is the pattern the guide lists for review, reproduced here by construction: verbatim spans, manufactured collision.",
+    "source_document_ids": [
+      "cuad_5c2a9dcbe0cc7593bb1d",
+      "cuad_93a7191ff01200e8fe44"
+    ],
+    "split": "dev"
+  },
+  {
+    "business_context": "manufacturer onboarding; what happens to downstream customer claims and to the records behind them",
+    "class": "conflicting",
+    "conflict_clause_refs": [
+      {
+        "category": "Cap On Liability",
+        "char_end": 62596,
+        "char_start": 61222
+      },
+      {
+        "category": "Cap On Liability",
+        "char_end": 329275,
+        "char_start": 328530
+      }
+    ],
+    "conflict_pair_id": "CP-dev-24",
+    "constructed": true,
+    "difficulty": 3,
+    "document_id": "composite_1d5bf00304e51a76f89c",
+    "gold_escalation_codes": [
+      "E2_CONFLICTING_CLAUSES"
+    ],
+    "gold_obligations": [
+      {
+        "clause_category": "Post-Termination Services",
+        "clause_ref": {
+          "category": "Post-Termination Services",
+          "char_end": 350136,
+          "char_start": 349788
+        },
+        "deadline": {
+          "anchor_event": "termination",
+          "deadline_text": "during the term of the Agreement and for three (3) years thereafter",
+          "kind": "relative",
+          "offset_days": 1095
+        },
+        "owed_by": "provider",
+        "type": "CTL-AUDIT-RIGHT"
+      }
+    ],
+    "gold_should_escalate": true,
+    "id": "dev-24",
+    "intake_party": "provider",
+    "rationale": "Clause A makes the manufacturer liable for the actual amounts its customer must pay its own third-party customers when the customer cannot be supplied - the classic indirect loss. Clause B, spliced in from the second source, excludes indirect, special and consequential loss outright 'notwithstanding anything contained in this Agreement to the contrary', carving out only indemnity, confidentiality and breaches of law, none of which covers the clause A duty. The same party must pay the customer's downstream losses and must have no liability for them; the only route out of the collision would be a precedence rule, and neither clause contains one. Constructed pair: verbatim spans, spliced document.",
+    "source_document_ids": [
+      "cuad_66e33fbe68d408120418",
+      "cuad_bb70642fec2aa263b6d7"
+    ],
+    "split": "dev"
+  },
+  {
+    "business_context": "shipper penalty exposure measured against the damages the other side excludes",
+    "class": "conflicting",
+    "conflict_clause_refs": [
+      {
+        "category": "Liquidated Damages",
+        "char_end": 25071,
+        "char_start": 24803
+      },
+      {
+        "category": "Cap On Liability",
+        "char_end": 288914,
+        "char_start": 288525
+      }
+    ],
+    "conflict_pair_id": "CP-dev-25",
+    "constructed": true,
+    "difficulty": 3,
+    "document_id": "composite_bc622aa361019f6836c9",
+    "gold_escalation_codes": [
+      "E2_CONFLICTING_CLAUSES"
+    ],
+    "gold_obligations": [
+      {
+        "clause_category": "Liquidated Damages",
+        "clause_ref": {
+          "category": "Liquidated Damages",
+          "char_end": 25071,
+          "char_start": 24803
+        },
+        "deadline": {
+          "kind": "none"
+        },
+        "owed_by": "customer",
+        "type": "LIA-LIQUIDATED-DAMAGES"
+      }
+    ],
+    "gold_should_escalate": true,
+    "id": "dev-25",
+    "intake_party": "customer",
+    "rationale": "Clause A obliges the shipper to pay a penalty equal to ten percent of the final contract value for any failure of its obligations - a penal sum, fixed in advance and payable irrespective of proof of loss. Clause B, spliced in from the second source, states that the other party is not liable for punitive, exemplary or special damages under any theory. A penalty is the one payment clause B excludes, so the same agreement both requires the payment and denies liability for it; no course of performance delivers the penalty and honours the exclusion. Constructed pair: verbatim spans, spliced document.",
+    "source_document_ids": [
+      "cuad_3c15a3be192ef6a9b14e",
+      "cuad_2a450f18c7649b3d7561"
+    ],
+    "split": "dev"
+  },
+  {
+    "business_context": "manufacturer onboarding; whether downstream cash exposure survives the total-liability cap",
+    "class": "conflicting",
+    "conflict_clause_refs": [
+      {
+        "category": "Cap On Liability",
+        "char_end": 62596,
+        "char_start": 61222
+      },
+      {
+        "category": "Cap On Liability",
+        "char_end": 284587,
+        "char_start": 284339
+      }
+    ],
+    "conflict_pair_id": "CP-dev-26",
+    "constructed": true,
+    "difficulty": 3,
+    "document_id": "composite_8fd5f85004f4197e9df5",
+    "gold_escalation_codes": [
+      "E2_CONFLICTING_CLAUSES"
+    ],
+    "gold_obligations": [
+      {
+        "clause_category": "Cap On Liability",
+        "clause_ref": {
+          "category": "Cap On Liability",
+          "char_end": 62596,
+          "char_start": 61222
+        },
+        "deadline": {
+          "kind": "none"
+        },
+        "owed_by": "provider",
+        "type": "LIA-UNCAPPED"
+      }
+    ],
+    "gold_should_escalate": true,
+    "id": "dev-26",
+    "intake_party": "provider",
+    "rationale": "Clause A makes the manufacturer liable for any actual amounts its customer is contractually required to pay its third-party customers, with no monetary ceiling in the span. Clause B, spliced in from the second source, caps total liability under the Agreement at the amounts actually received, 'regardless of the number or type of claims'. Where the downstream exposure exceeds receipts - the case the clause A duty exists for - the two cannot both hold, and neither span yields to the other: there is no carve-out and no precedence language. Constructed pair: verbatim spans, spliced document.",
+    "source_document_ids": [
+      "cuad_66e33fbe68d408120418",
+      "cuad_2a450f18c7649b3d7561"
+    ],
+    "split": "dev"
+  },
+  {
     "business_context": "post-signing duty register; distributor agreement, first year after installation",
     "class": "adversarial",
     "difficulty": 1,

@@ -1,0 +1,8 @@
+{
+  "index_bytes": 13520772,
+  "mean_top_k_overlap": 0.99875,
+  "minimum_top_k_overlap": 0.875,
+  "queries": 200,
+  "query_kind": "stored-vector self queries; not human queries",
+  "top_k": 8
+}

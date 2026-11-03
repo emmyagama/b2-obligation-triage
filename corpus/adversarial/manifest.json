@@ -9,5 +9,130 @@
       "cuad_2a450f18c7649b3d7561"
     ],
     "source_sha256": "2fac2af5a9219ca22702929af105a9cb5fbfb2982f3d2a1a73800591a21c72cc"
+  },
+  "composite_1d5bf00304e51a76f89c": {
+    "char_count": 454066,
+    "document_id": "composite_1d5bf00304e51a76f89c",
+    "mechanism": "composite",
+    "separator": "\n\n--- DOCUMENT BOUNDARY ---\n\n",
+    "source_document_ids": [
+      "cuad_66e33fbe68d408120418",
+      "cuad_bb70642fec2aa263b6d7"
+    ],
+    "sources": [
+      {
+        "char_end": 225094,
+        "char_start": 0,
+        "document_id": "cuad_66e33fbe68d408120418",
+        "sha256": "d89ff42b33c8d92c367ed43c67b9213fbc4ac2df1a489a76cc60992e6ee1b9b1"
+      },
+      {
+        "char_end": 454066,
+        "char_start": 225123,
+        "document_id": "cuad_bb70642fec2aa263b6d7",
+        "sha256": "783d0e615db36afaba845e7b3a07b06aaf1638c3da041e10a75d6adc525f2c8e"
+      }
+    ],
+    "text_sha256": "54a329c6907b3e8763d64c551cfc31a87d959f757bcb17e741a9d738743a0a30"
+  },
+  "composite_8fd5f85004f4197e9df5": {
+    "char_count": 293327,
+    "document_id": "composite_8fd5f85004f4197e9df5",
+    "mechanism": "composite",
+    "separator": "\n\n--- DOCUMENT BOUNDARY ---\n\n",
+    "source_document_ids": [
+      "cuad_66e33fbe68d408120418",
+      "cuad_2a450f18c7649b3d7561"
+    ],
+    "sources": [
+      {
+        "char_end": 225094,
+        "char_start": 0,
+        "document_id": "cuad_66e33fbe68d408120418",
+        "sha256": "d89ff42b33c8d92c367ed43c67b9213fbc4ac2df1a489a76cc60992e6ee1b9b1"
+      },
+      {
+        "char_end": 293327,
+        "char_start": 225123,
+        "document_id": "cuad_2a450f18c7649b3d7561",
+        "sha256": "2fac2af5a9219ca22702929af105a9cb5fbfb2982f3d2a1a73800591a21c72cc"
+      }
+    ],
+    "text_sha256": "efcafc259167926f260d7e49fb3c166375bb807a8e56fb5c573c9cb0f0595da4"
+  },
+  "composite_bc622aa361019f6836c9": {
+    "char_count": 297903,
+    "document_id": "composite_bc622aa361019f6836c9",
+    "mechanism": "composite",
+    "separator": "\n\n--- DOCUMENT BOUNDARY ---\n\n",
+    "source_document_ids": [
+      "cuad_3c15a3be192ef6a9b14e",
+      "cuad_2a450f18c7649b3d7561"
+    ],
+    "sources": [
+      {
+        "char_end": 229670,
+        "char_start": 0,
+        "document_id": "cuad_3c15a3be192ef6a9b14e",
+        "sha256": "4ec387ff502a51ad3a0768c4578497809805b32a8b23620e10c1b8347b9734ef"
+      },
+      {
+        "char_end": 297903,
+        "char_start": 229699,
+        "document_id": "cuad_2a450f18c7649b3d7561",
+        "sha256": "2fac2af5a9219ca22702929af105a9cb5fbfb2982f3d2a1a73800591a21c72cc"
+      }
+    ],
+    "text_sha256": "e7d1c25435c00b4bedc155b49c236e6aecaae38da50f0ac042ecb34deb7d2576"
+  },
+  "composite_c5f9c6f4c2dbbf26ad52": {
+    "char_count": 336675,
+    "document_id": "composite_c5f9c6f4c2dbbf26ad52",
+    "mechanism": "composite",
+    "separator": "\n\n--- DOCUMENT BOUNDARY ---\n\n",
+    "source_document_ids": [
+      "cuad_5c2a9dcbe0cc7593bb1d",
+      "cuad_93a7191ff01200e8fe44"
+    ],
+    "sources": [
+      {
+        "char_end": 161066,
+        "char_start": 0,
+        "document_id": "cuad_5c2a9dcbe0cc7593bb1d",
+        "sha256": "4362013dcc33e52ba5180650d945aa4e69b4ec9ca1e2ce39447a34a15889db7d"
+      },
+      {
+        "char_end": 336675,
+        "char_start": 161095,
+        "document_id": "cuad_93a7191ff01200e8fe44",
+        "sha256": "7bda458cd689faa8bcde9f8f3e625ecb93b04de3a772d95988aba4f803d04900"
+      }
+    ],
+    "text_sha256": "9f8910ec0c7b99ef7d3b4894b495945b4060f899f3551df32aa912e7df20ee05"
+  },
+  "composite_d8416b5fddd1d8074804": {
+    "char_count": 499306,
+    "document_id": "composite_d8416b5fddd1d8074804",
+    "mechanism": "composite",
+    "separator": "\n\n--- DOCUMENT BOUNDARY ---\n\n",
+    "source_document_ids": [
+      "cuad_5c2a9dcbe0cc7593bb1d",
+      "cuad_53e37eccb9aca3974dd0"
+    ],
+    "sources": [
+      {
+        "char_end": 161066,
+        "char_start": 0,
+        "document_id": "cuad_5c2a9dcbe0cc7593bb1d",
+        "sha256": "4362013dcc33e52ba5180650d945aa4e69b4ec9ca1e2ce39447a34a15889db7d"
+      },
+      {
+        "char_end": 499306,
+        "char_start": 161095,
+        "document_id": "cuad_53e37eccb9aca3974dd0",
+        "sha256": "5cc2cbafdfe4b089bce0b1084cd4997a37f9a23b7c6307fec93a1777015fb690"
+      }
+    ],
+    "text_sha256": "9b67d0782c8fac17448c25aaf286f6e26d864d95c8fe01e80d9e04289839cbcf"
   }
 }

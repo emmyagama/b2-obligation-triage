@@ -22,7 +22,10 @@ eval_results/**/*test*
 # Review packets may include held-out excerpts and identifiable reviewer feedback.
 reviews/packets/
 corpus/adversarial/source/
-# Phase B hold (human decision, see reports/phase-B.md): the built Chroma store
-# (corpus/embeddings/, ~80 MB) and its corpus_version bump stay local, pending
-# the build agent's ruling on store size. Do not force-add until then.
-corpus/embeddings/
+# v1.1: legacy Chroma store remains local (not committed); lean index is committed.
+corpus/embeddings/chroma
+# Local-only test synthetics (embargoed until valid test run)
+corpus/synthetic_test/
+db/test_docs.sqlite
+db/test_docs.sqlite-*
+corpus/synthetic_test/embed_cache/
