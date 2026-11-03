@@ -1,0 +1,13 @@
+id: test-25
+split: test
+document_id: cuad_aa43b2240f866f2fc18d
+intake_party: provider
+business_context: platform-side triage of the game distribution agreement
+class: out_of_scope
+gold_obligations: []
+gold_should_escalate: false
+gold_escalation_codes: []
+rationale: 'The intake is Party A, the platform. Its labelled appearances are all rights or discretions - deducting collection fees at 37280, imposing penalties at 32483 and 54181, terminating on change
+  of control at 64308 - while the covenants run against Party B: the advertising restriction at 16254, the transfer restriction at 17538 and the compliance payments. No labelled span imposes a duty on Party
+  A, so the register stays empty.'
+difficulty: 2

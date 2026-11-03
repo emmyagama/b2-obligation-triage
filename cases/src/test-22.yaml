@@ -1,0 +1,13 @@
+id: test-22
+split: test
+document_id: cuad_1f9cab5d8d6e18e6f1a8
+intake_party: other
+business_context: limited-partner onboarding; what the passive investor itself has to do
+class: out_of_scope
+gold_obligations: []
+gold_should_escalate: false
+gold_escalation_codes: []
+rationale: 'The intake is an SMBC Unit-Holder, a passive investor. Every duty-bearing label in this alliance agreement runs between Moelis Holdings, SMBC and the Company: the non-compete at 23801 binds
+  Moelis Holdings, the allocation and fee-share spans at 19624 and 37552 confer rights, and the only span that names the unit-holders at 81352-81716 is a limitation on indemnity contribution, not a duty.
+  The register is empty for this intake.'
+difficulty: 2

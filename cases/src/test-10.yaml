@@ -1,0 +1,35 @@
+id: test-10
+split: test
+document_id: cuad_a08094c0e438a7a9c7e5
+intake_party: customer
+business_context: customer review of the non-compete and the data supply floor
+class: clear
+gold_obligations:
+- type: COV-NON-COMPETE
+  owed_by: customer
+  clause_category: Non-Compete
+  clause_ref:
+    category: Non-Compete
+    char_start: 18226
+    char_end: 18428
+  deadline:
+    kind: recurring
+    period: term
+    anchor_event: effective_date
+    deadline_text: during the Term of this Agreement
+- type: PUR-MINIMUM-COMMITMENT
+  owed_by: customer
+  clause_category: Minimum Commitment
+  clause_ref:
+    category: Minimum Commitment
+    char_start: 29544
+    char_end: 30099
+  deadline:
+    kind: recurring
+    period: monthly
+    anchor_event: month
+gold_should_escalate: false
+gold_escalation_codes: []
+rationale: 'Excite@Home is the customer and owes both: it must not launch a substantially similar branded service during the Term (18226-18428) and must deliver the minimum volume of Payment-Eligible User
+  Data records each month (29544-30099). The e-centives-side obligations - the trademark licence at 44395 and the post-termination consulting at 53559 - belong to the provider and are not entered.'
+difficulty: 2

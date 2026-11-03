@@ -1,0 +1,35 @@
+id: test-16
+split: test
+document_id: composite_75c622f527ea034356a9
+intake_party: provider
+business_context: franchisor review of a grant-back it must be able to keep
+class: conflicting
+constructed: true
+conflict_pair_id: CP-test-16
+source_document_ids:
+- cuad_c92227514f576d98317e
+- cuad_fca73dd7b89c2e571f11
+gold_obligations:
+- type: LIC-GRANT
+  owed_by: customer
+  clause_category: License Grant
+  clause_ref:
+    category: License Grant
+    char_start: 66065
+    char_end: 66646
+  deadline:
+    kind: none
+gold_should_escalate: true
+gold_escalation_codes:
+- E2_CONFLICTING_CLAUSES
+conflict_clause_refs:
+- category: Irrevocable Or Perpetual License
+  char_start: 66065
+  char_end: 66646
+- category: Termination For Convenience
+  char_start: 335999
+  char_end: 336715
+rationale: 'Clause A takes a perpetual, worldwide grant-back of the franchisee''s ideas and materials; clause B, spliced in from the second source, lets the service recipient terminate for convenience on
+  30 days'' notice with no carve-out preserving licensed rights. The grant is meant to survive the relationship while the termination ends it, so the two cannot both be performed; the grant-back at 66065
+  is the duty recorded. Constructed pair: verbatim spans, spliced document.'
+difficulty: 3

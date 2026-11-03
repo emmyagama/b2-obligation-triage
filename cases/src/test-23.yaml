@@ -1,0 +1,12 @@
+id: test-23
+split: test
+document_id: cuad_2ef7ad1e760173ae3b0f
+intake_party: customer
+business_context: cooperation-agreement triage for the company side
+class: out_of_scope
+gold_obligations: []
+gold_should_escalate: false
+gold_escalation_codes: []
+rationale: The intake is the Company. The substantive covenant in the document is the investors' non-disparagement undertaking at 33770, and the other two labels - the change-of-control termination at 28340
+  and the succession clause at 51066 - allocate outcomes and bind successors rather than imposing conduct on the Company, so there is no duty to record for it.
+difficulty: 2

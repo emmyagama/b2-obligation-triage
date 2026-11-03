@@ -1,0 +1,38 @@
+id: test-14
+split: test
+document_id: composite_3ff5786d0f09b2611a63
+intake_party: licensor
+business_context: IP carve-out deal; which law governs the transferred rights
+class: conflicting
+constructed: true
+conflict_pair_id: CP-test-14
+source_document_ids:
+- cuad_944e0822aba9ea79bbd5
+- cuad_96943dfc7ec66b62e263
+gold_obligations:
+- type: IP-OWNERSHIP-ASSIGNMENT
+  owed_by: provider
+  clause_category: Ip Ownership Assignment
+  clause_ref:
+    category: Ip Ownership Assignment
+    char_start: 38489
+    char_end: 39043
+  deadline:
+    kind: relative
+    anchor_event: closing_date
+    anchor_resolved: false
+    deadline_text: Effective as of the applicable Closing Date
+gold_should_escalate: true
+gold_escalation_codes:
+- E2_CONFLICTING_CLAUSES
+conflict_clause_refs:
+- category: Governing Law
+  char_start: 119140
+  char_end: 119426
+- category: Governing Law
+  char_start: 212500
+  char_end: 212700
+rationale: 'Clause A makes Delaware law govern the IP agreement ''whether arising in contract, tort, equity or otherwise''; clause B, spliced in from the second source, makes California law govern the same
+  Agreement and fixes California law for the merits of any dispute. The two are mutually exclusive and neither contains precedence language, so no course of performance satisfies both; the assignment duty
+  at 38489 is the Seller''s. Constructed pair: verbatim spans, spliced document.'
+difficulty: 3

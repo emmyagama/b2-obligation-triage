@@ -1,0 +1,31 @@
+id: test-12
+split: test
+document_id: cuad_96943dfc7ec66b62e263
+intake_party: customer
+business_context: contract manufacturer review of audit access and IP hand-over
+class: clear
+gold_obligations:
+- type: CTL-AUDIT-RIGHT
+  owed_by: customer
+  clause_category: Audit Rights
+  clause_ref:
+    category: Audit Rights
+    char_start: 28197
+    char_end: 28542
+  deadline:
+    kind: none
+- type: IP-OWNERSHIP-ASSIGNMENT
+  owed_by: customer
+  clause_category: Ip Ownership Assignment
+  clause_ref:
+    category: Ip Ownership Assignment
+    char_start: 10002
+    char_end: 10306
+  deadline:
+    kind: none
+gold_should_escalate: false
+gold_escalation_codes: []
+rationale: 'IAC is the customer of the manufacturing service: it must let Sonos inspect and audit its facilities and records on notice (28197-28542), and it assigns every product customisation to Sonos
+  on a work-for-hire basis (10002-10306). The Sonos-side grant at 20756 and the mutual cap at 73564 are not IAC duties; the repair-life span at 57444 carries a redacted duration and is deliberately left
+  out rather than guessed.'
+difficulty: 2

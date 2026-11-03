@@ -1,0 +1,32 @@
+id: test-08
+split: test
+document_id: cuad_a0e14c30056968d88209
+intake_party: customer
+business_context: licensee royalty and audit review for the current quarter
+class: clear
+gold_obligations:
+- type: PAY-REVENUE-SHARE
+  owed_by: customer
+  clause_category: Revenue/Profit Sharing
+  clause_ref:
+    category: Revenue/Profit Sharing
+    char_start: 127416
+    char_end: 127575
+  deadline:
+    kind: recurring
+    period: quarterly
+    anchor_event: calendar_quarter
+- type: CTL-AUDIT-RIGHT
+  owed_by: customer
+  clause_category: Audit Rights
+  clause_ref:
+    category: Audit Rights
+    char_start: 114380
+    char_end: 115059
+  deadline:
+    kind: none
+gold_should_escalate: false
+gold_escalation_codes: []
+rationale: 'Ono is the customer: it pays the quarterly royalty at 127416-127575 and must let Array and its representatives into its premises to audit the records behind that royalty (114380-115059). The
+  audit right is Array''s, but the performance obligation - access and cooperation - is Ono''s, which is why the record is owed_by customer; the Array-side grant at 42466 is the other party''s duty.'
+difficulty: 2

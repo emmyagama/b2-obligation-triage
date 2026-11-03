@@ -1,0 +1,39 @@
+id: test-15
+split: test
+document_id: composite_4bf3f94d05591e5d2eb6
+intake_party: customer
+business_context: franchise and alliance paper; which law applies to the royalty claim
+class: conflicting
+constructed: true
+conflict_pair_id: CP-test-15
+source_document_ids:
+- cuad_c92227514f576d98317e
+- cuad_1f9cab5d8d6e18e6f1a8
+gold_obligations:
+- type: PUR-MINIMUM-COMMITMENT
+  owed_by: customer
+  clause_category: Minimum Commitment
+  clause_ref:
+    category: Minimum Commitment
+    char_start: 22534
+    char_end: 22887
+  deadline:
+    kind: recurring
+    period: monthly
+    anchor_event: commencement_date
+    offset_days: 180
+    deadline_text: beginning six (6) months after the Commencement Date
+gold_should_escalate: true
+gold_escalation_codes:
+- E2_CONFLICTING_CLAUSES
+conflict_clause_refs:
+- category: Governing Law
+  char_start: 192721
+  char_end: 193278
+- category: Governing Law
+  char_start: 398935
+  char_end: 399089
+rationale: 'Clause A says the Agreement will be interpreted and construed exclusively under Texas law, which prevails over any conflict of law; clause B, spliced in from the second source, makes New York
+  law govern the same Agreement without regard to its conflict rules. Both are exclusive and there is no ordering language, so the Agreement cannot be governed by both; the minimum royalty at 22534 is the
+  customer''s. Constructed pair: verbatim spans, spliced document.'
+difficulty: 3
