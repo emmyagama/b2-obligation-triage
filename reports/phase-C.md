@@ -1,4 +1,4 @@
-NEXT ACTION FOR HUMAN: §7 (Groq 8,000 TPM) is still the open decision — and §8 confirms the Gemini fallback you suggested is unavailable (`gemini-3.8-flash` returns HTTP 503 on every call; the native API rejects API keys). Choose (A) upgrade the Groq tier [recommended, no code change], (B) cap retrieval `top_k` in `agent/engine.py` [changes retrieval evidence, therefore the calibration floors], or (B+C) cap it and pace at `--rpm 1`. §5.1 exposure acceptance and the §6 environment fixes are already recorded.
+NEXT ACTION FOR HUMAN: §9 — calibration is refused because the **dev gold contains no `E1_NO_OBLIGATION` labels at all** (0 of 26), so the E1 floor sweep has no positives. Choose (A) build agent adds E1 to the five `out_of_scope` dev cases and re-runs dev, (B) re-derive E1 labels from `not gold_obligations` in `calibrate_floors.py` [methodology change, contradicts `gold_should_escalate=False` on those cases], (C) calibrate E5 only and leave E1 provisional [blocked by `freeze_check.py:32`], or (D) you check whether the held-out split carries E1 labels. The 26-case Gemini dev run itself is complete and reusable for B/C/D. §7 (Groq TPM) and §8 (Gemini 503) are superseded — Gemini now works (§9).
 
 Phase: C (pre-flight + calibration attempt)   Branch/sha: `b2/build` @ `1f4525f`   Date: 2026-11-03
 
@@ -128,7 +128,50 @@ Conclusions:
 - Even had it worked, the switch would have changed the system under test: `agent/llm.py:25` hardcodes the Groq URL and `GROQ_API_KEY`, `config/model.yaml` pins the model, and `run_eval.py:80` refuses to run when `pricing.yaml.model != model.yaml.model`, so `config/model.yaml`, `config/pricing.yaml` and `agent/llm.py` would all have needed edits — and dev, calibration and the held-out test run would have to use that same model throughout.
 - `seed` is **not** sent by the harness (no `\bseed\b` in `agent/`, `run_eval.py` or `scripts/`), so the `400 Unknown name "seed"` seen during probing came from my probe payload, not from the harness.
 
-Stopped here per instruction. Nothing was modified, and the §7 decision is unchanged.
+Stopped here per instruction. Nothing was modified at that point, and the §7 decision was unchanged. §9 below records what happened next: the human supplied a model list, a Gemini model was selected and wired in, and live evaluation now works.
+
+## 9. Live dev run complete on Gemini — calibration refused, no E1 labels in the dev gold (stop-and-ask)
+
+With the human's model list in hand, `gemini-3.5-flash-lite` was selected on measured evidence and wired in (endpoint derived from the model name, pricing synced — `INTEGRATION-LOG.md`, commit `0560b18`). Live evaluation now works end to end.
+
+### The run
+
+```
+$ .venv/Scripts/python.exe run_eval.py --split dev --live --scratch --rpm 4   -> exit 0, 37.1 min
+   eval_results/scratch/run_dev_20261103T222510405942Z
+```
+
+- 26/26 cases, all `mode=live`, all `model=gemini-3.5-flash-lite`; 141 `llm_response` calls, 68 `search_corpus`, 29 `record_obligations`, 24 `get_document_dates`, 20 `get_clause`, 25 `retrieval_precheck`.
+- **0 HTTP failures** (no 413/429/503) — the §7 ceiling does not apply to this model.
+- `schema_valid` 22/26. The 4 invalid ones are genuine `E4` failures: `LOOP_EXHAUSTED` ×3 (no terminal call in `max_turns`) and `SCHEMA_FAIL` ×1. The 9 `VALIDATION_ERROR` labels are intermediate tool-argument hiccups that the agent recovered from (they are picked up as the case's first trace error at `run_eval.py:163`, not case failures).
+- 510,836 input / 7,896 output tokens, **$0.14**, mean latency 85 s/case.
+- Scores: `retrieval_score` min −1.0 / mean 0.528 / max 0.709; `obligation_recall` 0.146 (n=41); `escalation_recall` 0.833 (n=6); `false_escalation` 0.6 (n=20); `exception_rate` 0.885; `grounded_rate` 1.0 (n=7). Weak, as expected from a flash-lite model — but the harness, tools, schema and pricing all behave.
+
+### Why calibration refuses
+
+```
+$ .venv/Scripts/python.exe scripts/calibrate_floors.py --run eval_results/scratch/run_dev_20261103T222510405942Z
+   -> exit 1  calibration requires both positive and negative examples
+```
+
+`calibrate_floors.py:23` builds the E1 label as `'E1_NO_OBLIGATION' in gold_escalation_codes`. In the dev split that is **0 positives / 26 negatives** — the only gold codes present are `E2_CONFLICTING_CLASSES` ×5 and `E3_CONDITIONAL_OR_AMBIGUOUS` ×1, and 0 of the 26 `cases/src/dev-*.yaml` files mention `E1_NO_OBLIGATION` anywhere. `stats()` therefore raises before writing anything: `config/thresholds.yaml` is still `provisional-dev-only` (−1.0 / 0.0) and `eval_results/threshold_calibration.md` does not exist.
+
+The five zero-obligation cases are `dev-15`…`dev-19` (class `out_of_scope`, `gold_obligations: []`, `gold_should_escalate: false`, codes `[]`). Their rationales describe exactly what the guide calls E1 — *"the register is correctly empty"*, *"nothing is owed by the intake party"*, *"no labelled duty is owed by the Company"* — while `guide/annotation-guide.md:298` defines **E1 = "No obligation … zero duties … a null is a positive claim and must be confirmed by a human"** and `engine.py:48` emits `E1_NO_OBLIGATION` when the retrieval score falls under the floor.
+
+So either those five *should* be E1 (gold bug), or `out_of_scope` is deliberately distinct from E1 (zero duties owed by this party = nothing to confirm, whereas E1 is a null reached by examining a relevant span) — in which case dev simply contains no E1 case and the script's precondition can never be met from dev.
+
+A hard constraint on any gold fix: `validate_cases.py:41` requires `gold_should_escalate == bool(gold_escalation_codes)`, so adding `E1_NO_OBLIGATION` to those five also flips them to `gold_should_escalate: true`, which moves the **E5** label set from 6/20 to 11/15 and changes both sweeps at once.
+
+I did **not** open `cases/test.json` to see whether the held-out split carries E1 labels — checking that would compromise blindness; it needs you or the build agent.
+
+Your options (I acted on none of them):
+
+- **(A) Gold fix** — build agent adds `E1_NO_OBLIGATION` to the five `out_of_scope` dev cases (and flips `gold_should_escalate` as `validate_cases.py:41` forces), rebuilds `cases/dev.json`, re-runs the 37-minute dev run, then calibrates. Changes the meaning of both sweeps.
+- **(B) Label-derivation fix** — change `calibrate_floors.py:23` to `not x['case']['gold_obligations']`. Reuses the existing run as-is (no re-run needed), but the E1 sweep would then reward escalating exactly the cases the E5 labels call non-escalating. A methodology change, so it needs your sign-off rather than mine.
+- **(C) Calibrate E5 only** — leave E1 at its provisional value. `freeze_check.py:32` rejects `provenance` starting with `provisional`, so Phase E and the held-out run stay blocked.
+- **(D) You check the held-out split** for E1 labels: if present, dev and test gold are inconsistent (build-agent data bug); if absent, `calibrate_floors.py`'s E1 precondition is unmeetable by construction and the script must be reworked.
+
+Reusable artifact: the run directory above holds `details.json` (all 26 rows with gold, decisions and scores), so options B, C and D need no re-run.
 
 
 
@@ -147,6 +190,12 @@ py -3.11 scripts/venv.py test                                   1 -> 0  (after �
 probe driver --split dev --live --scratch --cases dev-01 --resume   0   (HTTP 413 body captured, §7)
 probe driver --split dev --live --scratch --cases dev-02 --resume   0   (HTTP 429 ×3 body captured, §7)
 git ls-remote origin refs/heads/b2/build                         0   (1f4525f = HEAD, tip free of embargoed paths)
+probe sweep of the human-supplied Gemini model list              0   (7 models 200 w/ tools; see §8, §9)
+run_eval.py --split dev --live --scratch --limit 2 --rpm 4       0   (Gemini smoke: 2/2 schema_valid, 0 errors)
+run_eval.py --split dev --live --scratch --rpm 4                 0   (26/26, 37.1 min, 0 HTTP failures — §9)
+scripts/calibrate_floors.py --run eval_results/scratch/run_dev_20261103T222510405942Z
+                                                                 1   (calibration requires both positive and negative examples — §9)
+py -3.11 scripts/venv.py test                                   0   (60 passed, 1 skipped + prompt hygiene)
 ```
 
 ## Deviations from the brief
@@ -154,13 +203,14 @@ git ls-remote origin refs/heads/b2/build                         0   (1f4525f = 
 - No `--replace-commitment`, no edits under `cases/`, `guide/`, `prompts/`, `config/tool_descriptions.yaml`, `agent/scoring.py`, `agent/metrics.py`, `config/targets*` or `eval_results/targets.md`; no force-add of `corpus/synthetic_test/`, `db/test_docs.sqlite`, `cache/llm/` or test results; no `push --force`, no tag moved or deleted.
 - Two environment fixes, both logged in `INTEGRATION-LOG.md`: `scripts/prompt_hygiene.py` (§6) and `.gitattributes` plus the restore of 13 CRLF-corrupted `corpus/` files. Neither touched protected content.
 - Tags `guide-v1.0` and `targets-v1` were created on `d7621be` and pushed, as the brief requires before the first live run.
-- Two smoke attempts plus two diagnostic probes hit live dev cases before the §7 blocker was understood (each appends an `attempt_id` to `eval_results/dev_run_log.jsonl`); **no full 26-case dev run has started**, so no dev scores exist yet and nothing has been tuned against them.
-- Brief order is Phase C → Phase D (up to 3 tuning rounds) → Phase E calibration; no `handoff/round_*.md` exists, so tuning has not run. Confirm whether you intend to calibrate straight after the smoke test (skipping D) or run round 1 first.
+- **Provider/model swap at the human's direction** (§7 → §8 → §9): Groq `openai/gpt-oss-120b` → Gemini `gemini-3.5-flash-lite`, touching `agent/llm.py`, `config/model.yaml` and `config/pricing.yaml`, logged in `INTEGRATION-LOG.md`. This changes the system under test — dev, calibration and the held-out run must all use this same model, and results are not comparable to a `gpt-oss-120b` run.
+- Live attempts to date, all appended to `eval_results/dev_run_log.jsonl`: two Groq smokes and two probes (failed on the §7 ceiling), one Gemini smoke, and the full 26-case dev run (§9). The full run completed — it is **not** a partial run — but it sits in gitignored `eval_results/scratch/run_dev_20261103T222510405942Z` and is reusable for calibration options B/C/D; no dev score has been tuned against, and `config/thresholds.yaml` is still provisional.
+- Brief order is Phase C → Phase D (up to 3 tuning rounds) → Phase E calibration; no `handoff/round_*.md` exists, so tuning has not run. Confirm whether you intend to calibrate straight after this (skipping D) or run round 1 first.
 
 ## Open issues / stop-and-ask items
 
-1. **TPM ceiling (§7)** — your decision required: (A) upgrade the Groq tier, (B) cap `top_k` in `agent/engine.py`, or (B+C) cap it and pace at `--rpm 1`. Everything else in Phase C is done; calibration cannot start until one of these lands.
-2. **Phase D ordering** (see Deviations): confirm whether to calibrate straight after the 26-case dev run (skipping D) or run tuning round 1 first.
+1. **Calibration blocked on E1 labels (§9)** — your decision required: (A) gold fix + dev re-run, (B) re-derive E1 labels in `calibrate_floors.py`, (C) E5-only calibration, or (D) check the held-out split for E1 labels. Nothing else in Phase C is outstanding.
+2. **Phase D ordering** (see Deviations): confirm whether to calibrate straight after this (skipping D) or run tuning round 1 first.
 3. `annotation/workspace/` is empty (§1) — not needed for calibration.
-4. Once §7 is cleared, the sequence is: `run_eval.py --split dev --live --scratch --rpm <safe per §7>` (full 26) → `scripts/calibrate_floors.py --run eval_results/scratch/<run_dir>` → commit `config/thresholds.yaml` + `eval_results/threshold_calibration.md` → then Phase E `freeze_check.py` (needs the `code-frozen` tag).
-5. Housekeeping: `eval_results/case_validation.json` and `eval_results/dev_run_log.jsonl` are untracked artefacts (the latter now holds three `started` records for today's smoke/probe attempts); tell me whether to commit or ignore them.
+4. Once §9 is cleared: `scripts/calibrate_floors.py --run eval_results/scratch/run_dev_20261103T222510405942Z` (reusable for B/C/D; a re-run is only needed for A) → commit `config/thresholds.yaml` + `eval_results/threshold_calibration.md` → Phase E `freeze_check.py` (needs the `code-frozen` tag, which must be created **after** calibration and **before** the held-out run).
+5. Housekeeping: `eval_results/case_validation.json` and `eval_results/dev_run_log.jsonl` are untracked artefacts (the latter now records every live attempt, including the failed Groq smoke and the probes); tell me whether to commit or ignore them.
