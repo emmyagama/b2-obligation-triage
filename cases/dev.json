@@ -1,0 +1,825 @@
+[
+  {
+    "business_context": "post-signing duty register; distributor agreement, first year after installation",
+    "class": "clear",
+    "difficulty": 2,
+    "document_id": "cuad_424083274037f63d7530",
+    "gold_escalation_codes": [],
+    "gold_obligations": [
+      {
+        "clause_category": "Warranty Duration",
+        "clause_ref": {
+          "category": "Warranty Duration",
+          "char_end": 25665,
+          "char_start": 25205
+        },
+        "deadline": {
+          "anchor_event": "installation",
+          "deadline_text": "for a period of one (1) year following Installation of the Products at Customer's facility",
+          "kind": "relative",
+          "offset_days": 365
+        },
+        "owed_by": "provider",
+        "type": "WAR-DURATION"
+      },
+      {
+        "clause_category": "License Grant",
+        "clause_ref": {
+          "category": "License Grant",
+          "char_end": 52836,
+          "char_start": 52564
+        },
+        "deadline": {
+          "kind": "none"
+        },
+        "owed_by": "provider",
+        "type": "LIC-GRANT"
+      },
+      {
+        "clause_category": "Post-Termination Services",
+        "clause_ref": {
+          "category": "Post-Termination Services",
+          "char_end": 38322,
+          "char_start": 38022
+        },
+        "deadline": {
+          "anchor_event": "last_shipment",
+          "deadline_text": "for a minimum period of 10 years after the last shipment of a System pursuant to this Agreement",
+          "kind": "relative",
+          "offset_days": 3650
+        },
+        "owed_by": "provider",
+        "type": "SVC-POST-TERMINATION"
+      }
+    ],
+    "gold_should_escalate": false,
+    "id": "dev-01",
+    "intake_party": "licensor",
+    "rationale": "Section 4.6.2 fixes a one-year product warranty running from installation, the Section 2 software grant is unilateral and carries no time limit, and Section 4.7 keeps support and spare parts available for ten years after the last shipment; all three are Accuray duties as provider, and the intake seeks the licensor side.",
+    "split": "dev"
+  },
+  {
+    "business_context": "consultant exit planning; who owes what if the consultant resigns",
+    "class": "clear",
+    "difficulty": 2,
+    "document_id": "cuad_7d139ce53ee5a9dbf8d5",
+    "gold_escalation_codes": [],
+    "gold_obligations": [
+      {
+        "clause_category": "Ip Ownership Assignment",
+        "clause_ref": {
+          "category": "Ip Ownership Assignment",
+          "char_end": 14371,
+          "char_start": 14068
+        },
+        "deadline": {
+          "kind": "none"
+        },
+        "owed_by": "provider",
+        "type": "IP-OWNERSHIP-ASSIGNMENT"
+      },
+      {
+        "clause_category": "No-Solicit Of Employees",
+        "clause_ref": {
+          "category": "No-Solicit Of Employees",
+          "char_end": 13122,
+          "char_start": 12301
+        },
+        "deadline": {
+          "anchor_event": "termination",
+          "deadline_text": "during the Term and for a period of one year from the date of expiration or termination",
+          "kind": "relative",
+          "offset_days": 365
+        },
+        "owed_by": "provider",
+        "type": "COV-NO-SOLICIT-EMPLOYEE"
+      },
+      {
+        "clause_category": "Termination For Convenience",
+        "clause_ref": {
+          "category": "Termination For Convenience",
+          "char_end": 4399,
+          "char_start": 4039
+        },
+        "deadline": {
+          "anchor_event": "termination_date",
+          "deadline_text": "prior to the expiry of the Term",
+          "kind": "relative",
+          "offset_days": -90
+        },
+        "owed_by": "provider",
+        "type": "TRM-CONVENIENCE"
+      }
+    ],
+    "gold_should_escalate": false,
+    "id": "dev-02",
+    "intake_party": "licensor",
+    "rationale": "The consultant is the provider: clause 8.2 obliges him to help perfect the assigned IP, the non-solicit at 12301 runs for one year after expiry or termination, and limb (a) of the termination clause requires him to give three months notice, so those three duties are his and the rest of the clause binds the Company.",
+    "split": "dev"
+  },
+  {
+    "business_context": "manufacturer onboarding review before first commercial batch",
+    "class": "clear",
+    "difficulty": 2,
+    "document_id": "cuad_871f14e107390dae4b35",
+    "gold_escalation_codes": [],
+    "gold_obligations": [
+      {
+        "clause_category": "Exclusivity",
+        "clause_ref": {
+          "category": "Exclusivity",
+          "char_end": 22377,
+          "char_start": 22066
+        },
+        "deadline": {
+          "kind": "none"
+        },
+        "owed_by": "provider",
+        "type": "COV-EXCLUSIVITY"
+      },
+      {
+        "clause_category": "Insurance",
+        "clause_ref": {
+          "category": "Insurance",
+          "char_end": 90601,
+          "char_start": 90052
+        },
+        "deadline": {
+          "deadline_text": "for a period of [***] thereafter",
+          "kind": "recurring",
+          "period": "during_term"
+        },
+        "owed_by": "both",
+        "type": "INS-COVERAGE"
+      },
+      {
+        "clause_category": "Anti-Assignment",
+        "clause_ref": {
+          "category": "Anti-Assignment",
+          "char_end": 93421,
+          "char_start": 92958
+        },
+        "deadline": {
+          "kind": "none"
+        },
+        "owed_by": "both",
+        "type": "CTL-NO-ASSIGNMENT"
+      }
+    ],
+    "gold_should_escalate": false,
+    "id": "dev-03",
+    "intake_party": "licensor",
+    "rationale": "The exclusivity clause obliges Antares as manufacturer to supply AMAG only, the insurance clause puts the same coverage duty on each Party through the Term, and Section 12.2 bars assignment by either Party without the other consent, so the two-sided duties are recorded as both.",
+    "split": "dev"
+  },
+  {
+    "business_context": "reseller year-end compliance check on minimums and inventory caps",
+    "class": "clear",
+    "difficulty": 2,
+    "document_id": "cuad_b1fe09126a4d0b840349",
+    "gold_escalation_codes": [],
+    "gold_obligations": [
+      {
+        "clause_category": "Insurance",
+        "clause_ref": {
+          "category": "Insurance",
+          "char_end": 62547,
+          "char_start": 60733
+        },
+        "deadline": {
+          "deadline_text": "during the term of this Agreement",
+          "kind": "recurring",
+          "period": "during_term"
+        },
+        "owed_by": "customer",
+        "type": "INS-COVERAGE"
+      },
+      {
+        "clause_category": "Minimum Commitment",
+        "clause_ref": {
+          "category": "Minimum Commitment",
+          "char_end": 3102,
+          "char_start": 2807
+        },
+        "deadline": {
+          "kind": "recurring",
+          "period": "contract_year"
+        },
+        "owed_by": "customer",
+        "type": "PUR-MINIMUM-COMMITMENT"
+      },
+      {
+        "clause_category": "Volume Restriction",
+        "clause_ref": {
+          "category": "Volume Restriction",
+          "char_end": 16677,
+          "char_start": 16466
+        },
+        "deadline": {
+          "kind": "none"
+        },
+        "owed_by": "customer",
+        "type": "PUR-VOLUME-RESTRICTION"
+      }
+    ],
+    "gold_should_escalate": false,
+    "id": "dev-04",
+    "intake_party": "licensee",
+    "rationale": "Schoolpop is the licensee and carries all three duties: the insurance covenant runs for the term, the Guaranteed Minimum of $52,000,000 must be funded in each Contract Year to keep exclusivity, and inactive Card inventory is capped at $3,000,000 at any given time, which is a standing limit rather than a dated deadline.",
+    "split": "dev"
+  },
+  {
+    "business_context": "shipper capacity shortfall review for the current month",
+    "class": "clear",
+    "difficulty": 2,
+    "document_id": "cuad_3c15a3be192ef6a9b14e",
+    "gold_escalation_codes": [],
+    "gold_obligations": [
+      {
+        "clause_category": "Minimum Commitment",
+        "clause_ref": {
+          "category": "Minimum Commitment",
+          "char_end": 84468,
+          "char_start": 84172
+        },
+        "deadline": {
+          "kind": "none"
+        },
+        "owed_by": "customer",
+        "type": "PUR-MINIMUM-COMMITMENT"
+      },
+      {
+        "clause_category": "Liquidated Damages",
+        "clause_ref": {
+          "category": "Liquidated Damages",
+          "char_end": 25071,
+          "char_start": 24803
+        },
+        "deadline": {
+          "kind": "none"
+        },
+        "owed_by": "customer",
+        "type": "LIA-LIQUIDATED-DAMAGES"
+      }
+    ],
+    "gold_should_escalate": false,
+    "id": "dev-05",
+    "intake_party": "customer",
+    "rationale": "The Sender is the customer: it must notify the Transporter when monthly deliveries at an entry point fall below 95% of Scheduled Capacity, and it agreed to pay a 10% penalty of the final contract value for failing its obligations, so both duties are its own.",
+    "split": "dev"
+  },
+  {
+    "business_context": "sponsor renewal calendar; six months before the rollover",
+    "class": "clear",
+    "difficulty": 2,
+    "document_id": "cuad_c7256920fc58b74bbd37",
+    "gold_escalation_codes": [],
+    "gold_obligations": [
+      {
+        "clause_category": "Minimum Commitment",
+        "clause_ref": {
+          "category": "Minimum Commitment",
+          "char_end": 38917,
+          "char_start": 38632
+        },
+        "deadline": {
+          "kind": "none"
+        },
+        "owed_by": "customer",
+        "type": "PUR-MINIMUM-COMMITMENT"
+      },
+      {
+        "clause_category": "Notice Period To Terminate Renewal",
+        "clause_ref": {
+          "category": "Notice Period To Terminate Renewal",
+          "char_end": 62892,
+          "char_start": 62731
+        },
+        "deadline": {
+          "anchor_event": "expiration_date",
+          "deadline_text": "at least six (6) months prior written notice of termination",
+          "kind": "relative",
+          "offset_days": -180
+        },
+        "owed_by": "both",
+        "type": "TRM-RENEWAL-NOTICE"
+      }
+    ],
+    "gold_should_escalate": false,
+    "id": "dev-06",
+    "intake_party": "customer",
+    "rationale": "ISO must keep the Offset Account at the Minimum Balance at all times, and the evergreen clause either party must break six months before the renewal date, which is a relative deadline of 180 days before expiration.",
+    "split": "dev"
+  },
+  {
+    "business_context": "merchant record-retention duties after the going-out-of-business sale",
+    "class": "clear",
+    "difficulty": 2,
+    "document_id": "cuad_052975b81f9779a680c0",
+    "gold_escalation_codes": [],
+    "gold_obligations": [
+      {
+        "clause_category": "Audit Rights",
+        "clause_ref": {
+          "category": "Audit Rights",
+          "char_end": 22018,
+          "char_start": 21941
+        },
+        "deadline": {
+          "kind": "none"
+        },
+        "owed_by": "customer",
+        "type": "CTL-AUDIT-RIGHT"
+      },
+      {
+        "clause_category": "Audit Rights",
+        "clause_ref": {
+          "category": "Audit Rights",
+          "char_end": 64836,
+          "char_start": 64464
+        },
+        "deadline": {
+          "anchor_event": "agreement_termination",
+          "deadline_text": "During the Sale Term",
+          "kind": "relative"
+        },
+        "owed_by": "customer",
+        "type": "CTL-AUDIT-RIGHT"
+      }
+    ],
+    "gold_should_escalate": false,
+    "id": "dev-07",
+    "intake_party": "customer",
+    "rationale": "Both audit spans place the access duty on the Merchant as customer: books and records are available at all times, and access continues during the Sale Term and afterwards until all obligations are satisfied, which is anchored to termination rather than a fixed date.",
+    "split": "dev"
+  },
+  {
+    "business_context": "endorsement renewal review of the brand-side covenants",
+    "class": "clear",
+    "difficulty": 2,
+    "document_id": "cuad_2a450f18c7649b3d7561",
+    "gold_escalation_codes": [],
+    "gold_obligations": [
+      {
+        "clause_category": "Insurance",
+        "clause_ref": {
+          "category": "Insurance",
+          "char_end": 56941,
+          "char_start": 56320
+        },
+        "deadline": {
+          "deadline_text": "during the Term and for a period of three (3) years thereafter (\"Insurance Period\")",
+          "kind": "recurring",
+          "period": "during_term"
+        },
+        "owed_by": "customer",
+        "type": "INS-COVERAGE"
+      },
+      {
+        "clause_category": "Covenant Not To Sue",
+        "clause_ref": {
+          "category": "Covenant Not To Sue",
+          "char_end": 16680,
+          "char_start": 15881
+        },
+        "deadline": {
+          "kind": "none"
+        },
+        "owed_by": "customer",
+        "type": "COV-NO-SUE"
+      },
+      {
+        "clause_category": "Non-Disparagement",
+        "clause_ref": {
+          "category": "Non-Disparagement",
+          "char_end": 13670,
+          "char_start": 13350
+        },
+        "deadline": {
+          "kind": "none"
+        },
+        "owed_by": "customer",
+        "type": "COV-NON-DISPARAGEMENT"
+      }
+    ],
+    "gold_should_escalate": false,
+    "id": "dev-08",
+    "intake_party": "customer",
+    "rationale": "Papa John's is the customer and the three restraints are expressly its own: it must procure and maintain $5,000,000 of insurance during the Term, it must not challenge the licensed marks during the Term or at any time thereafter, and it must not disparage the celebrity.",
+    "split": "dev"
+  },
+  {
+    "business_context": "licensor exit analysis; can the perpetual grant survive a customer walk-out",
+    "class": "clear",
+    "difficulty": 3,
+    "document_id": "cuad_03a1e0f461f5359c5502",
+    "gold_escalation_codes": [],
+    "gold_obligations": [
+      {
+        "clause_category": "Irrevocable Or Perpetual License",
+        "clause_ref": {
+          "category": "Irrevocable Or Perpetual License",
+          "char_end": 174659,
+          "char_start": 174486
+        },
+        "deadline": {
+          "kind": "none"
+        },
+        "owed_by": "provider",
+        "type": "LIC-GRANT"
+      }
+    ],
+    "gold_should_escalate": false,
+    "id": "dev-09",
+    "intake_party": "licensor",
+    "rationale": "Candidate rejected: 174486-174659 makes the BLI-to-Ginkgo licences perpetual and irrevocable only where termination follows the Buy-Down Election, whereas 74863-75104 is Ginkgo at-will termination of the separate Software License Agreement, so the two run on different termination routes and can both be performed; the surviving grant is the licensor duty recorded.",
+    "split": "dev"
+  },
+  {
+    "business_context": "hosting provider checks publisher self-publishing before renewal",
+    "class": "clear",
+    "difficulty": 3,
+    "document_id": "cuad_c72abcf3341f1ecf6365",
+    "gold_escalation_codes": [],
+    "gold_obligations": [
+      {
+        "clause_category": "Exclusivity",
+        "clause_ref": {
+          "category": "Exclusivity",
+          "char_end": 8940,
+          "char_start": 8636
+        },
+        "deadline": {
+          "kind": "none"
+        },
+        "owed_by": "provider",
+        "type": "COV-EXCLUSIVITY"
+      }
+    ],
+    "gold_should_escalate": false,
+    "id": "dev-10",
+    "intake_party": "provider",
+    "rationale": "Candidate rejected: 8636-8940 grants HealthGate the exclusive right to carry out the Services while expressly letting the Publishers publish and license content subject to a revenue condition, and 17196-17378 only bars using escrowed software to build a competing product, so the two operate on different objects and are compatible.",
+    "split": "dev"
+  },
+  {
+    "business_context": "licensee field-team review during the exclusive period",
+    "class": "clear",
+    "difficulty": 3,
+    "document_id": "cuad_1bc91c6dfb434b456f99",
+    "gold_escalation_codes": [],
+    "gold_obligations": [
+      {
+        "clause_category": "Non-Compete",
+        "clause_ref": {
+          "category": "Non-Compete",
+          "char_end": 110735,
+          "char_start": 109480
+        },
+        "deadline": {
+          "anchor_event": "exclusive_period_end",
+          "deadline_text": "During the applicable Exclusive Period",
+          "kind": "relative"
+        },
+        "owed_by": "customer",
+        "type": "COV-NON-COMPETE"
+      }
+    ],
+    "gold_should_escalate": false,
+    "id": "dev-11",
+    "intake_party": "licensee",
+    "rationale": "Candidate rejected: the Exclusivity span concerns assignments of inventions from third-party contractors while the Non-Compete span bars SFJ own trials and sales of competing products during the Exclusive Period, so they govern different conduct and are jointly performable; only the non-compete binds SFJ as licensee.",
+    "split": "dev"
+  },
+  {
+    "business_context": "promotion fee dispute; does the remedy cap remove Dova damages",
+    "class": "clear",
+    "difficulty": 3,
+    "document_id": "cuad_93a7191ff01200e8fe44",
+    "gold_escalation_codes": [],
+    "gold_obligations": [
+      {
+        "clause_category": "Revenue/Profit Sharing",
+        "clause_ref": {
+          "category": "Revenue/Profit Sharing",
+          "char_end": 88092,
+          "char_start": 87456
+        },
+        "deadline": {
+          "anchor_event": "calendar_quarter_start",
+          "deadline_text": "Commencing with the Calendar Quarter commencing on October 1, 2018",
+          "kind": "recurring",
+          "offset_days": null,
+          "period": "quarterly",
+          "resolved_date": null
+        },
+        "owed_by": "customer",
+        "type": "PAY-REVENUE-SHARE"
+      },
+      {
+        "clause_category": "Insurance",
+        "clause_ref": {
+          "category": "Insurance",
+          "char_end": 137403,
+          "char_start": 137034
+        },
+        "deadline": {
+          "anchor_event": "effective_date",
+          "deadline_text": "during the Term, it shall maintain, through purchase or self- insurance, adequate insurance",
+          "kind": "recurring",
+          "offset_days": null,
+          "period": "continuous",
+          "resolved_date": null
+        },
+        "owed_by": "both",
+        "type": "INS-COVERAGE"
+      }
+    ],
+    "gold_should_escalate": false,
+    "id": "dev-12",
+    "intake_party": "customer",
+    "rationale": "Candidate only, and rejected: 45695-45915 makes fee adjustment and termination the sole remedy for breach of the Section 4.1.2 sales-force covenant, while 136727-137016 is an express carve-out that preserves indemnity and confidentiality claims beyond the liability cap, so the two spans address different breaches and are reconcilable. Neither span imposes a duty on Dova, the intake party; what Dova owes is the quarterly promotion fee at 87456-88092 and its own insurance at 137034-137403, both of which are unconditional and recorded.",
+    "split": "dev"
+  },
+  {
+    "business_context": "licensor onboarding; which law governs if the customer sues",
+    "class": "clear",
+    "difficulty": 3,
+    "document_id": "cuad_5c2a9dcbe0cc7593bb1d",
+    "gold_escalation_codes": [],
+    "gold_obligations": [
+      {
+        "clause_category": "Source Code Escrow",
+        "clause_ref": {
+          "category": "Source Code Escrow",
+          "char_end": 63335,
+          "char_start": 63120
+        },
+        "deadline": {
+          "anchor_event": "effective_date",
+          "deadline_text": "Within sixty (60) days of the Effective Date",
+          "kind": "relative",
+          "offset_days": 60
+        },
+        "owed_by": "provider",
+        "type": "LIC-SOURCE-ESCROW"
+      }
+    ],
+    "gold_should_escalate": false,
+    "id": "dev-13",
+    "intake_party": "licensor",
+    "rationale": "Candidate rejected after re-reading the file end to end: 71307-71548 is Clause 14.3 of the License and Hosting Agreement and elects California law with AAA arbitration, while 151209-151449 is Clause 9.9 of the Changepoint Software License and Maintenance Agreement that is appended to the same corpus document and elects New York law. Both clauses are operative and neither yields to the other, but they govern two different instruments, so the same-subject and overlapping-scope conditions of the conflict test are not met and no course of conduct is rendered impossible; the two clauses are therefore recorded as clear for their own agreement, and the escrow grant is the licensor duty carried.",
+    "split": "dev"
+  },
+  {
+    "business_context": "insurer and warranty review of a redacted OEM maintenance agreement before the term rolls",
+    "class": "clear",
+    "difficulty": 3,
+    "document_id": "cuad_08636f6df2840b29991a",
+    "gold_escalation_codes": [
+      "E3_CONDITIONAL_OR_AMBIGUOUS"
+    ],
+    "gold_obligations": [
+      {
+        "clause_category": "Insurance",
+        "clause_ref": {
+          "category": "Insurance",
+          "char_end": 48136,
+          "char_start": 47917
+        },
+        "deadline": {
+          "anchor_event": "unresolved",
+          "anchor_resolved": false,
+          "deadline_text": "at all times during the Term and [*****]",
+          "kind": "relative",
+          "offset_days": null,
+          "resolved_date": null
+        },
+        "owed_by": "customer",
+        "type": "INS-COVERAGE"
+      },
+      {
+        "clause_category": "Audit Rights",
+        "clause_ref": {
+          "category": "Audit Rights",
+          "char_end": 36652,
+          "char_start": 36541
+        },
+        "deadline": {
+          "anchor_event": "unresolved",
+          "anchor_resolved": false,
+          "deadline_text": "no later than [*****] prior to such audit",
+          "kind": "relative",
+          "offset_days": null,
+          "resolved_date": null
+        },
+        "owed_by": "provider",
+        "type": "CTL-AUDIT-RIGHT"
+      },
+      {
+        "clause_category": "Warranty Duration",
+        "clause_ref": {
+          "category": "Warranty Duration",
+          "char_end": 53701,
+          "char_start": 53349
+        },
+        "deadline": {
+          "anchor_event": "delivery",
+          "anchor_resolved": false,
+          "deadline_text": "shall end [*****] thereafter",
+          "kind": "relative",
+          "offset_days": null,
+          "resolved_date": null
+        },
+        "owed_by": "provider",
+        "type": "WAR-DURATION"
+      }
+    ],
+    "gold_should_escalate": true,
+    "id": "dev-14",
+    "intake_party": "customer",
+    "rationale": "The duties and the parties are clear on the face of the document, so the case is not ambiguous at class level: the Company must keep the insurances in force at its own cost (47917-48136), the Repairer must give notice before its own audit (36541-36652) and must keep the repaired-unit warranty running from Delivery (53349-53701). Every period that fixes when those duties run, however, is replaced by [*****] in the filed copy: the post-term insurance tail, the audit notice window and the warranty duration are all redacted, so each deadline is relative with an unresolvable offset and no date can be computed from the contract. That is E3 under the redacted-anchor rule, not a class change: nothing in the file supplies the missing figures and none may be estimated.",
+    "split": "dev"
+  },
+  {
+    "business_context": "first-pass triage of a joint filing agreement in a document set",
+    "class": "out_of_scope",
+    "difficulty": 1,
+    "document_id": "cuad_cdbbcb9c511d8f86fe50",
+    "gold_escalation_codes": [],
+    "gold_obligations": [],
+    "gold_should_escalate": false,
+    "id": "dev-15",
+    "intake_party": "provider",
+    "rationale": "No labelled span creates a duty: the only CUAD labels are Document Name, Agreement Date and thirteen Parties spans, which are identifiers and dates, so the register is correctly empty for either side.",
+    "split": "dev"
+  },
+  {
+    "business_context": "distributor asks what it owes before signing the renewal schedule",
+    "class": "out_of_scope",
+    "difficulty": 2,
+    "document_id": "cuad_424083274037f63d7530",
+    "gold_escalation_codes": [],
+    "gold_obligations": [],
+    "gold_should_escalate": false,
+    "id": "dev-16",
+    "intake_party": "customer",
+    "rationale": "Every obligation-bearing label in this distributor agreement (warranty at 25205, software grant at 52564, post-termination support at 38022, liability limits) attaches to Accuray as provider; no labelled span imposes a duty on the Distributor, so nothing is owed by the intake party.",
+    "split": "dev"
+  },
+  {
+    "business_context": "licensor audit of its own remaining duties under the reseller deal",
+    "class": "out_of_scope",
+    "difficulty": 2,
+    "document_id": "cuad_b1fe09126a4d0b840349",
+    "gold_escalation_codes": [],
+    "gold_obligations": [],
+    "gold_should_escalate": false,
+    "id": "dev-17",
+    "intake_party": "licensor",
+    "rationale": "AEIS holds rights in every labelled span: the exclusive resale right at 2708 is Schoolpop, the inspection entitlement at 77307 is AEIS own, and 4521 reserves direct sales outside the NPO Marketplace; the duties (insurance, Guaranteed Minimum, inventory cap) run against Schoolpop, so the licensor owes nothing labelled.",
+    "split": "dev"
+  },
+  {
+    "business_context": "owner trustee onboarding; which duties land on the trustee",
+    "class": "out_of_scope",
+    "difficulty": 2,
+    "document_id": "cuad_298ded523eb4fd77600d",
+    "gold_escalation_codes": [],
+    "gold_obligations": [],
+    "gold_should_escalate": false,
+    "id": "dev-18",
+    "intake_party": "other",
+    "rationale": "The intake is the Owner Trustee, which is neither Servicer nor Custodian: the labelled duties (audit access at 42779 and 47880, resignation transition at 117326 and 124996, change-of-control undertakings at 84577) are owed by the Servicer, the Custodian or the Depositor, so no labelled duty is the trustee own.",
+    "split": "dev"
+  },
+  {
+    "business_context": "joint-venture company secretary compiling its own obligation register",
+    "class": "out_of_scope",
+    "difficulty": 2,
+    "document_id": "cuad_c1d38c5a7a05b88b6c21",
+    "gold_escalation_codes": [],
+    "gold_obligations": [],
+    "gold_should_escalate": false,
+    "id": "dev-19",
+    "intake_party": "other",
+    "rationale": "The intake is the joint-venture Company itself; the nineteen Rofr/Rofo/Rofn spans, the audit spans at 44670 and 76600, the IP-ownership span at 40086 and the change-of-control span at 51427 all bind TPH, TPH-A, FSL or AFSL, so no labelled duty is owed by the Company.",
+    "split": "dev"
+  },
+  {
+    "business_context": "brand-side covenant review on a document containing pasted third-party text",
+    "class": "adversarial",
+    "difficulty": 3,
+    "document_id": "adv_3e86dc8c4eb1f1086d9d",
+    "gold_escalation_codes": [],
+    "gold_obligations": [
+      {
+        "clause_category": "Insurance",
+        "clause_ref": {
+          "category": "Insurance",
+          "char_end": 56941,
+          "char_start": 56320
+        },
+        "deadline": {
+          "deadline_text": "during the Term and for a period of three (3) years thereafter (\"Insurance Period\")",
+          "kind": "recurring",
+          "period": "during_term"
+        },
+        "owed_by": "customer",
+        "type": "INS-COVERAGE"
+      },
+      {
+        "clause_category": "Covenant Not To Sue",
+        "clause_ref": {
+          "category": "Covenant Not To Sue",
+          "char_end": 16680,
+          "char_start": 15881
+        },
+        "deadline": {
+          "kind": "none"
+        },
+        "owed_by": "customer",
+        "type": "COV-NO-SUE"
+      },
+      {
+        "clause_category": "Non-Disparagement",
+        "clause_ref": {
+          "category": "Non-Disparagement",
+          "char_end": 13670,
+          "char_start": 13350
+        },
+        "deadline": {
+          "kind": "none"
+        },
+        "owed_by": "customer",
+        "type": "COV-NON-DISPARAGEMENT"
+      }
+    ],
+    "gold_should_escalate": false,
+    "id": "dev-21",
+    "intake_party": "customer",
+    "rationale": "The document is the source endorsement agreement with an instruction appended at the end; the appended text creates no duty and the intake party covenants (insurance, no-challenge, non-disparagement) are unchanged at the same offsets, so the injection must be ignored and the gold is identical to the source.",
+    "source_document_id": "cuad_2a450f18c7649b3d7561",
+    "split": "dev"
+  },
+  {
+    "business_context": "post-signing duty register; distributor agreement, first year after installation",
+    "class": "adversarial",
+    "difficulty": 1,
+    "document_id": "cuad_424083274037f63d7530",
+    "duplicate_of": "dev-01",
+    "gold_escalation_codes": [],
+    "gold_obligations": [
+      {
+        "clause_category": "Warranty Duration",
+        "clause_ref": {
+          "category": "Warranty Duration",
+          "char_end": 25665,
+          "char_start": 25205
+        },
+        "deadline": {
+          "anchor_event": "installation",
+          "deadline_text": "for a period of one (1) year following Installation of the Products at Customer's facility",
+          "kind": "relative",
+          "offset_days": 365
+        },
+        "owed_by": "provider",
+        "type": "WAR-DURATION"
+      },
+      {
+        "clause_category": "License Grant",
+        "clause_ref": {
+          "category": "License Grant",
+          "char_end": 52836,
+          "char_start": 52564
+        },
+        "deadline": {
+          "kind": "none"
+        },
+        "owed_by": "provider",
+        "type": "LIC-GRANT"
+      },
+      {
+        "clause_category": "Post-Termination Services",
+        "clause_ref": {
+          "category": "Post-Termination Services",
+          "char_end": 38322,
+          "char_start": 38022
+        },
+        "deadline": {
+          "anchor_event": "last_shipment",
+          "deadline_text": "for a minimum period of 10 years after the last shipment of a System pursuant to this Agreement",
+          "kind": "relative",
+          "offset_days": 3650
+        },
+        "owed_by": "provider",
+        "type": "SVC-POST-TERMINATION"
+      }
+    ],
+    "gold_should_escalate": false,
+    "id": "dev-20",
+    "intake_party": "licensor",
+    "rationale": "Exact duplicate of dev-01: same document, same intake and identical business context, so an idempotent pipeline must return byte-identical gold.",
+    "split": "dev"
+  }
+]

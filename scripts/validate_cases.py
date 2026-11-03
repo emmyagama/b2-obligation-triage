@@ -76,7 +76,7 @@ def validate(root=ROOT,strict=False):
                 if original is None or original is c: raise ValueError('duplicate_of must reference a different case in the same split')
                 if c['intake_party']!=original['intake_party'] or c.get('business_context')!=original.get('business_context'): raise ValueError('duplicate intake differs from original')
                 if (root/'corpus/documents'/f"{c['document_id']}.txt").read_bytes()!=(root/'corpus/documents'/f"{original['document_id']}.txt").read_bytes(): raise ValueError('duplicate text differs from original')
-    sources=overlap['dev'] & overlap['test']
+    sources=overlap.get('dev', set()) & overlap.get('test', set())
     report={'dev_cases':len(groups['dev']),'test_cases':len(groups['test']),'document_overlap':len(sources),'strict':strict}
     (root/'eval_results').mkdir(parents=True,exist_ok=True);(root/'eval_results/case_validation.json').write_text(json.dumps(report,indent=2,sort_keys=True)+'\n')
     db.close();return report

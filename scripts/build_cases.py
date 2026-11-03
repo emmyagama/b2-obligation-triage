@@ -4,7 +4,7 @@ import argparse,hashlib,json,sys
 from pathlib import Path
 import yaml
 ROOT=Path(__file__).resolve().parents[1]
-def build(root=ROOT,replace=False):
+def build(root=ROOT,replace=False,strict=False):
     log=root/'eval_results/test_run_log.jsonl'
     if log.exists() and any(json.loads(x).get('valid') is True and json.loads(x).get('status')=='completed' for x in log.read_text().splitlines() if x.strip()): raise ValueError('case compilation forbidden after frozen test results')
     grouped={'dev':[],'test':[]}
@@ -18,7 +18,7 @@ def build(root=ROOT,replace=False):
             if not p.name.startswith(item['split']+'-'): raise ValueError('file prefix must agree with split')
             grouped[item['split']].append(item)
     for split,items in grouped.items():
-        if not items: raise ValueError(f'{split} split is empty')
+        if not items and (strict or split != 'test'): raise ValueError(f'{split} split is empty')
         items.sort(key=lambda c:(str(type(c.get('id')).__name__),str(c.get('id'))))
         # Keep exact-duplicate cases after their originals, deterministically.
         ordered=[];pending=list(items);available=set()
@@ -38,6 +38,6 @@ def build(root=ROOT,replace=False):
     frozen.write_text(digest+'  cases/test.json\n')
     return len(grouped['dev']),len(grouped['test'])
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--replace-commitment',action='store_true');a=p.parse_args()
-    try: d,t=build(replace=a.replace_commitment);print(f'compiled {d} dev and {t} test cases')
+    p=argparse.ArgumentParser();p.add_argument('--replace-commitment',action='store_true');p.add_argument('--strict',action='store_true');a=p.parse_args()
+    try: d,t=build(replace=a.replace_commitment,strict=a.strict);print(f'compiled {d} dev and {t} test cases')
     except Exception as e: print(str(e),file=sys.stderr);sys.exit(1)

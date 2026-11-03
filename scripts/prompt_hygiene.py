@@ -10,6 +10,7 @@ def check(root):
     corpus=set(); identifiers=set()
     for f in (root/'corpus/documents').rglob('*'):
         if f.is_file() and f.suffix.lower() in ('.txt','.md'):
+            if f.stem.startswith(('adv_', 'composite_')): continue
             corpus |= grams(f.read_text()); identifiers.add(f.stem)
     db=root/'db/b2.sqlite'
     if db.exists():

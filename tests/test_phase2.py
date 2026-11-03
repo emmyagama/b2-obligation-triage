@@ -151,3 +151,12 @@ def test_review_incomplete_and_disagreement_require_notes(tmp_path):
     with pytest.raises(ValueError,match='requires a note'): ingest(db,[path])
     with pytest.raises(ValueError,match='three distinct reviewers'):agreement(db)
     assert db.execute('select count(*) from human_reviews').fetchone()[0]==0;db.close()
+
+def test_build_cases_dev_only_does_not_raise(tmp_path):
+    root=make_root(tmp_path);seed(root)
+    (root/'config/splits.yaml').write_text(yaml.safe_dump({'dev':{'clear':1},'test':{'clear':1}}))
+    def item(sid): return {'id':sid,'split':sid,'class':'clear','document_id':'one','intake_party':'customer','gold_obligations':[{'type':'T','owed_by':'customer','clause_category':'C','deadline':{'kind':'none'},'clause_ref':{'category':'C','char_start':0,'char_end':3}}],'gold_should_escalate':False,'gold_escalation_codes':[],'rationale':'x','difficulty':1}
+    (root/'cases/src/dev-only.yaml').write_text(yaml.safe_dump(item('dev')))
+    assert cases_build(root)==(1,0)
+    (root/'cases/dev.json').unlink(); (root/'cases/test.json').unlink(missing_ok=True)
+    with pytest.raises(ValueError,match='test split is empty'): cases_build(root,strict=True)
