@@ -1,0 +1,39 @@
+id: dev-24
+split: dev
+document_id: composite_1d5bf00304e51a76f89c
+intake_party: provider
+business_context: manufacturer onboarding; what happens to downstream customer claims and to the records behind them
+class: conflicting
+constructed: true
+conflict_pair_id: CP-dev-24
+source_document_ids:
+- cuad_66e33fbe68d408120418
+- cuad_bb70642fec2aa263b6d7
+gold_obligations:
+- type: CTL-AUDIT-RIGHT
+  owed_by: provider
+  clause_category: Post-Termination Services
+  clause_ref:
+    category: Post-Termination Services
+    char_start: 349788
+    char_end: 350136
+  deadline:
+    kind: relative
+    anchor_event: termination
+    offset_days: 1095
+    deadline_text: during the term of the Agreement and for three (3) years thereafter
+gold_should_escalate: true
+gold_escalation_codes:
+- E2_CONFLICTING_CLAUSES
+conflict_clause_refs:
+- category: Cap On Liability
+  char_start: 61222
+  char_end: 62596
+- category: Cap On Liability
+  char_start: 328530
+  char_end: 329275
+rationale: 'Clause A makes the manufacturer liable for the actual amounts its customer must pay its own third-party customers when the customer cannot be supplied - the classic indirect loss. Clause B,
+  spliced in from the second source, excludes indirect, special and consequential loss outright ''notwithstanding anything contained in this Agreement to the contrary'', carving out only indemnity, confidentiality
+  and breaches of law, none of which covers the clause A duty. The same party must pay the customer''s downstream losses and must have no liability for them; the only route out of the collision would be
+  a precedence rule, and neither clause contains one. Constructed pair: verbatim spans, spliced document.'
+difficulty: 3

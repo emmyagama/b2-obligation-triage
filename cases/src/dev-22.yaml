@@ -1,0 +1,39 @@
+id: dev-22
+split: dev
+document_id: composite_d8416b5fddd1d8074804
+intake_party: licensor
+business_context: licensor onboarding on a combined licence-and-outsourcing paper; which law governs if a dispute starts
+class: conflicting
+constructed: true
+conflict_pair_id: CP-dev-22
+source_document_ids:
+- cuad_5c2a9dcbe0cc7593bb1d
+- cuad_53e37eccb9aca3974dd0
+gold_obligations:
+- type: LIC-SOURCE-ESCROW
+  owed_by: provider
+  clause_category: Source Code Escrow
+  clause_ref:
+    category: Source Code Escrow
+    char_start: 63120
+    char_end: 63335
+  deadline:
+    kind: relative
+    anchor_event: effective_date
+    offset_days: 60
+    deadline_text: Within sixty (60) days of the Effective Date
+gold_should_escalate: true
+gold_escalation_codes:
+- E2_CONFLICTING_CLAUSES
+conflict_clause_refs:
+- category: Governing Law
+  char_start: 71307
+  char_end: 71548
+- category: Governing Law
+  char_start: 217681
+  char_end: 217826
+rationale: 'Clause A elects California law and excludes the CISG for this Agreement and sends disputes to AAA arbitration; clause B, spliced in from the second source, states that the same Agreement and
+  the performance of every transaction under it are governed by New York law. Both are exclusive and neither contains precedence language, so no single course of performance satisfies both: the Agreement
+  cannot be governed by California and New York at once, and a party pleading one law breaches the other. The pair is a constructed incompatibility - the two spans are verbatim from their own contracts
+  and were brought together by the splice, not found in one negotiable instrument.'
+difficulty: 3

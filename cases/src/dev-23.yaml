@@ -1,0 +1,35 @@
+id: dev-23
+split: dev
+document_id: composite_c5f9c6f4c2dbbf26ad52
+intake_party: licensor
+business_context: licensor onboarding; whether the irrevocable grant can be brought to an end at will
+class: conflicting
+constructed: true
+conflict_pair_id: CP-dev-23
+source_document_ids:
+- cuad_5c2a9dcbe0cc7593bb1d
+- cuad_93a7191ff01200e8fe44
+gold_obligations:
+- type: LIC-GRANT
+  owed_by: provider
+  clause_category: Irrevocable Or Perpetual License
+  clause_ref:
+    category: Irrevocable Or Perpetual License
+    char_start: 7675
+    char_end: 8913
+  deadline:
+    kind: none
+gold_should_escalate: true
+gold_escalation_codes:
+- E2_CONFLICTING_CLAUSES
+conflict_clause_refs:
+- category: Irrevocable Or Perpetual License
+  char_start: 7675
+  char_end: 8913
+- category: Termination For Convenience
+  char_start: 302072
+  char_end: 302308
+rationale: 'Clause A grants the licence as irrevocable and payable up front; clause B, spliced in from the second source, lets either party terminate the Agreement for convenience on written notice, with
+  no carve-out preserving the licensed rights. Keeping the grant irrevocable and ending the Agreement at will are not jointly performable: terminating on convenience revokes the licence that the first clause
+  says cannot be revoked, and honouring the grant denies the termination right its effect. This is the pattern the guide lists for review, reproduced here by construction: verbatim spans, manufactured collision.'
+difficulty: 3

@@ -1,0 +1,36 @@
+id: dev-25
+split: dev
+document_id: composite_bc622aa361019f6836c9
+intake_party: customer
+business_context: shipper penalty exposure measured against the damages the other side excludes
+class: conflicting
+constructed: true
+conflict_pair_id: CP-dev-25
+source_document_ids:
+- cuad_3c15a3be192ef6a9b14e
+- cuad_2a450f18c7649b3d7561
+gold_obligations:
+- type: LIA-LIQUIDATED-DAMAGES
+  owed_by: customer
+  clause_category: Liquidated Damages
+  clause_ref:
+    category: Liquidated Damages
+    char_start: 24803
+    char_end: 25071
+  deadline:
+    kind: none
+gold_should_escalate: true
+gold_escalation_codes:
+- E2_CONFLICTING_CLAUSES
+conflict_clause_refs:
+- category: Liquidated Damages
+  char_start: 24803
+  char_end: 25071
+- category: Cap On Liability
+  char_start: 288525
+  char_end: 288914
+rationale: 'Clause A obliges the shipper to pay a penalty equal to ten percent of the final contract value for any failure of its obligations - a penal sum, fixed in advance and payable irrespective of
+  proof of loss. Clause B, spliced in from the second source, states that the other party is not liable for punitive, exemplary or special damages under any theory. A penalty is the one payment clause B
+  excludes, so the same agreement both requires the payment and denies liability for it; no course of performance delivers the penalty and honours the exclusion. Constructed pair: verbatim spans, spliced
+  document.'
+difficulty: 3

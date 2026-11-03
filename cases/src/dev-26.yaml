@@ -1,0 +1,35 @@
+id: dev-26
+split: dev
+document_id: composite_8fd5f85004f4197e9df5
+intake_party: provider
+business_context: manufacturer onboarding; whether downstream cash exposure survives the total-liability cap
+class: conflicting
+constructed: true
+conflict_pair_id: CP-dev-26
+source_document_ids:
+- cuad_66e33fbe68d408120418
+- cuad_2a450f18c7649b3d7561
+gold_obligations:
+- type: LIA-UNCAPPED
+  owed_by: provider
+  clause_category: Cap On Liability
+  clause_ref:
+    category: Cap On Liability
+    char_start: 61222
+    char_end: 62596
+  deadline:
+    kind: none
+gold_should_escalate: true
+gold_escalation_codes:
+- E2_CONFLICTING_CLAUSES
+conflict_clause_refs:
+- category: Cap On Liability
+  char_start: 61222
+  char_end: 62596
+- category: Cap On Liability
+  char_start: 284339
+  char_end: 284587
+rationale: 'Clause A makes the manufacturer liable for any actual amounts its customer is contractually required to pay its third-party customers, with no monetary ceiling in the span. Clause B, spliced
+  in from the second source, caps total liability under the Agreement at the amounts actually received, ''regardless of the number or type of claims''. Where the downstream exposure exceeds receipts - the
+  case the clause A duty exists for - the two cannot both hold, and neither span yields to the other: there is no carve-out and no precedence language. Constructed pair: verbatim spans, spliced document.'
+difficulty: 3
