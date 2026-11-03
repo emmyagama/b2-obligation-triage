@@ -12,7 +12,7 @@ def load_taxonomy(db, path):
         if e['category'] in seen: raise ValueError('duplicate taxonomy category')
         seen.add(e['category'])
         if not e['include']: continue
-        if not all(isinstance(e.get(k),str) and e[k].strip() for k in ('code','name','deadline_behaviour')) or type(e.get('escalates_by_default')) is not bool:
+        if not all(isinstance(e.get(k),str) and e[k].strip() for k in ('code','name','deadline_behaviour')) or not (type(e.get('escalates_by_default')) is bool or (type(e.get('escalates_by_default')) is int and e['escalates_by_default'] in (0,1))):
             raise ValueError('included taxonomy entry is incomplete')
         if e['deadline_behaviour'] not in ('absolute','relative','recurring','none'): raise ValueError('invalid deadline behaviour')
         rows.append((e['code'],e['name'],e['category'],e['deadline_behaviour'],int(e['escalates_by_default'])))

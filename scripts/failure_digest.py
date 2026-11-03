@@ -27,8 +27,8 @@ def main(run,out,post):
     for d in details:
         c=d['case']; checks=d['checks']; fail=[k for k,v in checks.items() if (k!='exception' and not v)]
         if not checks['exception']:
-            lines.append(f"- {c['id']} ({c['class']}): pass"); continue
-        lines += [f"### {c['id']} — {c['class']}, difficulty {c.get('difficulty')}",f"Failed: {', '.join(fail) or 'execution error'}",'Gold: '+json.dumps({'obligations':c['gold_obligations'],'escalation':c['gold_escalation_codes']},ensure_ascii=False),'Got: '+json.dumps(d['output'],ensure_ascii=False)]
+            lines.append(f"- {c['id']} ({c['class']}, constructed={bool(c.get('constructed',False))}): pass"); continue
+        lines += [f"### {c['id']} — {c['class']}, constructed={bool(c.get('constructed',False))}, difficulty {c.get('difficulty')}",f"Failed: {', '.join(fail) or 'execution error'}",'Gold: '+json.dumps({'obligations':c['gold_obligations'],'escalation':c['gold_escalation_codes']},ensure_ascii=False),'Got: '+json.dumps(d['output'],ensure_ascii=False)]
         lines.append('Ungrounded quotes: '+json.dumps(d.get('ungrounded_quotes',[]),ensure_ascii=False))
         lines.append('Trace:')
         for r in db.execute('SELECT seq,tool_name,args_json,error_class,retry_count FROM tool_calls WHERE run_id=? ORDER BY seq',(d['run_id'],)):

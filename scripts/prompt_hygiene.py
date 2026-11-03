@@ -28,7 +28,9 @@ def check(root):
         files.extend(f for f in (root/folder).rglob('*') if f.is_file() and f.suffix in ('.py','.md','.yaml','.sql'))
     files += [root/'config/tool_descriptions.yaml',root/'run_eval.py',root/'check_readme.py']
     files += [root/'annotation/README-annotating.md']
-    files += [p for p in root.glob('*.md') if p.is_file()]
+    # OpenCode's historical integration log is preserved verbatim and may
+    # contain identifiers; it is not a model prompt or generated documentation.
+    files += [p for p in root.glob('*.md') if p.is_file() and p.name!='INTEGRATION-LOG.md']
     for p in files:
         if not p.exists(): continue
         text=p.read_text()

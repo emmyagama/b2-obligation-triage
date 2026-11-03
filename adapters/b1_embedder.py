@@ -7,10 +7,14 @@ DIMENSIONS = 384
 
 @lru_cache(maxsize=1)
 def _model():
+    offline = os.environ.get('B2_OFFLINE') == '1'
+    if offline:
+        os.environ['HF_HUB_OFFLINE']='1'
+        os.environ['TRANSFORMERS_OFFLINE']='1'
     from sentence_transformers import SentenceTransformer
     # Offline environments may point at an exported local copy of the same
     # model (verified by weights hash); default remains the hub model id.
-    return SentenceTransformer(os.environ.get("B2_EMBEDDING_MODEL_PATH") or MODEL_ID)
+    return SentenceTransformer(os.environ.get("B2_EMBEDDING_MODEL_PATH") or MODEL_ID, local_files_only=offline)
 
 def embed(text, model_id):
     if model_id != MODEL_ID:

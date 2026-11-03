@@ -89,7 +89,7 @@ def test_end_to_end_replay_offline_and_cache_miss(tmp_path):
     import shutil, yaml, hashlib
     from agent.cache import canonical
     root=Path(__file__).resolve().parents[1]; project=tmp_path/'repo'
-    shutil.copytree(root,project,ignore=shutil.ignore_patterns('.venv','__pycache__','.pytest_cache','b2.sqlite'))
+    shutil.copytree(root,project,ignore=shutil.ignore_patterns('.venv','__pycache__','.pytest_cache','b2.sqlite','.git'))
     # Hermetic fixture: ignore any real corpus built in the source tree (Phase B+).
     (project/'corpus/selection.json').unlink(missing_ok=True); shutil.rmtree(project/'corpus/embeddings',ignore_errors=True)
     db=initialize(project/'db/b2.sqlite')
@@ -102,7 +102,8 @@ def test_end_to_end_replay_offline_and_cache_miss(tmp_path):
     (project/'config/model.yaml').write_text(yaml.safe_dump(config)); (project/'config/thresholds.yaml').write_text('e1: {value: 0.0, provenance: provisional}\ne5: {value: 0.5, provenance: provisional}\n')
     (project/'corpus/documents/fixture.txt').write_text('fixture evidence')
     (project/'corpus/embeddings').mkdir(parents=True,exist_ok=True); (project/'cases').mkdir(parents=True,exist_ok=True)
-    (project/'corpus/embeddings/chunks.json').write_text(json.dumps([{'chunk_id':'1','document_id':'fixture','clause_category':'category','text':'fixture evidence','embedding':[1.]}]))
+    from agent.lean_index import save,sha
+    save(project/'corpus/embeddings',[{'chunk_id':'1','doc_id':'fixture','clause_category':'category','char_start':0,'char_end':16}],[[1.]],'fake',document_hashes={'fixture':sha(project/'corpus/documents/fixture.txt')})
     case={'id':'fixture','document_id':'fixture','intake_party':'customer','class':'clear','gold_obligations':[{'type':'T','owed_by':'customer','deadline':{'kind':'none'}}], 'gold_should_escalate':False,'gold_escalation_codes':[]}
     (project/'corpus/documents/duplicate-fixture.txt').write_text('fixture evidence')
     duplicate={**case,'id':'copy','document_id':'duplicate-fixture','duplicate_of':'fixture'}
@@ -258,9 +259,10 @@ def test_calibration_dev_only_and_records_provenance(tmp_path,monkeypatch):
     import yaml
     (tmp_path/'eval_results').mkdir();(tmp_path/'config').mkdir();run=tmp_path/'dev';run.mkdir()
     (run/'run_metadata.json').write_text('{"split":"dev"}')
+    (tmp_path/'config/splits.yaml').write_text('dev: {clear: 26}\n')
     rows=[]
-    for i in range(20):
-        positive=i<10
+    for i in range(26):
+        positive=i<13
         rows.append({'case':{'gold_should_escalate':positive,'gold_escalation_codes':['E1_NO_OBLIGATION'] if positive else []},'result':{'retrieval_score':0.2 if positive else .9,'decision':{'escalation_codes':[]},'args':{'confidence':.9,'obligations':[]}}})
     (run/'details.json').write_text(json.dumps(rows));monkeypatch.setattr(cal,'ROOT',tmp_path)
     cal.main(run)
@@ -274,7 +276,7 @@ def test_release_replay_and_readme_from_synthetic_frozen_fixture(tmp_path):
     import shutil,yaml,hashlib,csv
     from agent.cache import canonical
     root=Path(__file__).resolve().parents[1];project=tmp_path/'repo'
-    shutil.copytree(root,project,ignore=shutil.ignore_patterns('.venv','__pycache__','.pytest_cache','b2.sqlite'))
+    shutil.copytree(root,project,ignore=shutil.ignore_patterns('.venv','__pycache__','.pytest_cache','b2.sqlite','.git'))
     # Hermetic fixture: ignore any real corpus built in the source tree (Phase B+).
     (project/'corpus/selection.json').unlink(missing_ok=True); shutil.rmtree(project/'corpus/embeddings',ignore_errors=True)
     db=initialize(project/'db/b2.sqlite')
@@ -288,17 +290,25 @@ def test_release_replay_and_readme_from_synthetic_frozen_fixture(tmp_path):
     report=project/'eval_results/threshold_calibration.md';report.write_text('synthetic calibration\n')
     (project/'config/thresholds.yaml').write_text(yaml.safe_dump({'e1':{'value':0.0,'provenance':'dev-sweep'},'e5':{'value':0.5,'provenance':'dev-sweep'},'calibration_sha256':hashlib.sha256(report.read_bytes()).hexdigest()}))
     (project/'corpus/documents/fixture.txt').write_text('fixture evidence')
-    from agent.chroma_store import build as chroma_build,digest as chroma_digest
-    cc=[{'chunk_id':'1','document_id':'fixture','clause_category':'category','section_hint':'category','char_start':0,'char_end':16,'text':'fixture evidence','embedding':[1.]}]
-    stored=chroma_build(project/'corpus/embeddings/chroma',cc)
-    (project/'corpus/embeddings/manifest.json').write_text(json.dumps({'model_id':'fake','chunks':len(stored),'content_sha256':chroma_digest(stored)}))
+    from agent.lean_index import save,sha
+    save(project/'corpus/embeddings',[{'chunk_id':'1','doc_id':'fixture','clause_category':'category','char_start':0,'char_end':16}],[[1.]],'fake',document_hashes={'fixture':sha(project/'corpus/documents/fixture.txt')})
     counts={'clear':12,'conflicting':9,'out_of_scope':5,'adversarial':4};cases=[]
     for cls,n in counts.items():
         for i in range(n): cases.append({'id':f'{cls}-{i}','document_id':'fixture','intake_party':'customer','class':cls,'gold_obligations':[],'gold_should_escalate':False,'gold_escalation_codes':[]})
     (project/'cases').mkdir(parents=True,exist_ok=True)
     raw=json.dumps(cases);(project/'cases/test.json').write_text(raw);checksum=hashlib.sha256(raw.encode()).hexdigest()
     (project/'cases/FROZEN.sha256').write_text(checksum+'  cases/test.json\n')
-    (project/'cases/dev.json').write_text('[]')
+    dev_counts={'clear':14,'conflicting':5,'out_of_scope':5,'adversarial':2}
+    dev=[{'id':f'dev-{cls}-{i}','class':cls,'document_id':'fixture'} for cls,n in dev_counts.items() for i in range(n)]
+    (project/'cases/dev.json').write_text(json.dumps(dev))
+    # Pure fixture: seal a dummy local-only synthetic shard before the code tag.
+    from agent.synthetic import open_output
+    testdb,folder,manifest=open_output(project,'test')
+    with testdb: testdb.execute("INSERT INTO corpus_documents(id,title,char_count) VALUES('synthetic-fixture','Fixture',1)")
+    testdb.close();(folder/'synthetic-fixture.txt').write_text('x');manifest.write_text('{}')
+    save(project/'corpus/synthetic_test/index',[{'chunk_id':'x','doc_id':'synthetic-fixture','clause_category':None,'char_start':0,'char_end':1}],[[1.]],'fake',document_hashes={'synthetic-fixture':sha(folder/'synthetic-fixture.txt')})
+    from scripts.freeze_test_synthetics import seal
+    seal(project)
     def git(*args): subprocess.run(['git',*args],cwd=project,check=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
     git('init');git('config','user.email','test@example.invalid');git('config','user.name','Test');git('add','.');git('commit','-m','synthetic fixture');git('tag','guide-v1.0');git('tag','code-frozen')
     cache=Cache(project/'cache/llm');cache.put({'kind':'embed','model_id':'fake','text':'duty'},[1.],{'latency_ms':0})

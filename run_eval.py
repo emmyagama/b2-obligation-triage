@@ -44,6 +44,12 @@ def main(a):
         subprocess.run(['git','ls-files','--error-unmatch','cases/FROZEN.sha256'],cwd=ROOT,check=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
         committed=subprocess.check_output(['git','show','HEAD:cases/FROZEN.sha256'],cwd=ROOT,text=True).split()[0]
         if committed!=digest: raise ValueError('held-out commitment must be committed before live calls')
+        from scripts.freeze_test_synthetics import digest as synthetic_digest
+        synthetic_commitment=ROOT/'cases/FROZEN-SYNTHETIC.sha256'
+        local_synthetic=synthetic_digest(ROOT)
+        if synthetic_commitment.read_text().split()[0]!=local_synthetic: raise ValueError('local test synthetic commitment mismatch before live calls')
+        subprocess.run(['git','ls-files','--error-unmatch','cases/FROZEN-SYNTHETIC.sha256'],cwd=ROOT,check=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+        if subprocess.check_output(['git','show','HEAD:cases/FROZEN-SYNTHETIC.sha256'],cwd=ROOT,text=True).split()[0]!=local_synthetic: raise ValueError('synthetic commitment must be committed before live calls')
         subprocess.run([sys.executable,str(ROOT/'scripts/validate_cases.py'),'--strict'],cwd=ROOT,check=True,stdout=subprocess.DEVNULL)
     if a.rpm is not None and a.rpm<1: raise ValueError('--rpm must be positive')
     if a.scratch and (a.cache_dir or a.out): raise ValueError('--scratch cannot be combined with --cache-dir or --out')
@@ -69,7 +75,7 @@ def main(a):
         cases=cases[:a.limit]
     if not cases: raise ValueError('no cases selected')
     if a.split=='test' and len(cases)!=30: raise ValueError('held-out split must contain exactly 30 cases')
-    if a.split=='all' and len(cases)!=50: raise ValueError('all split must contain exactly 50 cases')
+    if a.split=='all' and len(cases)!=56: raise ValueError('all split must contain exactly 56 cases')
     model=load('model.yaml'); floors=load('thresholds.yaml'); prices=load('pricing.yaml'); descriptions=load('tool_descriptions.yaml')
     if a.live and prices.get('model') and prices['model']!=model['model']: raise ValueError('pricing model does not match configured model')
     if a.live and (prices.get('input_per_million_usd') is None or prices.get('output_per_million_usd') is None): raise ValueError('verified model prices must be configured before live calls')
@@ -77,17 +83,24 @@ def main(a):
     if config['e1_floor'] is None or config['e5_floor'] is None: raise ValueError('thresholds must be set; use labelled dev-only provisional floors before calibration')
     if a.split in ('test','all') and any(str(floors[k]['provenance']).startswith('provisional') or (k=='e1' and floors[k]['provenance']=='uncalibrated') for k in ('e1','e5')): raise ValueError('held-out run requires calibrated thresholds (or documented spec fallback)')
     prompt=(ROOT/'prompts'/f"{model['prompt_version']}.md").read_text()
-    embed_manifest=ROOT/'corpus/embeddings/manifest.json'
-    if embed_manifest.exists():
-        from agent.chroma_store import load as load_chroma,digest as digest_chunks
-        em=json.loads(embed_manifest.read_text());chunks=load_chroma(ROOT/'corpus/embeddings/chroma')
-        if em.get('model_id')!=model.get('embedding_model') or em.get('chunks')!=len(chunks) or em.get('content_sha256')!=digest_chunks(chunks): raise ValueError('Chroma content or model differs from embedding manifest')
-    else: chunks=json.loads((ROOT/'corpus/embeddings/chunks.json').read_text())
+    from agent.lean_index import LeanIndex,Shards
+    from agent.synthetic import document_path,merge_test
+    base_index=LeanIndex(ROOT/'corpus/embeddings',ROOT/'corpus/documents',model.get('embedding_model'))
+    indices=[base_index]
+    if a.split in ('test','all') and (ROOT/'corpus/synthetic_test/index/manifest.json').exists():
+        indices.append(LeanIndex(ROOT/'corpus/synthetic_test/index',ROOT/'corpus/synthetic_test/documents',model.get('embedding_model')))
+    chunks=Shards(*indices)
+    for c in cases:
+        path=document_path(ROOT,c['document_id'])
+        if not path.exists(): raise ValueError('case document missing')
+        index=indices[-1] if path.parent==ROOT/'corpus/synthetic_test/documents' else base_index
+        if c.get('duplicate_of') is None and c['document_id'] not in index.manifest.get('document_sha256',{}): raise ValueError('case document not indexed; build the matching lean shard')
     if (ROOT/'corpus/selection.json').exists():
         from agent.corpus_version import version
         if model['corpus_version']!=version(ROOT): raise ValueError('corpus or embeddings changed; rebuild embeddings and freeze the new corpus version')
     source=ROOT/'db/b2.sqlite'; stamp=datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ'); run_dir=out/f'run_{a.split}_{stamp}'; run_dir.mkdir()
     shutil.copy2(source,run_dir/'run.sqlite'); db=connect(run_dir/'run.sqlite')
+    if a.split in ('test','all'): merge_test(db,ROOT)
     from agent.taxonomy import load_taxonomy
     types=load_taxonomy(db,ROOT/'guide/obligation_types.yaml')
     if {r[0] for r in db.execute('SELECT code FROM obligation_types')} != {r[0] for r in types}: raise ValueError('database taxonomy differs from human-authored guide')
@@ -111,8 +124,7 @@ def main(a):
         return embed(text,model_id,cache,adapter,live=a.live,resume=a.resume,case_id=case_id,seq=seq,on_drift=lambda req:drifts.append({'case_id':case_id,'seq':seq,'request_hash':__import__('agent.cache',fromlist=['key_for']).key_for(req)}))
     for c in cases:
         cid=str(c['id']); docid=c['document_id']
-        path=ROOT/'corpus/documents'/f'{docid}.txt'
-        if path.resolve().parent!=(ROOT/'corpus/documents').resolve(): raise ValueError('unsafe document id')
+        path=document_path(ROOT,docid)
         document=path.read_text(encoding='utf-8'); original=c.get('duplicate_of')
         if original is not None:
             if str(original) not in known: raise ValueError('duplicate_of must reference an earlier case in the same execution')
@@ -125,9 +137,12 @@ def main(a):
             run_id,hit=begin(db,'eval:'+cid,docid,c['intake_party'],c.get('business_context'),'eval',model)
             if hit: raise ValueError('unexpected duplicate case id')
             started=time.monotonic()
-            result=run_agent(db,run_id,docid,c['intake_party'],c.get('business_context'),document,chunks,lambda text,seq:query(text,seq,cid),cache,config,descriptions,prompt,live=a.live,resume=a.resume,case_id=cid,throttle=throttle)
+            case_config=dict(config)
+            if path.parent==ROOT/'corpus/synthetic_test/documents': case_config['synthetic_document_sha256']=hashlib.sha256(path.read_bytes()).hexdigest()
+            result=run_agent(db,run_id,docid,c['intake_party'],c.get('business_context'),document,chunks,lambda text,seq:query(text,seq,cid),cache,case_config,descriptions,prompt,live=a.live,resume=a.resume,case_id=cid,throttle=throttle)
             elapsed=round((time.monotonic()-started)*1000)
             tr={'kind':'transaction','case_hash':hashlib.sha256(canonical(c).encode()).hexdigest(),'model':model['model'],'prompt_version':model['prompt_version'],'corpus_version':model['corpus_version'],'e1_floor':config['e1_floor']}
+            if 'synthetic_document_sha256' in case_config: tr['synthetic_document_sha256']=case_config['synthetic_document_sha256']
             if a.live:
                 if a.resume:
                     try: timing=cache.get(tr,cid,'transaction')['response']['latency_ms']
@@ -162,7 +177,7 @@ def main(a):
         for kind in ('absolute','relative','recurring','none'):
             counts['deadline_'+kind+'_total']=sum(g['deadline']['kind']==kind for g in c['gold_obligations'])
             counts['deadline_'+kind+'_correct']=sum(g['deadline']['kind']==kind and deadline_match(g['deadline'],p['deadline']) for g,p in matches)
-        rows.append({**counts,'case_id':cid,'class':c['class'],'difficulty':c.get('difficulty'),**checks,'gold_escalate':c['gold_should_escalate'],'escalated':output['escalated'],'error_class':decision.get('error_class') or (trace_error[0] if trace_error else None),'retrieval_score':r['retrieval_score'],'latency_ms':latency,'tokens_in':tin,'tokens_out':tout,'cost_usd':r['cost_usd'],'git_sha':gitsha(),'prompt_version':model['prompt_version'],'model':model['model'],'case_sha256':sha(casefiles[0]) if len(casefiles)==1 else ';'.join(sha(p) for p in casefiles),'thresholds_sha256':sha(ROOT/'config/thresholds.yaml'),'cache_dir':str(cache.path),'mode':'live' if a.live else 'replay'})
+        rows.append({**counts,'case_id':cid,'class':c['class'],'constructed':bool(c.get('constructed',False)),'gold_e2':'E2_CONFLICTING_CLAUSES' in c.get('gold_escalation_codes',[]),'predicted_e2':'E2_CONFLICTING_CLAUSES' in output.get('escalation_codes',[]),'difficulty':c.get('difficulty'),**checks,'gold_escalate':c['gold_should_escalate'],'escalated':output['escalated'],'error_class':decision.get('error_class') or (trace_error[0] if trace_error else None),'retrieval_score':r['retrieval_score'],'latency_ms':latency,'tokens_in':tin,'tokens_out':tout,'cost_usd':r['cost_usd'],'git_sha':gitsha(),'prompt_version':model['prompt_version'],'model':model['model'],'case_sha256':sha(casefiles[0]) if len(casefiles)==1 else ';'.join(sha(p) for p in casefiles),'thresholds_sha256':sha(ROOT/'config/thresholds.yaml'),'cache_dir':str(cache.path),'mode':'live' if a.live else 'replay'})
     metrics=aggregate(records); metrics['split']=a.split; metrics['mode']='live' if a.live else 'replay'
     columns=list(rows[0]); csvwrite(out/f'run_{a.split}_{stamp}.csv',rows,columns); csvwrite(run_dir/'cases.csv',rows,columns)
     csvwrite(out/'cost_latency.csv',rows,['case_id','latency_ms','tokens_in','tokens_out','cost_usd'])

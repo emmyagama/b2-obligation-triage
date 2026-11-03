@@ -1,2 +1,3 @@
-# Optional B1-compatible local encoder; install explicitly before building embeddings.
+# Optional local embedding generation; install separately on the embedding host.
+-r requirements.txt
 sentence-transformers==6.1.0

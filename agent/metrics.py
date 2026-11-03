@@ -31,6 +31,11 @@ def aggregate(records):
         m['deadline_'+kind]=rate(num,denom)
     lat=[r['latency_ms'] for r in records if r.get('latency_ms') is not None]
     costs=[r['cost_usd'] for r in records if r.get('cost_usd') is not None]
+    constructed=[r for r in records if r['case'].get('constructed') is True and r['case']['class']=='conflicting']
+    m['constructed_e2_cases']=len(constructed)
+    m['constructed_e2_exception_rate']=rate(sum(r['checks']['exception'] for r in constructed),len(constructed))
+    positives=[r for r in constructed if 'E2_CONFLICTING_CLAUSES' in r['case'].get('gold_escalation_codes',[])]
+    m['constructed_e2_recall']=rate(sum('E2_CONFLICTING_CLAUSES' in r['output'].get('escalation_codes',[]) for r in positives),len(positives))
     m['latency']={'n':len(lat),'p50_ms':percentile(lat,.5),'p95_ms':percentile(lat,.95)}
     m['cost']={'n':len(costs),'mean_usd':sum(costs)/len(costs) if costs else None}
     return m
@@ -50,6 +55,11 @@ def aggregate_csv(rows):
     for k in ('absolute','relative','recurring','none'):
         m['deadline_'+k]=rate(sum(number(r['deadline_'+k+'_correct']) for r in rows),sum(number(r['deadline_'+k+'_total']) for r in rows))
     lat=[float(r['latency_ms']) for r in rows if r['latency_ms'] not in ('','None')]; costs=[float(r['cost_usd']) for r in rows if r['cost_usd'] not in ('','None')]
+    constructed=[r for r in rows if boolean(r['constructed']) and r['class']=='conflicting']
+    positives=[r for r in constructed if boolean(r['gold_e2'])]
+    m['constructed_e2_cases']=len(constructed)
+    m['constructed_e2_exception_rate']=rate(sum(boolean(r['exception']) for r in constructed),len(constructed))
+    m['constructed_e2_recall']=rate(sum(boolean(r['predicted_e2']) for r in positives),len(positives))
     m['latency']={'n':len(lat),'p50_ms':percentile(lat,.5),'p95_ms':percentile(lat,.95)}
     m['cost']={'n':len(costs),'mean_usd':sum(costs)/len(costs) if costs else None}
     return m

@@ -3,6 +3,7 @@
 import hashlib,json,re,subprocess,sys,collections
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT))
 def git(*args): return subprocess.check_output(['git',*args],cwd=ROOT,stderr=subprocess.DEVNULL,text=True).strip()
 def check():
     test=ROOT/'cases/test.json'; commitment=(ROOT/'cases/FROZEN.sha256').read_text().strip()
@@ -13,9 +14,15 @@ def check():
     import yaml
     splits=yaml.safe_load((ROOT/'config/splits.yaml').read_text())
     if collections.Counter(c['class'] for c in cases)!=splits['test']: raise ValueError('held-out class counts do not match configured split')
+    dev_path=ROOT/'cases/dev.json'
+    dev_obj=json.loads(dev_path.read_text());dev=dev_obj if isinstance(dev_obj,list) else dev_obj['cases']
+    if len(dev)!=sum(splits['dev'].values()) or len({str(c['id']) for c in dev})!=len(dev) or collections.Counter(c['class'] for c in dev)!=splits['dev']: raise ValueError('dev split is empty or does not match configured counts')
+    from scripts.freeze_test_synthetics import digest as synthetic_digest
+    expected=(ROOT/'cases/FROZEN-SYNTHETIC.sha256').read_text().split()[0]
+    if expected!=synthetic_digest(ROOT): raise ValueError('local test synthetic commitment mismatch')
     for tag in ('guide-v1.0','code-frozen'): git('rev-parse','--verify','refs/tags/'+tag)
     # Guard the immutable code, prompts, taxonomy, config, scoring and guide.
-    protected=['agent','prompts','config','guide','run_eval.py','check_readme.py','scripts','db/schema.sql','corpus/documents','corpus/embeddings','corpus/selection.json','cases/dev.json','cases/src/dev-*.yaml','cases/FROZEN.sha256']
+    protected=['agent','prompts','config','guide','run_eval.py','check_readme.py','scripts','db/schema.sql','db/b2.sqlite','corpus/adversarial/manifest.json','cases/FROZEN-SYNTHETIC.sha256','corpus/documents','corpus/embeddings','corpus/selection.json','cases/dev.json','cases/src/dev-*.yaml','cases/FROZEN.sha256']
     if subprocess.run(['git','diff','--quiet','code-frozen','--',*protected],cwd=ROOT).returncode: raise ValueError('protected code differs from code-frozen tag')
     if subprocess.run(['git','diff','--quiet','guide-v1.0','--','guide'],cwd=ROOT).returncode: raise ValueError('guide differs from guide-v1.0 tag')
     untracked=git('ls-files','--others','--exclude-standard','--',*protected)

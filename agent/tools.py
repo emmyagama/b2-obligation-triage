@@ -14,14 +14,17 @@ def get_clause(db, document_id, category):
 
 def search_corpus(chunks, query_vector, document_id, top_k=8):
     if top_k < 1: raise ValueError('top_k must be positive')
-    def cosine(a,b):
-        if len(a)!=len(b): raise ValueError('embedding dimension mismatch')
-        # B1's Chroma collection uses squared L2; convert distance to a bounded similarity.
-        return 1.0/(1.0+sum((i-j)**2 for i,j in zip(a,b)))
-    rows=[]
+    if hasattr(chunks,'search'): return chunks.search(query_vector,document_id,top_k)
+    # Small in-memory fixture compatibility; production always uses LeanIndex.
+    import numpy as np
+    query=np.asarray(query_vector,dtype=np.float32); rows=[]
     for c in chunks:
-        if c['document_id']==document_id:
-            rows.append({**{k:v for k,v in c.items() if k!='embedding'},'score':round(cosine(query_vector,c['embedding']),4)})
+        if c['document_id']!=document_id: continue
+        v=np.asarray(c['embedding'],dtype=np.float32)
+        if v.shape!=query.shape or not np.isfinite(v).all() or not np.isfinite(query).all(): raise ValueError('embedding dimension mismatch')
+        denom=float(np.linalg.norm(v)*np.linalg.norm(query))
+        score=round(float(np.clip(v@query/denom,-1,1)),4) if denom else 0.0
+        rows.append({**{k:v for k,v in c.items() if k!='embedding'},'score':score})
     return sorted(rows,key=lambda c:(-c['score'],str(c['chunk_id'])))[:top_k]
 
 def get_document_dates(db, document_id):

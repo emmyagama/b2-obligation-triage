@@ -3,8 +3,10 @@ from datetime import datetime, timezone
 from .cache import CacheMiss, ensure_online
 from .retry import retry
 
-def request_object(model, messages, tools, tool_choice, temperature, max_tokens, corpus_version):
-    return dict(kind='llm', model=model, messages=messages, tools=tools, tool_choice=tool_choice, temperature=temperature, max_tokens=max_tokens, corpus_version=corpus_version)
+def request_object(model, messages, tools, tool_choice, temperature, max_tokens, corpus_version, synthetic_document_sha256=None):
+    request=dict(kind='llm', model=model, messages=messages, tools=tools, tool_choice=tool_choice, temperature=temperature, max_tokens=max_tokens, corpus_version=corpus_version)
+    if synthetic_document_sha256 is not None: request['synthetic_document_sha256']=synthetic_document_sha256
+    return request
 
 def complete(request, cache, *, live=False, resume=False, case_id=None, seq=None, post=None, throttle=None, pricing=None):
     old=None
@@ -16,7 +18,7 @@ def complete(request, cache, *, live=False, resume=False, case_id=None, seq=None
     import requests
     key=os.environ.get('GROQ_API_KEY')
     if not key: raise RuntimeError('GROQ_API_KEY is required for live mode')
-    body={k:v for k,v in request.items() if k not in ('kind','corpus_version')}
+    body={k:v for k,v in request.items() if k not in ('kind','corpus_version','synthetic_document_sha256')}
     start=time.monotonic()
     def call():
         if throttle: throttle()

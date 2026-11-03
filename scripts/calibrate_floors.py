@@ -7,7 +7,8 @@ def load_run(path):
     meta=json.loads((path/'run_metadata.json').read_text())
     if meta['split']!='dev': raise ValueError('calibration refuses non-dev runs')
     rows=json.loads((path/'details.json').read_text())
-    if len(rows)!=20: raise ValueError('calibration requires the full 20-case dev split')
+    expected=sum(yaml.safe_load((ROOT/'config/splits.yaml').read_text())['dev'].values())
+    if len(rows)!=expected: raise ValueError(f'calibration requires the full {expected}-case dev split')
     return rows
 
 def stats(labels,preds):
@@ -40,7 +41,7 @@ def main(run):
     possible=[x for x in e5s if x[2]<=.2]
     e5=sorted(possible,key=lambda x:(-x[1],x[2],x[0]))[0][0] if possible else .65
     provenance='dev-sweep' if possible else 'uncalibrated-fallback'
-    lines=['# Threshold calibration','', 'Dev only; n=20 is noisy. E1 uses gold E1 labels; E5 uses gold escalation and other retained codes. Ties: higher recall, then lower false escalation, then lower floor.','', '## E1','', '| Floor | Recall | False escalation |','|---:|---:|---:|']
+    lines=['# Threshold calibration','', f'Dev only; n={len(rows)} is noisy. E1 uses gold E1 labels; E5 uses gold escalation and other retained codes. Ties: higher recall, then lower false escalation, then lower floor.','', '## E1','', '| Floor | Recall | False escalation |','|---:|---:|---:|']
     lines += [f'| {f:.8g} | {r:.3f} | {fp:.3f} |' for f,r,fp in e1s]
     lines += ['',f'Selected E1: {e1:.12g}.','','## E5','','| Floor | Recall | False escalation |','|---:|---:|---:|']
     lines += [f'| {f:.2f} | {r:.3f} | {fp:.3f} |' for f,r,fp in e5s]

@@ -48,7 +48,7 @@ def run_agent(db, run_id, document_id, party, context, document, chunks, embed_q
         result=record_obligations(db,run_id,{'obligations':[],'confidence':1.0,'escalate':True,'escalation_codes':['E1_NO_OBLIGATION']},{},config['e5_floor'])
         return {'decision':result,'args':{'obligations':[],'confidence':1.0,'escalate':True,'escalation_codes':['E1_NO_OBLIGATION']},'metadata':metadata,'drift':drift,'retrieval_score':score}
     for turn in range(config.get('max_turns',8)):
-        req=request_object(config['model'],messages,tooldefs,'auto',config['temperature'],config['max_tokens'],config['corpus_version'])
+        req=request_object(config['model'],messages,tooldefs,'auto',config['temperature'],config['max_tokens'],config['corpus_version'],config.get('synthetic_document_sha256'))
         try:
             entry,hit,changed=complete(req,llm_cache,live=live,resume=resume,case_id=case_id,seq=seq+1,throttle=throttle,pricing=config.get('pricing'))
         except CacheMiss:

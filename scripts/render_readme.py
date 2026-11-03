@@ -15,6 +15,7 @@ def render():
     l=metrics['latency'];c=metrics['cost']
     log=root/'test_run_log.jsonl'; n=sum(1 for line in log.read_text().splitlines() if line.strip() and json.loads(line).get('mode')=='live' and json.loads(line).get('status')=='started') if log.exists() else 0
     v={k:fmt(metrics[k]) for k in ('exception_rate','deadline_absolute','deadline_relative','obligation_recall','escalation_recall','false_escalation','grounded_rate')}
+    v.update(constructed_e2_cases=metrics['constructed_e2_cases'],constructed_e2_exception_rate=fmt(metrics['constructed_e2_exception_rate']),constructed_e2_recall=fmt(metrics['constructed_e2_recall']))
     v.update(latency=f"{l['p50_ms']} / {l['p95_ms']} ms (n={l['n']})",cost=f"{c['mean_usd']} USD (n={c['n']})",cuts='none instructed',test_run_count=str(n))
     def cases(path):
         data=json.loads(path.read_text()); return data if isinstance(data,list) else data['cases']

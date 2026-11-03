@@ -1,0 +1,3 @@
+# Optional one-time local migration of an existing Chroma store only.
+-r requirements.txt
+chromadb==1.5.9

@@ -5,19 +5,27 @@ from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 import yaml
 from agent.escalation import QUEUES
+from agent.synthetic import merge_test,document_path
 ROOT=Path(__file__).resolve().parents[1]
 
 def data(path):
     obj=json.loads(path.read_text());return obj if isinstance(obj,list) else obj['cases']
 def validate(root=ROOT,strict=False):
-    db=sqlite3.connect(root/'db/b2.sqlite');db.row_factory=sqlite3.Row
+    source=sqlite3.connect(root/'db/b2.sqlite');db=sqlite3.connect(':memory:');source.backup(db);source.close();db.row_factory=sqlite3.Row;db.execute('PRAGMA foreign_keys=ON')
     cfg=yaml.safe_load((root/'config/splits.yaml').read_text());types={r[0] for r in db.execute('SELECT code FROM obligation_types')}
     if not types:
         taxonomy=yaml.safe_load((root/'guide/obligation_types.yaml').read_text())
         types={x.get('code') for x in taxonomy.get('categories',[]) if x.get('include') is True and x.get('code')}
     if not types: raise ValueError('human-authored obligation types are missing')
     manifest_path=root/'corpus/adversarial/manifest.json'; manifest=json.loads(manifest_path.read_text()) if manifest_path.exists() else {}
-    groups={s:data(root/'cases'/f'{s}.json') for s in ('dev','test')};seen=set();overlap={}
+    groups={s:data(root/'cases'/f'{s}.json') if (root/'cases'/f'{s}.json').exists() else [] for s in ('dev','test')};seen=set();overlap={}
+    if groups['test']:
+        merge_test(db,root)
+        test_manifest=root/'corpus/synthetic_test/manifest.json'
+        if test_manifest.exists():
+            extra=json.loads(test_manifest.read_text())
+            if set(manifest)&set(extra): raise ValueError('synthetic provenance collision')
+            manifest.update(extra)
     classes={'clear','conflicting','out_of_scope','adversarial'};roles={'provider','customer','both','unclear'};intakes={'provider','customer','licensee','licensor','other'};kinds={'absolute','relative','recurring','none'}
     for split,cases in groups.items():
         counts=collections.Counter()
@@ -28,7 +36,7 @@ def validate(root=ROOT,strict=False):
             if c.get('split')!=split or c.get('class') not in classes or c.get('intake_party') not in intakes: raise ValueError('invalid case split, class, or intake party')
             counts[c['class']]+=1
             did=c.get('document_id');doc=db.execute('SELECT id FROM corpus_documents WHERE id=?',(did,)).fetchone()
-            if not doc or not (root/'corpus/documents'/f'{did}.txt').is_file(): raise ValueError('case refers to an unknown document')
+            if not doc or not document_path(root,did).is_file(): raise ValueError('case refers to an unknown document')
             if type(c.get('gold_should_escalate')) is not bool or not isinstance(c.get('gold_escalation_codes'),list) or set(c['gold_escalation_codes'])-QUEUES.keys(): raise ValueError('invalid human escalation label or codes')
             if c['gold_should_escalate'] != bool(c['gold_escalation_codes']): raise ValueError('escalation boolean and codes disagree')
             if not isinstance(c.get('rationale'),str) or not c['rationale'].strip() or type(c.get('difficulty')) is not int: raise ValueError('rationale and integer difficulty required')
@@ -37,7 +45,11 @@ def validate(root=ROOT,strict=False):
             declared=c.get('source_document_ids') or ([c['source_document_id']] if c.get('source_document_id') else [did])
             if sorted(source_ids)!=sorted(declared): raise ValueError('case source provenance disagrees with mutation manifest')
             overlap.setdefault(split,set()).update(source_ids)
-            text=(root/'corpus/documents'/f'{did}.txt').read_text(encoding='utf-8')
+            if split=='dev' and document_path(root,did).parent==root/'corpus/synthetic_test/documents': raise ValueError('dev case cannot use test-only synthetic document')
+            if 'constructed' in c and type(c['constructed']) is not bool: raise ValueError('constructed must be boolean')
+            if (c.get('constructed') is True)!=(info.get('mechanism')=='composite'): raise ValueError('constructed must identify composite documents')
+            if c['class']=='conflicting' and (c.get('constructed') is not True or info.get('mechanism')!='composite'): raise ValueError('conflicting cases must be marked constructed and use a composite')
+            text=document_path(root,did).read_text(encoding='utf-8')
             def ref_valid(ref):
                 if not isinstance(ref,dict) or not isinstance(ref.get('category'),str) or type(ref.get('char_start')) is not int or type(ref.get('char_end')) is not int: raise ValueError('invalid clause_ref structure')
                 ref_doc=ref.get('document_id',did)
@@ -46,7 +58,7 @@ def validate(root=ROOT,strict=False):
                 if not row: raise ValueError('clause_ref does not exist at exact CUAD offsets')
                 shift=0
                 if ref_doc!=did and info.get('mechanism')=='composite':
-                    if ref_doc==source_ids[1]: shift=len((root/'corpus/documents'/f'{source_ids[0]}.txt').read_text(encoding='utf-8'))+len(info['separator'])
+                    if ref_doc==source_ids[1]: shift=len(document_path(root,source_ids[0]).read_text(encoding='utf-8'))+len(info['separator'])
                 if text[ref['char_start']+shift:ref['char_end']+shift]!=row['answer_text']: raise ValueError('referenced expert clause is not present at its mapped case offset')
                 return (ref_doc,ref['category'],ref['char_start'],ref['char_end'])
             refs=[]
@@ -63,7 +75,9 @@ def validate(root=ROOT,strict=False):
                     try: datetime.date.fromisoformat(deadline['resolved_date'])
                     except (TypeError,ValueError): raise ValueError('invalid resolved date')
                 if deadline.get('offset_days') is not None and type(deadline['offset_days']) is not int: raise ValueError('offset_days must be an integer')
+                if deadline.get('deadline_text') is not None and not isinstance(deadline['deadline_text'],str): raise ValueError('deadline_text must be a string or null')
             for ref in c.get('conflict_clause_refs',[]): refs.append(ref_valid(ref))
+            if c['class']=='conflicting' and 'E2_CONFLICTING_CLAUSES' not in c['gold_escalation_codes']: raise ValueError('conflicting case requires human-authored E2 escalation')
             if c['class']=='conflicting' and len(set(refs))<2: raise ValueError('conflicting cases require two distinct exact clause refs')
             if c.get('duplicate_of') is not None and c['class']!='adversarial': raise ValueError('duplicate_of requires an adversarial case')
         expected=cfg[split]
@@ -75,7 +89,7 @@ def validate(root=ROOT,strict=False):
                 original=by_id.get(str(c['duplicate_of']))
                 if original is None or original is c: raise ValueError('duplicate_of must reference a different case in the same split')
                 if c['intake_party']!=original['intake_party'] or c.get('business_context')!=original.get('business_context'): raise ValueError('duplicate intake differs from original')
-                if (root/'corpus/documents'/f"{c['document_id']}.txt").read_bytes()!=(root/'corpus/documents'/f"{original['document_id']}.txt").read_bytes(): raise ValueError('duplicate text differs from original')
+                if document_path(root,c['document_id']).read_bytes()!=document_path(root,original['document_id']).read_bytes(): raise ValueError('duplicate text differs from original')
     sources=overlap.get('dev', set()) & overlap.get('test', set())
     report={'dev_cases':len(groups['dev']),'test_cases':len(groups['test']),'document_overlap':len(sources),'strict':strict}
     (root/'eval_results').mkdir(parents=True,exist_ok=True);(root/'eval_results/case_validation.json').write_text(json.dumps(report,indent=2,sort_keys=True)+'\n')

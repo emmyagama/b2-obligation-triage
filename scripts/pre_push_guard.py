@@ -6,7 +6,7 @@ ROOT=Path(__file__).resolve().parents[1]
 def git(*args): return subprocess.check_output(['git',*args],cwd=ROOT,stderr=subprocess.DEVNULL,text=True)
 def protected(p):
     
-    if p=='cases/test.json' or p.startswith(('cases/src/test-','cache/llm/','reviews/packets/')): return True
+    if p=='cases/test.json' or p.startswith(('cases/src/test-','cache/llm/','reviews/packets/','corpus/synthetic_test/','db/test_docs.sqlite')): return True
     if p.startswith('eval_results/'):
         rel=p[len('eval_results/'):]
         return not (rel in ('targets.md','threshold_calibration.md','test_run_log.jsonl') or rel.startswith(('run_dev_','summary_dev','metrics_dev','rounds/')))
