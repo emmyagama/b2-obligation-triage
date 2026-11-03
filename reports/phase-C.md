@@ -1,4 +1,4 @@
-NEXT ACTION FOR HUMAN: §7 — live evaluation is blocked by the Groq account's 8,000 TPM ceiling (HTTP 413 on one oversized request, HTTP 429 on every later turn). Choose (A) upgrade the Groq tier [recommended, no code change], (B) cap retrieval `top_k` in `agent/engine.py` [changes retrieval evidence, therefore the calibration floors], or (B+C) cap it and pace at `--rpm 1`. §5.1 exposure acceptance and §6/§7 environment fixes are already recorded.
+NEXT ACTION FOR HUMAN: §7 (Groq 8,000 TPM) is still the open decision — and §8 confirms the Gemini fallback you suggested is unavailable (`gemini-3.8-flash` returns HTTP 503 on every call; the native API rejects API keys). Choose (A) upgrade the Groq tier [recommended, no code change], (B) cap retrieval `top_k` in `agent/engine.py` [changes retrieval evidence, therefore the calibration floors], or (B+C) cap it and pace at `--rpm 1`. §5.1 exposure acceptance and the §6 environment fixes are already recorded.
 
 Phase: C (pre-flight + calibration attempt)   Branch/sha: `b2/build` @ `1f4525f`   Date: 2026-11-03
 
@@ -104,6 +104,31 @@ Your options (I did not act on any of them):
 - **(B) Cap the retrieval payload** — clamp `top_k` to the engine's own default of 8 at `agent/engine.py:131-132` (≤20 lines, rule-1 sized). Holds a request to ≲4.5K tokens. But it changes the evidence the agent sees, therefore `retrieval_score`, therefore the calibrated floors — a change to the system under test, which is the build agent's call, not mine.
 - **(C) Pace at `--rpm 1`** — one request per window, so the 429s disappear. Does **not** fix 413, so C only works combined with A or B. Full dev run ≈ 2 h.
 - **(D) not recommended:** switch model or lower `max_tokens` — `max_tokens` does not shrink the prompt, and changing the model re-bases the whole evaluation.
+
+## 8. Gemini fallback (human instruction) — unavailable, stopped as instructed
+
+You added `GEMINI_API_KEY` to `.env` and asked me to try Gemini for live evaluation, stopping and reporting back if it could not be worked around. It cannot. **No repository file was changed for this attempt** — the probes live in the temp dir only, and `config/model.yaml` still names `openai/gpt-oss-120b`.
+
+| attempt | result |
+|---|---|
+| `GET /v1beta/models` (enumerate) | **401** `API_KEY_SERVICE_BLOCKED` — this key cannot list models, so alternatives cannot be discovered programmatically |
+| `POST /v1beta/openai/chat/completions`, `gemini-2.5-flash` | **404** "no longer available to new users … use models/gemini-3.8-flash" |
+| same endpoint, `gemini-3.8-flash`, plain chat | **503** "This model is currently experiencing high demand" — **0/8** over 2 min at 15 s spacing, plus 3 earlier tries and 2 endpoint/name variants ≈ **13 consecutive failures over ~5 min** (one ReadTimeout) |
+| same, harness payload (`tools`, `tool_choice: auto`, `temperature: 0`, `max_tokens: 4096`) | **503** — never reached payload validation |
+| `gemini-3.8-flash-lite`, `gemini-3.8-pro`, `gemini-3-flash`, `gemini-3-pro`, `gemini-3-flash-lite`, `gemini-2.5-flash-lite`, `gemini-2.0-flash` | **404** (not found / retired) |
+| `v1alpha` OpenAI endpoint, and `models/`-prefixed model name | **503** (identical) |
+| `/v1/openai/chat/completions` | **404** (no such path) |
+| native `…/v1beta/models/gemini-3.8-flash:generateContent` with Bearer | **401** "Expected OAuth 2 access token" — the native API does not accept API keys |
+| native with `?key=` | **401** "API keys are not supported by this API" |
+
+Conclusions:
+
+- The only usable surface for this key is the OpenAI-compatible endpoint with `Authorization: Bearer`, and its one current model (`gemini-3.8-flash`) returns 503 on every call. The harness already classifies 5xx as transient, but `retry()` allows ~1 s / ~2 s across 3 attempts, so a run started now would end in `E6_TOOL_FAILURE` exactly like the Groq run. This is provider capacity, not request sizing — `--rpm` cannot fix it.
+- Gemini function calling is **unverified**: no request ever returned 200, so `tools` / `tool_choice` compatibility remains untested.
+- Even had it worked, the switch would have changed the system under test: `agent/llm.py:25` hardcodes the Groq URL and `GROQ_API_KEY`, `config/model.yaml` pins the model, and `run_eval.py:80` refuses to run when `pricing.yaml.model != model.yaml.model`, so `config/model.yaml`, `config/pricing.yaml` and `agent/llm.py` would all have needed edits — and dev, calibration and the held-out test run would have to use that same model throughout.
+- `seed` is **not** sent by the harness (no `\bseed\b` in `agent/`, `run_eval.py` or `scripts/`), so the `400 Unknown name "seed"` seen during probing came from my probe payload, not from the harness.
+
+Stopped here per instruction. Nothing was modified, and the §7 decision is unchanged.
 
 
 
