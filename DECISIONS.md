@@ -35,3 +35,9 @@
 ## v1.1 construction and measurement
 - The human found no genuine E2 conflict in the 40 documents. All 14 E2 cases are constructed composites; human selection, adjudication and gold remain mandatory. Report constructed E2 exception rate and E2-code recall separately, with counts and Wilson intervals; overall metrics remain unchanged.
 - Planned dev/test totals are 26/30 (56 combined); test-only synthetic text, provenance, embeddings and DB are embargoed through the completed valid test run.
+
+## Held-out test-gold exposure — accepted (2026-11-03)
+- Found by the Phase C pre-flight: all 30 `cases/src/test-*.yaml` and `cases/TEST-NOTES.md` were in pushed commits `2f42a21` and `67bab1e` on `origin/b2/build` (GitHub web upload, which bypasses the `.gitignore` embargo added in `032246a`). Brief §0.9 defines this as an integrity incident; `cases/test.json`, `cache/llm/`, test results and the local test shard were never pushed.
+- Emmanuel's instruction: purge it from GitHub entirely if that is possible, otherwise accept and document. A full purge is **not** possible — the files are reachable from `origin/b2/build`, `origin/HEAD` and `origin/arena/18088414-b2-obligation-triage`, so removing them needs a history rewrite plus `git push --force` (forbidden by §0.5), and even then GitHub's unreachable objects and any clone made before the fix keep a copy. The exposure is therefore **accepted**.
+- Mitigation applied: the 31 files are untracked from the branch tip (byte-identical on disk, still compiled by `build_cases.py`), `.gitignore` now covers `cases/TEST-NOTES.md`, and `scripts/pre_push_guard.py` passes again so the embargo is enforced on every future push.
+- Accepted residue: the gold remains in the pushed history of both branches, in GitHub's unreachable-object store and in pre-fix clones. The held-out split is not blind to anyone with repository access; this is disclosed, not repaired, and no re-seal of `FROZEN.sha256` was performed.

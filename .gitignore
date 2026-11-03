@@ -7,6 +7,7 @@ cache/scratch/
 # Pre-freeze embargo; force-add only after a completed valid held-out live run.
 cases/src/test-*.yaml
 cases/test.json
+cases/TEST-NOTES.md
 cache/llm/
 eval_results/run_test_*
 eval_results/run_all_*
