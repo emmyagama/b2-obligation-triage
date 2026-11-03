@@ -1,4 +1,5 @@
 """B1-compatible local sentence-transformers embedding adapter for B2."""
+import os
 from functools import lru_cache
 
 MODEL_ID = "all-MiniLM-L6-v2"
@@ -7,7 +8,9 @@ DIMENSIONS = 384
 @lru_cache(maxsize=1)
 def _model():
     from sentence_transformers import SentenceTransformer
-    return SentenceTransformer(MODEL_ID)
+    # Offline environments may point at an exported local copy of the same
+    # model (verified by weights hash); default remains the hub model id.
+    return SentenceTransformer(os.environ.get("B2_EMBEDDING_MODEL_PATH") or MODEL_ID)
 
 def embed(text, model_id):
     if model_id != MODEL_ID:

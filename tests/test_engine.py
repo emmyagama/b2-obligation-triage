@@ -90,6 +90,8 @@ def test_end_to_end_replay_offline_and_cache_miss(tmp_path):
     from agent.cache import canonical
     root=Path(__file__).resolve().parents[1]; project=tmp_path/'repo'
     shutil.copytree(root,project,ignore=shutil.ignore_patterns('.venv','__pycache__','.pytest_cache','b2.sqlite'))
+    # Hermetic fixture: ignore any real corpus built in the source tree (Phase B+).
+    (project/'corpus/selection.json').unlink(missing_ok=True); shutil.rmtree(project/'corpus/embeddings',ignore_errors=True)
     db=initialize(project/'db/b2.sqlite')
     with db:
         db.execute("INSERT INTO corpus_documents(id,title) VALUES('fixture','Fixture')")
@@ -99,6 +101,7 @@ def test_end_to_end_replay_offline_and_cache_miss(tmp_path):
     config=yaml.safe_load((project/'config/model.yaml').read_text()); config.update(model='mock',corpus_version='fixture',max_tokens=100,embedding_model='fake')
     (project/'config/model.yaml').write_text(yaml.safe_dump(config)); (project/'config/thresholds.yaml').write_text('e1: {value: 0.0, provenance: provisional}\ne5: {value: 0.5, provenance: provisional}\n')
     (project/'corpus/documents/fixture.txt').write_text('fixture evidence')
+    (project/'corpus/embeddings').mkdir(parents=True,exist_ok=True); (project/'cases').mkdir(parents=True,exist_ok=True)
     (project/'corpus/embeddings/chunks.json').write_text(json.dumps([{'chunk_id':'1','document_id':'fixture','clause_category':'category','text':'fixture evidence','embedding':[1.]}]))
     case={'id':'fixture','document_id':'fixture','intake_party':'customer','class':'clear','gold_obligations':[{'type':'T','owed_by':'customer','deadline':{'kind':'none'}}], 'gold_should_escalate':False,'gold_escalation_codes':[]}
     (project/'corpus/documents/duplicate-fixture.txt').write_text('fixture evidence')
@@ -272,6 +275,8 @@ def test_release_replay_and_readme_from_synthetic_frozen_fixture(tmp_path):
     from agent.cache import canonical
     root=Path(__file__).resolve().parents[1];project=tmp_path/'repo'
     shutil.copytree(root,project,ignore=shutil.ignore_patterns('.venv','__pycache__','.pytest_cache','b2.sqlite'))
+    # Hermetic fixture: ignore any real corpus built in the source tree (Phase B+).
+    (project/'corpus/selection.json').unlink(missing_ok=True); shutil.rmtree(project/'corpus/embeddings',ignore_errors=True)
     db=initialize(project/'db/b2.sqlite')
     with db:
         db.execute("INSERT INTO corpus_documents(id,title) VALUES('fixture','Fixture')")
@@ -290,6 +295,7 @@ def test_release_replay_and_readme_from_synthetic_frozen_fixture(tmp_path):
     counts={'clear':12,'conflicting':9,'out_of_scope':5,'adversarial':4};cases=[]
     for cls,n in counts.items():
         for i in range(n): cases.append({'id':f'{cls}-{i}','document_id':'fixture','intake_party':'customer','class':cls,'gold_obligations':[],'gold_should_escalate':False,'gold_escalation_codes':[]})
+    (project/'cases').mkdir(parents=True,exist_ok=True)
     raw=json.dumps(cases);(project/'cases/test.json').write_text(raw);checksum=hashlib.sha256(raw.encode()).hexdigest()
     (project/'cases/FROZEN.sha256').write_text(checksum+'  cases/test.json\n')
     (project/'cases/dev.json').write_text('[]')

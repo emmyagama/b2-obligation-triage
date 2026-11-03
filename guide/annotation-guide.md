@@ -218,8 +218,8 @@ Use `unclear` when the text genuinely does not say: a passive construction with 
 | Value | Means | Example (invented) | What we store |
 |---|---|---|---|
 | `absolute` | A single deadline fixed on the calendar, not computed from anything. | "Closing shall occur on 15 March 2026." | `deadline_text`, `due_date: 2026-03-15`, `anchor: null` |
-| `relative` | A single deadline computed from an anchor event or date. | "within forty-five (45) days after the Effective Date" | `deadline_text`, `anchor: effective_date`, `anchor_offset_days: 45`, `due_date` (only if resolvable) |
-| `recurring` | A duty that repeats each period or per instance. | "within fifteen (15) days after the end of each calendar quarter" | `deadline_text`, `period: quarterly`, `anchor_offset_days: 15`, `due_date: null` |
+| `relative` | A single deadline computed from an anchor event or date. | "45 days counted from the effective date" | `deadline_text`, `anchor: effective_date`, `anchor_offset_days: 45`, `due_date` (only if resolvable) |
+| `recurring` | A duty that repeats each period or per instance. | "due each quarter, on day 15" | `deadline_text`, `period: quarterly`, `anchor_offset_days: 15`, `due_date: null` |
 | `none` | No time element at all. | "Provider shall keep the Confidential Information secret." | `deadline_text: null` |
 
 ### 6.2 Priority when a clause fits two

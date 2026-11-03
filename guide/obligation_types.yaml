@@ -12,7 +12,7 @@
 #     keep their names and meanings. The remaining fields are additional normative detail.
 #   - `deadline_behaviour` is a DEFAULT PRIOR for the type, not a per-instance straitjacket;
 #     an annotator overrides it on a specific obligation when the clause differs (guide §6.2).
-#   - `cuad_v1_contracts_with_label` comes from corpus-report.md §6 (CUADv1.json, n = 510).
+#   - `cuad_contracts_with_label` comes from corpus-report.md §6 (CUADv1.json, n = 510).
 #     Triage information only; it did not decide inclusion.
 #   - `code` values are stable identifiers: they are never renamed and never reused (guide §11.2).
 
@@ -126,7 +126,7 @@ categories:
   escalates_by_default: 0
   owed_by_default: null
   obligation_class: null
-  cuad_v1_contracts_with_label: 510
+  cuad_contracts_with_label: 510
   rationale: "Identifier only; nobody owes anything."
   used_as: context_field
 
@@ -138,7 +138,7 @@ categories:
   escalates_by_default: 0
   owed_by_default: null
   obligation_class: null
-  cuad_v1_contracts_with_label: 509
+  cuad_contracts_with_label: 509
   rationale: "Identifier only; but it feeds the provider/customer mapping."
   used_as: context_field
 
@@ -150,7 +150,7 @@ categories:
   escalates_by_default: 0
   owed_by_default: null
   obligation_class: null
-  cuad_v1_contracts_with_label: 470
+  cuad_contracts_with_label: 470
   rationale: "A date, not a duty."
   used_as: anchor_field
 
@@ -162,7 +162,7 @@ categories:
   escalates_by_default: 0
   owed_by_default: null
   obligation_class: null
-  cuad_v1_contracts_with_label: 390
+  cuad_contracts_with_label: 390
   rationale: "A date, not a duty; it is the most-used relative-deadline anchor."
   used_as: anchor_field
   note: "Missing in 120 of 510 contracts -> relative deadlines anchored here cannot be resolved there (guide §6.4)."
@@ -175,7 +175,7 @@ categories:
   escalates_by_default: 0
   owed_by_default: null
   obligation_class: null
-  cuad_v1_contracts_with_label: 413
+  cuad_contracts_with_label: 413
   rationale: "A date, not a duty; anchor for notice windows and survival periods."
   used_as: anchor_field
   note: "Missing in 97 of 510 contracts (guide §6.4)."
@@ -188,7 +188,7 @@ categories:
   escalates_by_default: 0
   owed_by_default: null
   obligation_class: null
-  cuad_v1_contracts_with_label: 176
+  cuad_contracts_with_label: 176
   rationale: "Automatic-renewal mechanics state no duty; the duty lives in the notice category."
   used_as: anchor_field
   fold_into: TRM-RENEWAL-NOTICE
@@ -201,7 +201,7 @@ categories:
   escalates_by_default: 1
   owed_by_default: both
   obligation_class: notification
-  cuad_v1_contracts_with_label: 111
+  cuad_contracts_with_label: 111
   rationale: "An express duty to notify within a window; anchor (expiry / renewal date) and the question of which party must act make a clean read unusual."
   split_rule: "One obligation per party named; typically two."
   note: "Both-party drafting is the norm ('unless either party notifies'), so expect two records."
@@ -214,7 +214,7 @@ categories:
   escalates_by_default: 0
   owed_by_default: null
   obligation_class: null
-  cuad_v1_contracts_with_label: 437
+  cuad_contracts_with_label: 437
   rationale: "Chooses a law and a forum; no performance duty."
   used_as: context_field
 
@@ -227,7 +227,7 @@ categories:
   escalates_by_default: 1
   owed_by_default: provider
   obligation_class: restraint
-  cuad_v1_contracts_with_label: 28
+  cuad_contracts_with_label: 28
   rationale: "A standing duty to match the best terms given to others; the comparison class and the trigger need judgement every time."
   note: "Usually fires on each new comparable agreement -> recurring, not relative."
 
@@ -239,7 +239,7 @@ categories:
   escalates_by_default: 0
   owed_by_default: both
   obligation_class: restraint
-  cuad_v1_contracts_with_label: 119
+  cuad_contracts_with_label: 119
   rationale: "A clear restraint on an identified party; scope words are hard but the duty is not in doubt."
   conflict_watch: [CW-03]
   note: "Duration usually runs during the term plus a survival period -> relative, anchored to termination. No stated limit -> none."
@@ -253,7 +253,7 @@ categories:
   escalates_by_default: 0
   owed_by_default: both
   obligation_class: restraint
-  cuad_v1_contracts_with_label: 180
+  cuad_contracts_with_label: 180
   rationale: "A restraint on dealing with third parties; usually one-way but readable from the clause."
   conflict_watch: [CW-03]
   note: "One-way exclusivity (supplier shall not appoint others / customer shall not buy elsewhere) is one obligation on that party, not 'both'."
@@ -266,7 +266,7 @@ categories:
   escalates_by_default: 0
   owed_by_default: both
   obligation_class: restraint
-  cuad_v1_contracts_with_label: 34
+  cuad_contracts_with_label: 34
   rationale: "A restraint with a stated survival period; attribution is normally explicit."
 
 - category: Competitive Restriction Exception
@@ -277,7 +277,7 @@ categories:
   escalates_by_default: 0
   owed_by_default: null
   obligation_class: null
-  cuad_v1_contracts_with_label: 76
+  cuad_contracts_with_label: 76
   rationale: "Narrows an existing restriction; it creates no duty of its own."
   fold_into: [COV-NON-COMPETE, COV-EXCLUSIVITY]
   used_as: exceptions_field
@@ -290,7 +290,7 @@ categories:
   escalates_by_default: 0
   owed_by_default: both
   obligation_class: restraint
-  cuad_v1_contracts_with_label: 59
+  cuad_contracts_with_label: 59
   rationale: "A restraint with a stated survival period; attribution is normally explicit."
 
 - category: Non-Disparagement
@@ -301,7 +301,7 @@ categories:
   escalates_by_default: 0
   owed_by_default: both
   obligation_class: restraint
-  cuad_v1_contracts_with_label: 38
+  cuad_contracts_with_label: 38
   rationale: "A plain restraint; usually mutual, so one obligation per party."
   note: "No stated survival period -> none."
 
@@ -313,7 +313,7 @@ categories:
   escalates_by_default: 1
   owed_by_default: both
   obligation_class: notification
-  cuad_v1_contracts_with_label: 183
+  cuad_contracts_with_label: 183
   rationale: "The duty, if any, is only the notice; deciding permission-vs-obligation is exactly the call that needs review."
   conflict_watch: [CW-02]
   note: "A bare right with no notice requirement and no other duty -> no obligation, escalate E1 (guide §3.4)."
@@ -326,7 +326,7 @@ categories:
   escalates_by_default: 1
   owed_by_default: provider
   obligation_class: notification
-  cuad_v1_contracts_with_label: 85
+  cuad_contracts_with_label: 85
   rationale: "Record the duty on the grantor (to offer first), not the holder's right; distinguishing ROFR/ROFO/ROFN changes the duty."
   note: "Anchor is the third-party offer; if no offer procedure is described -> E3."
 
@@ -338,7 +338,7 @@ categories:
   escalates_by_default: 1
   owed_by_default: unclear
   obligation_class: notification
-  cuad_v1_contracts_with_label: 121
+  cuad_contracts_with_label: 121
   rationale: "Conditional by construction: the duty exists only if the defined trigger occurs, and who owes it depends on which side is acquired."
   note: "If the clause is only a definition of 'Change of Control' with no duty -> no obligation, escalate E1."
 
@@ -350,7 +350,7 @@ categories:
   escalates_by_default: 0
   owed_by_default: both
   obligation_class: restraint
-  cuad_v1_contracts_with_label: 374
+  cuad_contracts_with_label: 374
   rationale: "A clear consent requirement; the highest-yield restraint type in the corpus."
 
 # --- 20-23: money and volume ----------------------------------------------
@@ -362,7 +362,7 @@ categories:
   escalates_by_default: 1
   owed_by_default: customer
   obligation_class: payment
-  cuad_v1_contracts_with_label: 166
+  cuad_contracts_with_label: 166
   rationale: "A repeating payment duty whose base (gross vs net, deductions, reports) decides the obligation every time."
 
 - category: Price Restrictions
@@ -373,7 +373,7 @@ categories:
   escalates_by_default: 1
   owed_by_default: customer
   obligation_class: restraint
-  cuad_v1_contracts_with_label: 15
+  cuad_contracts_with_label: 15
   rationale: "Restraint on pricing that applies to every sale; whether it binds, or is only 'suggested', needs reading."
   note: "Rare in CUAD (15/510; 0 in test.json) -> low priority for the pilot, but keep it in the schema."
 
@@ -385,7 +385,7 @@ categories:
   escalates_by_default: 1
   owed_by_default: customer
   obligation_class: payment
-  cuad_v1_contracts_with_label: 165
+  cuad_contracts_with_label: 165
   rationale: "Threshold duty per period; period length, carry-over and shortfall remedy decide what is owed."
 
 - category: Volume Restriction
@@ -396,7 +396,7 @@ categories:
   escalates_by_default: 1
   owed_by_default: customer
   obligation_class: restraint
-  cuad_v1_contracts_with_label: 82
+  cuad_contracts_with_label: 82
   rationale: "Cap duty whose measuring period is often unstated; the cap without a period is the ambiguity."
 
 # --- 24-31: IP and licensing ---------------------------------------------
@@ -408,7 +408,7 @@ categories:
   escalates_by_default: 0
   owed_by_default: both
   obligation_class: performance
-  cuad_v1_contracts_with_label: 124
+  cuad_contracts_with_label: 124
   rationale: "Creates a duty to transfer and to execute further documents; the transferor is normally explicit."
   note: "Present-tense assignment ('hereby assigns') is still a duty; deadline none unless a step has a date."
 
@@ -420,7 +420,7 @@ categories:
   escalates_by_default: 0
   owed_by_default: null
   obligation_class: null
-  cuad_v1_contracts_with_label: 46
+  cuad_contracts_with_label: 46
   rationale: "Allocates ownership between the parties rather than imposing a duty; carve-out language often grants mutual permissions."
   fold_into: IP-OWNERSHIP-ASSIGNMENT
   note: "Any embedded consent / accounting / registration duty is labelled under IP-OWNERSHIP-ASSIGNMENT."
@@ -433,7 +433,7 @@ categories:
   escalates_by_default: 0
   owed_by_default: provider
   obligation_class: performance
-  cuad_v1_contracts_with_label: 255
+  cuad_contracts_with_label: 255
   rationale: "The core duty of a licence contract: the licensor must make the licensed rights available within the stated scope."
   fold_in: [EXC-LICENCE-UNLIMITED, EXC-LICENCE-IRREVOCABLE]
   note: "Scope qualifiers (perpetual, irrevocable, unlimited, exclusive, sublicensable) go in grant_qualifiers on this one obligation, not into extra records."
@@ -446,7 +446,7 @@ categories:
   escalates_by_default: 0
   owed_by_default: customer
   obligation_class: restraint
-  cuad_v1_contracts_with_label: 138
+  cuad_contracts_with_label: 138
   rationale: "A restraint on the licensee (no assignment or sublicence); separately performed from the grant itself."
 
 - category: Affiliate License-Licensor
@@ -457,7 +457,7 @@ categories:
   escalates_by_default: 0
   owed_by_default: provider
   obligation_class: performance
-  cuad_v1_contracts_with_label: 23
+  cuad_contracts_with_label: 23
   rationale: "Duty to extend or procure extension of the licence to licensor affiliates; attribution is explicit."
 
 - category: Affiliate License-Licensee
@@ -468,7 +468,7 @@ categories:
   escalates_by_default: 0
   owed_by_default: customer
   obligation_class: performance
-  cuad_v1_contracts_with_label: 59
+  cuad_contracts_with_label: 59
   rationale: "Duty on the licensee side (use by affiliates, compliance by affiliates); attribution is explicit."
 
 - category: Unlimited/All-You-Can-Eat-License
@@ -479,7 +479,7 @@ categories:
   escalates_by_default: 0
   owed_by_default: null
   obligation_class: null
-  cuad_v1_contracts_with_label: 17
+  cuad_contracts_with_label: 17
   rationale: "A quality of the grant; counting it separately would double-count one sentence."
   fold_into: LIC-GRANT
   used_as: grant_qualifier
@@ -492,7 +492,7 @@ categories:
   escalates_by_default: 0
   owed_by_default: null
   obligation_class: null
-  cuad_v1_contracts_with_label: 70
+  cuad_contracts_with_label: 70
   rationale: "A quality of the grant, folded into LIC-GRANT as a qualifier."
   fold_into: LIC-GRANT
   used_as: grant_qualifier
@@ -508,7 +508,7 @@ categories:
   escalates_by_default: 1
   owed_by_default: provider
   obligation_class: performance
-  cuad_v1_contracts_with_label: 13
+  cuad_contracts_with_label: 13
   rationale: "Deposit and keep-updated duties repeat with each release; release conditions are the ambiguity."
   note: "Rare (13/510; 1 in test.json). Deposit on signing can be relative on its first instance."
 
@@ -520,7 +520,7 @@ categories:
   escalates_by_default: 0
   owed_by_default: provider
   obligation_class: performance
-  cuad_v1_contracts_with_label: 182
+  cuad_contracts_with_label: 182
   rationale: "A service duty running for a stated period after termination; request-triggered but normal, not escalated."
 
 - category: Audit Rights
@@ -531,7 +531,7 @@ categories:
   escalates_by_default: 1
   owed_by_default: provider
   obligation_class: performance
-  cuad_v1_contracts_with_label: 214
+  cuad_contracts_with_label: 214
   rationale: "The audited party must permit access; who pays, how often, and on what notice is judgement in most instances."
   note: "The customer's notice and cost-bearing duties in the same clause are separate obligations (guide §4.2)."
 
@@ -544,7 +544,7 @@ categories:
   escalates_by_default: 1
   owed_by_default: both
   obligation_class: risk_allocation
-  cuad_v1_contracts_with_label: 111
+  cuad_contracts_with_label: 111
   rationale: "A restraint on the benefited party's ability to limit exposure; usually a carve-out list that must be read item by item."
   conflict_watch: [CW-01]
   note: "Co-occurring with LIA-CAP is normal, not a conflict; only same-liability/same-party/no-carve-out is genuine (guide §7.3)."
@@ -557,7 +557,7 @@ categories:
   escalates_by_default: 1
   owed_by_default: both
   obligation_class: risk_allocation
-  cuad_v1_contracts_with_label: 275
+  cuad_contracts_with_label: 275
   rationale: "A duty of restraint on the claiming party; mutuality, the cap basis and carve-outs need reading every time."
   conflict_watch: [CW-01]
   note: "Record the restrained party (the one who cannot claim above the cap), per guide §5.3."
@@ -570,7 +570,7 @@ categories:
   escalates_by_default: 1
   owed_by_default: customer
   obligation_class: payment
-  cuad_v1_contracts_with_label: 61
+  cuad_contracts_with_label: 61
   rationale: "A contingent payment duty: trigger and amount schedule decide the obligation."
   note: "A figure attached to another duty stays as that duty's consequence unless it is drafted as a stand-alone payment obligation."
 
@@ -582,7 +582,7 @@ categories:
   escalates_by_default: 0
   owed_by_default: provider
   obligation_class: performance
-  cuad_v1_contracts_with_label: 75
+  cuad_contracts_with_label: 75
   rationale: "A remedy duty running for a stated period from delivery or acceptance; anchor is usually in the same clause."
 
 - category: Insurance
@@ -593,7 +593,7 @@ categories:
   escalates_by_default: 0
   owed_by_default: both
   obligation_class: performance
-  cuad_v1_contracts_with_label: 166
+  cuad_contracts_with_label: 166
   rationale: "A duty to maintain cover and often to evidence it, repeating each policy year."
 
 - category: Covenant Not To Sue
@@ -604,7 +604,7 @@ categories:
   escalates_by_default: 0
   owed_by_default: both
   obligation_class: restraint
-  cuad_v1_contracts_with_label: 100
+  cuad_contracts_with_label: 100
   rationale: "A clear restraint on bringing proceedings, usually limited to a stated period."
 
 - category: Third Party Beneficiary
@@ -615,7 +615,7 @@ categories:
   escalates_by_default: 0
   owed_by_default: null
   obligation_class: null
-  cuad_v1_contracts_with_label: 32
+  cuad_contracts_with_label: 32
   rationale: "Confers a right on a non-party; no duty runs between provider and customer, and owed_by has no value for a third party."
   used_as: context_field
   note: "If the clause also restricts the parties (e.g. no amendment without consent), label that restriction under the type it restrains or leave it to E3."
