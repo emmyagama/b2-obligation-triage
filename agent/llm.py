@@ -8,6 +8,10 @@ def request_object(model, messages, tools, tool_choice, temperature, max_tokens,
     if synthetic_document_sha256 is not None: request['synthetic_document_sha256']=synthetic_document_sha256
     return request
 
+def endpoint(model):
+    if model.startswith(('gemini-','gemma-')): return 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions','GEMINI_API_KEY','gemini'
+    return 'https://api.groq.com/openai/v1/chat/completions','GROQ_API_KEY','groq'
+
 def complete(request, cache, *, live=False, resume=False, case_id=None, seq=None, post=None, throttle=None, pricing=None):
     old=None
     try: old=cache.get(request, case_id, seq)
@@ -16,13 +20,14 @@ def complete(request, cache, *, live=False, resume=False, case_id=None, seq=None
     if old and (not live or resume): return old, True, False
     ensure_online()
     import requests
-    key=os.environ.get('GROQ_API_KEY')
-    if not key: raise RuntimeError('GROQ_API_KEY is required for live mode')
+    url,key_env,provider=endpoint(request['model'])
+    key=os.environ.get(key_env)
+    if not key: raise RuntimeError(f'{key_env} is required for live mode')
     body={k:v for k,v in request.items() if k not in ('kind','corpus_version','synthetic_document_sha256')}
     start=time.monotonic()
     def call():
         if throttle: throttle()
-        response=(post or requests.post)('https://api.groq.com/openai/v1/chat/completions',headers={'Authorization':f'Bearer {key}'},json=body,timeout=60)
+        response=(post or requests.post)(url,headers={'Authorization':f'Bearer {key}'},json=body,timeout=60)
         response.raise_for_status()
         return response.json()
     def transient(e):
@@ -30,7 +35,7 @@ def complete(request, cache, *, live=False, resume=False, case_id=None, seq=None
         return isinstance(e,requests.RequestException)
     data,retries=retry(call,retryable=transient)
     usage=data.get('usage',{})
-    meta={'provider':'groq','model':request['model'],'created_at':datetime.now(timezone.utc).isoformat(),'latency_ms':round((time.monotonic()-start)*1000),'tokens_in':usage.get('prompt_tokens',0),'tokens_cached_in':(usage.get('prompt_tokens_details') or {}).get('cached_tokens',0),'tokens_out':usage.get('completion_tokens',0),'attempts':retries+1,'system_fingerprint':data.get('system_fingerprint')}
+    meta={'provider':provider,'model':request['model'],'created_at':datetime.now(timezone.utc).isoformat(),'latency_ms':round((time.monotonic()-start)*1000),'tokens_in':usage.get('prompt_tokens',0),'tokens_cached_in':(usage.get('prompt_tokens_details') or {}).get('cached_tokens',0),'tokens_out':usage.get('completion_tokens',0),'attempts':retries+1,'system_fingerprint':data.get('system_fingerprint')}
     if pricing and pricing.get('input_per_million_usd') is not None and pricing.get('output_per_million_usd') is not None:
         cached=meta['tokens_cached_in']
         if not 0<=cached<=meta['tokens_in']: raise ValueError('provider returned invalid cached token count')

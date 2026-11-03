@@ -1,7 +1,8 @@
-# OpenCode Phase A provider report, read 2026-11-02. Verify again before live use.
-model: openai/gpt-oss-120b
-input_per_million_usd: 0.15
-cached_input_per_million_usd: 0.075
-output_per_million_usd: 0.60
-source: https://console.groq.com/docs/model/openai/gpt-oss-120b
-verified_on: '2026-11-02'
+# Gemini rates read 2026-11-03 from https://ai.google.dev/gemini-api/docs/pricing, cross-checked
+# against the open LiteLLM price list. Flash-Lite has no scheduled price change.
+model: gemini-3.5-flash-lite
+input_per_million_usd: 0.30
+cached_input_per_million_usd: 0.03
+output_per_million_usd: 2.50
+source: https://ai.google.dev/gemini-api/docs/pricing
+verified_on: '2026-11-03'

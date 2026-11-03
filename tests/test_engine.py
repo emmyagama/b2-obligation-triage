@@ -278,6 +278,7 @@ def test_release_replay_and_readme_from_synthetic_frozen_fixture(tmp_path):
     root=Path(__file__).resolve().parents[1];project=tmp_path/'repo'
     shutil.copytree(root,project,ignore=shutil.ignore_patterns('.venv','__pycache__','.pytest_cache','b2.sqlite','.git'))
     # Hermetic fixture: ignore any real corpus built in the source tree (Phase B+).
+    (project/'eval_results/dev_run_log.jsonl').unlink(missing_ok=True); (project/'eval_results/test_run_log.jsonl').unlink(missing_ok=True)
     (project/'corpus/selection.json').unlink(missing_ok=True); shutil.rmtree(project/'corpus/embeddings',ignore_errors=True)
     db=initialize(project/'db/b2.sqlite')
     with db:
