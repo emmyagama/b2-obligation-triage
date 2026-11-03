@@ -1,0 +1,23 @@
+id: dev-11
+split: dev
+document_id: cuad_1bc91c6dfb434b456f99
+intake_party: licensee
+business_context: licensee field-team review during the exclusive period
+class: clear
+gold_obligations:
+- type: COV-NON-COMPETE
+  owed_by: customer
+  clause_category: Non-Compete
+  clause_ref:
+    category: Non-Compete
+    char_start: 109480
+    char_end: 110735
+  deadline:
+    kind: relative
+    anchor_event: exclusive_period_end
+    deadline_text: During the applicable Exclusive Period
+gold_should_escalate: false
+gold_escalation_codes: []
+rationale: 'Candidate rejected: the Exclusivity span concerns assignments of inventions from third-party contractors while the Non-Compete span bars SFJ own trials and sales of competing products during
+  the Exclusive Period, so they govern different conduct and are jointly performable; only the non-compete binds SFJ as licensee.'
+difficulty: 3

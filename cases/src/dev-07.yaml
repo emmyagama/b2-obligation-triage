@@ -1,0 +1,32 @@
+id: dev-07
+split: dev
+document_id: cuad_052975b81f9779a680c0
+intake_party: customer
+business_context: merchant record-retention duties after the going-out-of-business sale
+class: clear
+gold_obligations:
+- type: CTL-AUDIT-RIGHT
+  owed_by: customer
+  clause_category: Audit Rights
+  clause_ref:
+    category: Audit Rights
+    char_start: 21941
+    char_end: 22018
+  deadline:
+    kind: none
+- type: CTL-AUDIT-RIGHT
+  owed_by: customer
+  clause_category: Audit Rights
+  clause_ref:
+    category: Audit Rights
+    char_start: 64464
+    char_end: 64836
+  deadline:
+    kind: relative
+    anchor_event: agreement_termination
+    deadline_text: During the Sale Term
+gold_should_escalate: false
+gold_escalation_codes: []
+rationale: 'Both audit spans place the access duty on the Merchant as customer: books and records are available at all times, and access continues during the Sale Term and afterwards until all obligations
+  are satisfied, which is anchored to termination rather than a fixed date.'
+difficulty: 2

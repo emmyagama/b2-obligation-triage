@@ -1,0 +1,12 @@
+id: dev-18
+split: dev
+document_id: cuad_298ded523eb4fd77600d
+intake_party: other
+business_context: owner trustee onboarding; which duties land on the trustee
+class: out_of_scope
+gold_obligations: []
+gold_should_escalate: false
+gold_escalation_codes: []
+rationale: 'The intake is the Owner Trustee, which is neither Servicer nor Custodian: the labelled duties (audit access at 42779 and 47880, resignation transition at 117326 and 124996, change-of-control
+  undertakings at 84577) are owed by the Servicer, the Custodian or the Depositor, so no labelled duty is the trustee own.'
+difficulty: 2

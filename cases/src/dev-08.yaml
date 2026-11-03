@@ -1,0 +1,40 @@
+id: dev-08
+split: dev
+document_id: cuad_2a450f18c7649b3d7561
+intake_party: customer
+business_context: endorsement renewal review of the brand-side covenants
+class: clear
+gold_obligations:
+- type: INS-COVERAGE
+  owed_by: customer
+  clause_category: Insurance
+  clause_ref:
+    category: Insurance
+    char_start: 56320
+    char_end: 56941
+  deadline:
+    kind: recurring
+    period: during_term
+    deadline_text: during the Term and for a period of three (3) years thereafter ("Insurance Period")
+- type: COV-NO-SUE
+  owed_by: customer
+  clause_category: Covenant Not To Sue
+  clause_ref:
+    category: Covenant Not To Sue
+    char_start: 15881
+    char_end: 16680
+  deadline: &id001
+    kind: none
+- type: COV-NON-DISPARAGEMENT
+  owed_by: customer
+  clause_category: Non-Disparagement
+  clause_ref:
+    category: Non-Disparagement
+    char_start: 13350
+    char_end: 13670
+  deadline: *id001
+gold_should_escalate: false
+gold_escalation_codes: []
+rationale: 'Papa John''s is the customer and the three restraints are expressly its own: it must procure and maintain $5,000,000 of insurance during the Term, it must not challenge the licensed marks during
+  the Term or at any time thereafter, and it must not disparage the celebrity.'
+difficulty: 2

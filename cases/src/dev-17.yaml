@@ -1,0 +1,12 @@
+id: dev-17
+split: dev
+document_id: cuad_b1fe09126a4d0b840349
+intake_party: licensor
+business_context: licensor audit of its own remaining duties under the reseller deal
+class: out_of_scope
+gold_obligations: []
+gold_should_escalate: false
+gold_escalation_codes: []
+rationale: 'AEIS holds rights in every labelled span: the exclusive resale right at 2708 is Schoolpop, the inspection entitlement at 77307 is AEIS own, and 4521 reserves direct sales outside the NPO Marketplace;
+  the duties (insurance, Guaranteed Minimum, inventory cap) run against Schoolpop, so the licensor owes nothing labelled.'
+difficulty: 2

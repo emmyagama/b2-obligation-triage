@@ -1,0 +1,12 @@
+id: dev-15
+split: dev
+document_id: cuad_cdbbcb9c511d8f86fe50
+intake_party: provider
+business_context: first-pass triage of a joint filing agreement in a document set
+class: out_of_scope
+gold_obligations: []
+gold_should_escalate: false
+gold_escalation_codes: []
+rationale: 'No labelled span creates a duty: the only CUAD labels are Document Name, Agreement Date and thirteen Parties spans, which are identifiers and dates, so the register is correctly empty for either
+  side.'
+difficulty: 1

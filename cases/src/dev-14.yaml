@@ -1,0 +1,57 @@
+id: dev-14
+split: dev
+document_id: cuad_08636f6df2840b29991a
+intake_party: customer
+business_context: insurer and warranty review of a redacted OEM maintenance agreement before the term rolls
+class: clear
+gold_obligations:
+- type: INS-COVERAGE
+  owed_by: customer
+  clause_category: Insurance
+  clause_ref:
+    category: Insurance
+    char_start: 47917
+    char_end: 48136
+  deadline:
+    kind: relative
+    anchor_event: unresolved
+    anchor_resolved: false
+    offset_days: null
+    resolved_date: null
+    deadline_text: at all times during the Term and [*****]
+- type: CTL-AUDIT-RIGHT
+  owed_by: provider
+  clause_category: Audit Rights
+  clause_ref:
+    category: Audit Rights
+    char_start: 36541
+    char_end: 36652
+  deadline:
+    kind: relative
+    anchor_event: unresolved
+    anchor_resolved: false
+    offset_days: null
+    resolved_date: null
+    deadline_text: no later than [*****] prior to such audit
+- type: WAR-DURATION
+  owed_by: provider
+  clause_category: Warranty Duration
+  clause_ref:
+    category: Warranty Duration
+    char_start: 53349
+    char_end: 53701
+  deadline:
+    kind: relative
+    anchor_event: delivery
+    anchor_resolved: false
+    offset_days: null
+    resolved_date: null
+    deadline_text: shall end [*****] thereafter
+gold_should_escalate: true
+gold_escalation_codes:
+- E3_CONDITIONAL_OR_AMBIGUOUS
+rationale: 'The duties and the parties are clear on the face of the document, so the case is not ambiguous at class level: the Company must keep the insurances in force at its own cost (47917-48136), the
+  Repairer must give notice before its own audit (36541-36652) and must keep the repaired-unit warranty running from Delivery (53349-53701). Every period that fixes when those duties run, however, is replaced
+  by [*****] in the filed copy: the post-term insurance tail, the audit notice window and the warranty duration are all redacted, so each deadline is relative with an unresolvable offset and no date can
+  be computed from the contract. That is E3 under the redacted-anchor rule, not a class change: nothing in the file supplies the missing figures and none may be estimated.'
+difficulty: 3

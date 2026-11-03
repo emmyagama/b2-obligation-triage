@@ -1,0 +1,45 @@
+id: dev-02
+split: dev
+document_id: cuad_7d139ce53ee5a9dbf8d5
+intake_party: licensor
+business_context: consultant exit planning; who owes what if the consultant resigns
+class: clear
+gold_obligations:
+- type: IP-OWNERSHIP-ASSIGNMENT
+  owed_by: provider
+  clause_category: Ip Ownership Assignment
+  clause_ref:
+    category: Ip Ownership Assignment
+    char_start: 14068
+    char_end: 14371
+  deadline:
+    kind: none
+- type: COV-NO-SOLICIT-EMPLOYEE
+  owed_by: provider
+  clause_category: No-Solicit Of Employees
+  clause_ref:
+    category: No-Solicit Of Employees
+    char_start: 12301
+    char_end: 13122
+  deadline:
+    kind: relative
+    anchor_event: termination
+    offset_days: 365
+    deadline_text: during the Term and for a period of one year from the date of expiration or termination
+- type: TRM-CONVENIENCE
+  owed_by: provider
+  clause_category: Termination For Convenience
+  clause_ref:
+    category: Termination For Convenience
+    char_start: 4039
+    char_end: 4399
+  deadline:
+    kind: relative
+    anchor_event: termination_date
+    offset_days: -90
+    deadline_text: prior to the expiry of the Term
+gold_should_escalate: false
+gold_escalation_codes: []
+rationale: 'The consultant is the provider: clause 8.2 obliges him to help perfect the assigned IP, the non-solicit at 12301 runs for one year after expiry or termination, and limb (a) of the termination
+  clause requires him to give three months notice, so those three duties are his and the rest of the clause binds the Company.'
+difficulty: 2

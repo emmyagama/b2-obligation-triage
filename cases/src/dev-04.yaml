@@ -1,0 +1,42 @@
+id: dev-04
+split: dev
+document_id: cuad_b1fe09126a4d0b840349
+intake_party: licensee
+business_context: reseller year-end compliance check on minimums and inventory caps
+class: clear
+gold_obligations:
+- type: INS-COVERAGE
+  owed_by: customer
+  clause_category: Insurance
+  clause_ref:
+    category: Insurance
+    char_start: 60733
+    char_end: 62547
+  deadline:
+    kind: recurring
+    period: during_term
+    deadline_text: during the term of this Agreement
+- type: PUR-MINIMUM-COMMITMENT
+  owed_by: customer
+  clause_category: Minimum Commitment
+  clause_ref:
+    category: Minimum Commitment
+    char_start: 2807
+    char_end: 3102
+  deadline:
+    kind: recurring
+    period: contract_year
+- type: PUR-VOLUME-RESTRICTION
+  owed_by: customer
+  clause_category: Volume Restriction
+  clause_ref:
+    category: Volume Restriction
+    char_start: 16466
+    char_end: 16677
+  deadline:
+    kind: none
+gold_should_escalate: false
+gold_escalation_codes: []
+rationale: 'Schoolpop is the licensee and carries all three duties: the insurance covenant runs for the term, the Guaranteed Minimum of $52,000,000 must be funded in each Contract Year to keep exclusivity,
+  and inactive Card inventory is capped at $3,000,000 at any given time, which is a standing limit rather than a dated deadline.'
+difficulty: 2

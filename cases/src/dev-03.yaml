@@ -1,0 +1,40 @@
+id: dev-03
+split: dev
+document_id: cuad_871f14e107390dae4b35
+intake_party: licensor
+business_context: manufacturer onboarding review before first commercial batch
+class: clear
+gold_obligations:
+- type: COV-EXCLUSIVITY
+  owed_by: provider
+  clause_category: Exclusivity
+  clause_ref:
+    category: Exclusivity
+    char_start: 22066
+    char_end: 22377
+  deadline: &id001
+    kind: none
+- type: INS-COVERAGE
+  owed_by: both
+  clause_category: Insurance
+  clause_ref:
+    category: Insurance
+    char_start: 90052
+    char_end: 90601
+  deadline:
+    kind: recurring
+    period: during_term
+    deadline_text: for a period of [***] thereafter
+- type: CTL-NO-ASSIGNMENT
+  owed_by: both
+  clause_category: Anti-Assignment
+  clause_ref:
+    category: Anti-Assignment
+    char_start: 92958
+    char_end: 93421
+  deadline: *id001
+gold_should_escalate: false
+gold_escalation_codes: []
+rationale: The exclusivity clause obliges Antares as manufacturer to supply AMAG only, the insurance clause puts the same coverage duty on each Party through the Term, and Section 12.2 bars assignment by
+  either Party without the other consent, so the two-sided duties are recorded as both.
+difficulty: 2

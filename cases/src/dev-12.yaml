@@ -1,0 +1,41 @@
+id: dev-12
+split: dev
+document_id: cuad_93a7191ff01200e8fe44
+intake_party: customer
+business_context: promotion fee dispute; does the remedy cap remove Dova damages
+class: clear
+gold_obligations:
+- type: PAY-REVENUE-SHARE
+  owed_by: customer
+  clause_category: Revenue/Profit Sharing
+  clause_ref:
+    category: Revenue/Profit Sharing
+    char_start: 87456
+    char_end: 88092
+  deadline:
+    kind: recurring
+    period: quarterly
+    anchor_event: calendar_quarter_start
+    offset_days: null
+    resolved_date: null
+    deadline_text: Commencing with the Calendar Quarter commencing on October 1, 2018
+- type: INS-COVERAGE
+  owed_by: both
+  clause_category: Insurance
+  clause_ref:
+    category: Insurance
+    char_start: 137034
+    char_end: 137403
+  deadline:
+    kind: recurring
+    period: continuous
+    anchor_event: effective_date
+    offset_days: null
+    resolved_date: null
+    deadline_text: during the Term, it shall maintain, through purchase or self- insurance, adequate insurance
+gold_should_escalate: false
+gold_escalation_codes: []
+rationale: 'Candidate only, and rejected: 45695-45915 makes fee adjustment and termination the sole remedy for breach of the Section 4.1.2 sales-force covenant, while 136727-137016 is an express carve-out
+  that preserves indemnity and confidentiality claims beyond the liability cap, so the two spans address different breaches and are reconcilable. Neither span imposes a duty on Dova, the intake party; what
+  Dova owes is the quarterly promotion fee at 87456-88092 and its own insurance at 137034-137403, both of which are unconditional and recorded.'
+difficulty: 3

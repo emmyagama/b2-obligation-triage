@@ -1,0 +1,26 @@
+id: dev-13
+split: dev
+document_id: cuad_5c2a9dcbe0cc7593bb1d
+intake_party: licensor
+business_context: licensor onboarding; which law governs if the customer sues
+class: clear
+gold_obligations:
+- type: LIC-SOURCE-ESCROW
+  owed_by: provider
+  clause_category: Source Code Escrow
+  clause_ref:
+    category: Source Code Escrow
+    char_start: 63120
+    char_end: 63335
+  deadline:
+    kind: relative
+    anchor_event: effective_date
+    offset_days: 60
+    deadline_text: Within sixty (60) days of the Effective Date
+gold_should_escalate: false
+gold_escalation_codes: []
+rationale: 'Candidate rejected after re-reading the file end to end: 71307-71548 is Clause 14.3 of the License and Hosting Agreement and elects California law with AAA arbitration, while 151209-151449 is
+  Clause 9.9 of the Changepoint Software License and Maintenance Agreement that is appended to the same corpus document and elects New York law. Both clauses are operative and neither yields to the other,
+  but they govern two different instruments, so the same-subject and overlapping-scope conditions of the conflict test are not met and no course of conduct is rendered impossible; the two clauses are therefore
+  recorded as clear for their own agreement, and the escrow grant is the licensor duty carried.'
+difficulty: 3

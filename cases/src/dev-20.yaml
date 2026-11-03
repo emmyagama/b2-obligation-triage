@@ -1,0 +1,45 @@
+id: dev-20
+split: dev
+document_id: cuad_424083274037f63d7530
+intake_party: licensor
+business_context: post-signing duty register; distributor agreement, first year after installation
+class: adversarial
+duplicate_of: dev-01
+gold_obligations:
+- type: WAR-DURATION
+  owed_by: provider
+  clause_category: Warranty Duration
+  clause_ref:
+    category: Warranty Duration
+    char_start: 25205
+    char_end: 25665
+  deadline:
+    kind: relative
+    anchor_event: installation
+    offset_days: 365
+    deadline_text: for a period of one (1) year following Installation of the Products at Customer's facility
+- type: LIC-GRANT
+  owed_by: provider
+  clause_category: License Grant
+  clause_ref:
+    category: License Grant
+    char_start: 52564
+    char_end: 52836
+  deadline:
+    kind: none
+- type: SVC-POST-TERMINATION
+  owed_by: provider
+  clause_category: Post-Termination Services
+  clause_ref:
+    category: Post-Termination Services
+    char_start: 38022
+    char_end: 38322
+  deadline:
+    kind: relative
+    anchor_event: last_shipment
+    offset_days: 3650
+    deadline_text: for a minimum period of 10 years after the last shipment of a System pursuant to this Agreement
+gold_should_escalate: false
+gold_escalation_codes: []
+rationale: 'Exact duplicate of dev-01: same document, same intake and identical business context, so an idempotent pipeline must return byte-identical gold.'
+difficulty: 1

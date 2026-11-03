@@ -1,0 +1,21 @@
+id: dev-10
+split: dev
+document_id: cuad_c72abcf3341f1ecf6365
+intake_party: provider
+business_context: hosting provider checks publisher self-publishing before renewal
+class: clear
+gold_obligations:
+- type: COV-EXCLUSIVITY
+  owed_by: provider
+  clause_category: Exclusivity
+  clause_ref:
+    category: Exclusivity
+    char_start: 8636
+    char_end: 8940
+  deadline:
+    kind: none
+gold_should_escalate: false
+gold_escalation_codes: []
+rationale: 'Candidate rejected: 8636-8940 grants HealthGate the exclusive right to carry out the Services while expressly letting the Publishers publish and license content subject to a revenue condition,
+  and 17196-17378 only bars using escrowed software to build a competing product, so the two operate on different objects and are compatible.'
+difficulty: 3

@@ -1,0 +1,12 @@
+id: dev-19
+split: dev
+document_id: cuad_c1d38c5a7a05b88b6c21
+intake_party: other
+business_context: joint-venture company secretary compiling its own obligation register
+class: out_of_scope
+gold_obligations: []
+gold_should_escalate: false
+gold_escalation_codes: []
+rationale: The intake is the joint-venture Company itself; the nineteen Rofr/Rofo/Rofn spans, the audit spans at 44670 and 76600, the IP-ownership span at 40086 and the change-of-control span at 51427 all
+  bind TPH, TPH-A, FSL or AFSL, so no labelled duty is owed by the Company.
+difficulty: 2

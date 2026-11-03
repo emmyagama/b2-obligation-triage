@@ -1,0 +1,29 @@
+id: dev-05
+split: dev
+document_id: cuad_3c15a3be192ef6a9b14e
+intake_party: customer
+business_context: shipper capacity shortfall review for the current month
+class: clear
+gold_obligations:
+- type: PUR-MINIMUM-COMMITMENT
+  owed_by: customer
+  clause_category: Minimum Commitment
+  clause_ref:
+    category: Minimum Commitment
+    char_start: 84172
+    char_end: 84468
+  deadline: &id001
+    kind: none
+- type: LIA-LIQUIDATED-DAMAGES
+  owed_by: customer
+  clause_category: Liquidated Damages
+  clause_ref:
+    category: Liquidated Damages
+    char_start: 24803
+    char_end: 25071
+  deadline: *id001
+gold_should_escalate: false
+gold_escalation_codes: []
+rationale: 'The Sender is the customer: it must notify the Transporter when monthly deliveries at an entry point fall below 95% of Scheduled Capacity, and it agreed to pay a 10% penalty of the final contract
+  value for failing its obligations, so both duties are its own.'
+difficulty: 2

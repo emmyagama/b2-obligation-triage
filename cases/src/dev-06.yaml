@@ -1,0 +1,33 @@
+id: dev-06
+split: dev
+document_id: cuad_c7256920fc58b74bbd37
+intake_party: customer
+business_context: sponsor renewal calendar; six months before the rollover
+class: clear
+gold_obligations:
+- type: PUR-MINIMUM-COMMITMENT
+  owed_by: customer
+  clause_category: Minimum Commitment
+  clause_ref:
+    category: Minimum Commitment
+    char_start: 38632
+    char_end: 38917
+  deadline:
+    kind: none
+- type: TRM-RENEWAL-NOTICE
+  owed_by: both
+  clause_category: Notice Period To Terminate Renewal
+  clause_ref:
+    category: Notice Period To Terminate Renewal
+    char_start: 62731
+    char_end: 62892
+  deadline:
+    kind: relative
+    anchor_event: expiration_date
+    offset_days: -180
+    deadline_text: at least six (6) months prior written notice of termination
+gold_should_escalate: false
+gold_escalation_codes: []
+rationale: ISO must keep the Offset Account at the Minimum Balance at all times, and the evergreen clause either party must break six months before the renewal date, which is a relative deadline of 180
+  days before expiration.
+difficulty: 2

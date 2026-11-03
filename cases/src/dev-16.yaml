@@ -1,0 +1,12 @@
+id: dev-16
+split: dev
+document_id: cuad_424083274037f63d7530
+intake_party: customer
+business_context: distributor asks what it owes before signing the renewal schedule
+class: out_of_scope
+gold_obligations: []
+gold_should_escalate: false
+gold_escalation_codes: []
+rationale: Every obligation-bearing label in this distributor agreement (warranty at 25205, software grant at 52564, post-termination support at 38022, liability limits) attaches to Accuray as provider;
+  no labelled span imposes a duty on the Distributor, so nothing is owed by the intake party.
+difficulty: 2
