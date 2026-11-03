@@ -3,7 +3,7 @@
 **Owner:** Emmanuel
 **Version:** 1.0 (dev set for the pilot)
 **Date:** 3 November 2026
-**Scope:** 21 dev cases, `cases/src/dev-01.yaml` … `cases/src/dev-21.yaml`, built against `guide/annotation-guide.md` 1.0.2 and `guide/obligation_types.yaml`.
+**Scope:** 21 dev cases, `cases/src/dev-01.yaml` … `cases/src/dev-21.yaml`, built against `guide/annotation-guide.md` and `guide/obligation_types.yaml`.
 
 This is the dev half of the pilot corpus. Each file is one case in the §3.3 template: `id`, `split`, `document_id`, `intake_party`, `business_context`, `class`, `gold_obligations[]` (`type`, `owed_by`, `clause_category`, `clause_ref{category, char_start, char_end}`, `deadline{…}`), `gold_should_escalate`, `gold_escalation_codes`, `rationale`, `difficulty` — plus `conflict_clause_refs` where a pair was examined and `duplicate_of` on the duplicate case.
 
