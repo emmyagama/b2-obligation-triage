@@ -643,15 +643,17 @@
   },
   {
     "business_context": "first-pass triage of a joint filing agreement in a document set",
-    "class": "out_of_scope",
+    "class": "clear",
     "difficulty": 1,
     "document_id": "cuad_cdbbcb9c511d8f86fe50",
-    "gold_escalation_codes": [],
+    "gold_escalation_codes": [
+      "E1_NO_OBLIGATION"
+    ],
     "gold_obligations": [],
-    "gold_should_escalate": false,
+    "gold_should_escalate": true,
     "id": "dev-15",
     "intake_party": "provider",
-    "rationale": "No labelled span creates a duty: the only CUAD labels are Document Name, Agreement Date and thirteen Parties spans, which are identifiers and dates, so the register is correctly empty for either side.",
+    "rationale": "No labelled span creates a duty: the only CUAD labels in the document are Document Name, Agreement Date and thirteen Parties spans, every one of them checked, and they are identifiers and dates rather than a permission, a condition or a covenant. The document therefore yields no obligation at all - an empty register, not a register owed by some other party - and the null is a positive claim that needs a human, so it escalates E1. The class is clear, not out_of_scope, because guide 1.1.0 Â§8 places E1 inside clear cases and will not read an escalation off the out_of_scope class.",
     "split": "dev"
   },
   {
