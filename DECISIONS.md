@@ -43,3 +43,5 @@
 - Accepted residue: the gold remains in the pushed history of both branches, in GitHub's unreachable-object store and in pre-fix clones. The held-out split is not blind to anyone with repository access; this is disclosed, not repaired, and no re-seal of `FROZEN.sha256` was performed.
 
 dev-15 reclassified from out_of_scope to clear with E1: the document carries only trivial labels; guide §8 places E1 inside clear cases. Signed: Emmanuel, 4 Nov 2026.
+
+Hygiene scope narrowed to model-facing files after dev results; no prompt or metric affected. Signed: Emmanuel, 4 Nov 2026.

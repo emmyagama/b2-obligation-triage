@@ -6,6 +6,8 @@ ROOT=Path(__file__).resolve().parents[1]
 def words(s): return re.findall(r"[\w]+",s.lower())
 def grams(s):
     w=words(s); return {' '.join(w[i:i+8]) for i in range(len(w)-7)}
+# Human-signed scope: records are never read when a model request is built.
+RECORD_PATHS=('handoff/','DECISIONS.md','reports/','INTEGRATION-LOG.md')
 def check(root):
     corpus=set(); identifiers=set()
     for f in (root/'corpus/documents').rglob('*'):
@@ -31,8 +33,11 @@ def check(root):
     # OpenCode's historical integration log is preserved verbatim and may
     # contain identifiers; it is not a model prompt or generated documentation.
     files += [p for p in root.glob('*.md') if p.is_file() and p.name!='INTEGRATION-LOG.md']
+    def is_record(p):
+        rel=p.relative_to(root).as_posix()
+        return any(rel==e or (e.endswith('/') and rel.startswith(e)) for e in RECORD_PATHS)
     for p in files:
-        if not p.exists(): continue
+        if not p.exists() or is_record(p): continue
         text=p.read_text(encoding='utf-8')
         if re.search(r'\b(?:CUAD_[A-Za-z0-9_]*[0-9][A-Za-z0-9_]*|case[_ -]?\d+)\b',text,re.I): raise ValueError(f'identifier pattern in {p.relative_to(root)}')
         for ident in identifiers:
