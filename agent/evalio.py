@@ -1,7 +1,7 @@
 import csv, json
 from pathlib import Path
 
-def jsonwrite(path, data): Path(path).write_text(json.dumps(data,sort_keys=True,indent=2,ensure_ascii=False,allow_nan=False)+'\n')
+def jsonwrite(path, data): Path(path).write_text(json.dumps(data,sort_keys=True,indent=2,ensure_ascii=False,allow_nan=False)+'\n',encoding='utf-8')
 def csvwrite(path, rows, columns):
     with Path(path).open('w',newline='',encoding='utf-8') as f:
         w=csv.DictWriter(f,fieldnames=columns,extrasaction='ignore'); w.writeheader(); w.writerows(rows)
