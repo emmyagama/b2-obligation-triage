@@ -299,7 +299,7 @@ def test_release_replay_and_readme_from_synthetic_frozen_fixture(tmp_path):
     (project/'cases').mkdir(parents=True,exist_ok=True)
     raw=json.dumps(cases);(project/'cases/test.json').write_text(raw);checksum=hashlib.sha256(raw.encode()).hexdigest()
     (project/'cases/FROZEN.sha256').write_text(checksum+'  cases/test.json\n')
-    dev_counts={'clear':14,'conflicting':5,'out_of_scope':5,'adversarial':2}
+    dev_counts={'clear':15,'conflicting':5,'out_of_scope':4,'adversarial':2}
     dev=[{'id':f'dev-{cls}-{i}','class':cls,'document_id':'fixture'} for cls,n in dev_counts.items() for i in range(n)]
     (project/'cases/dev.json').write_text(json.dumps(dev))
     # Pure fixture: seal a dummy local-only synthetic shard before the code tag.
