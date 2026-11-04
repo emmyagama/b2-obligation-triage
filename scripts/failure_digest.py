@@ -36,7 +36,7 @@ def main(run,out,post):
         lines.append('Terminal args: '+json.dumps(d['result'].get('args'),ensure_ascii=False)[:1500]); lines.append('')
     text='\n'.join(lines); cap=100000
     if len(text)>cap: text=text[:cap]+'\n\n[Truncated at 100,000 characters.]\n'
-    out.parent.mkdir(parents=True,exist_ok=True);out.write_text(text+'\n');db.close();print('digest written')
+    out.parent.mkdir(parents=True,exist_ok=True);out.write_text(text+'\n',encoding='utf-8');db.close();print('digest written')
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--run',type=Path,required=True);p.add_argument('--out',type=Path,required=True);p.add_argument('--post-freeze',action='store_true');a=p.parse_args()
     try: main(a.run,a.out,a.post_freeze)
