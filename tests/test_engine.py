@@ -109,11 +109,11 @@ def test_end_to_end_replay_offline_and_cache_miss(tmp_path):
     duplicate={**case,'id':'copy','document_id':'duplicate-fixture','duplicate_of':'fixture'}
     (project/'cases/dev.json').write_text(json.dumps([case,duplicate]));cache=Cache(project/'cache/llm')
     cache.put({'kind':'embed','model_id':'fake','text':'duty'},[1.],{'latency_ms':0})
-    prompt=(project/'prompts/system_v1.md').read_text();desc=yaml.safe_load((project/'config/tool_descriptions.yaml').read_text())
+    prompt=(project/'prompts'/(config['prompt_version']+'.md')).read_text();desc=yaml.safe_load((project/'config/tool_descriptions.yaml').read_text())
     req=request_object('mock',initial_messages(prompt,'customer',None),schemas(['T'],desc),'auto',0,100,'fixture')
     msg={'role':'assistant','content':None,'tool_calls':[{'id':'mock-call','type':'function','function':{'name':'record_obligations','arguments':json.dumps(args())}}]}
     cache.put(req,{'choices':[{'message':msg}]},{'latency_ms':11,'tokens_in':5,'tokens_out':2,'attempts':1})
-    tr={'kind':'transaction','case_hash':hashlib.sha256(canonical(case).encode()).hexdigest(),'model':'mock','prompt_version':'system_v1','corpus_version':'fixture','e1_floor':0.0}
+    tr={'kind':'transaction','case_hash':hashlib.sha256(canonical(case).encode()).hexdigest(),'model':'mock','prompt_version':config['prompt_version'],'corpus_version':'fixture','e1_floor':0.0}
     cache.put(tr,{'latency_ms':22},{'latency_ms':22})
     env={**os.environ,'B2_OFFLINE':'1'}
     p=subprocess.run([sys.executable,'run_eval.py','--split','dev'],cwd=project,env=env,capture_output=True,text=True)
@@ -313,13 +313,13 @@ def test_release_replay_and_readme_from_synthetic_frozen_fixture(tmp_path):
     def git(*args): subprocess.run(['git',*args],cwd=project,check=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
     git('init');git('config','user.email','test@example.invalid');git('config','user.name','Test');git('add','.');git('commit','-m','synthetic fixture');git('tag','guide-v1.0');git('tag','code-frozen')
     cache=Cache(project/'cache/llm');cache.put({'kind':'embed','model_id':'fake','text':'duty'},[1.],{'latency_ms':0})
-    prompt=(project/'prompts/system_v1.md').read_text();desc=yaml.safe_load((project/'config/tool_descriptions.yaml').read_text())
+    prompt=(project/'prompts'/(model['prompt_version']+'.md')).read_text();desc=yaml.safe_load((project/'config/tool_descriptions.yaml').read_text())
     req=request_object('mock',initial_messages(prompt,'customer',None),schemas(['T'],desc),'auto',0,100,'fixture')
-    terminal={'obligations':[],'confidence':.9,'escalate':False,'escalation_codes':[]}
+    terminal={'obligations':[],'confidence':.5,'escalate':False,'escalation_codes':[]}
     msg={'role':'assistant','content':None,'tool_calls':[{'id':'random','type':'function','function':{'name':'record_obligations','arguments':json.dumps(terminal)}}]}
     cache.put(req,{'choices':[{'message':msg}]},{'latency_ms':9,'tokens_in':5,'tokens_out':2,'attempts':1,'cost_usd':.001})
     for case in cases:
-        tr={'kind':'transaction','case_hash':hashlib.sha256(canonical(case).encode()).hexdigest(),'model':'mock','prompt_version':'system_v1','corpus_version':'fixture','e1_floor':0.0}
+        tr={'kind':'transaction','case_hash':hashlib.sha256(canonical(case).encode()).hexdigest(),'model':'mock','prompt_version':model['prompt_version'],'corpus_version':'fixture','e1_floor':0.0}
         cache.put(tr,{'latency_ms':22},{'latency_ms':22})
     env={**os.environ,'B2_OFFLINE':'1'}
     p=subprocess.run([sys.executable,'run_eval.py','--split','test'],cwd=project,env=env,capture_output=True,text=True)
