@@ -1,3 +1,7 @@
-e1: {value: -1.0, provenance: provisional-dev-only}
-e5: {value: 0.0, provenance: provisional-dev-only}
-calibration_sha256: null
+e1:
+  value: -0.9999999999999999
+  provenance: uncalibrated-fallback
+e5:
+  value: 0.65
+  provenance: uncalibrated-fallback
+calibration_sha256: c8fe42a9ddfd136771729e8b59d4958d4215fccd074d3028a40fd2edd795cf2d
