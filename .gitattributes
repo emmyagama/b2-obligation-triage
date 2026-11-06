@@ -4,3 +4,8 @@
 corpus/** -text
 *.npy -text
 *.sqlite -text
+# Held-out commitment (FROZEN.sha256) and config/thresholds.yaml
+# calibration_sha256 both hash raw working bytes; keep them byte-identical on
+# checkout/add so freeze_check passes under any core.autocrlf setting.
+cases/test.json -text
+eval_results/threshold_calibration.md -text
