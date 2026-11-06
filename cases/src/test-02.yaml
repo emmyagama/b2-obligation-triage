@@ -1,0 +1,35 @@
+id: test-02
+split: test
+document_id: cuad_7714bf6314a468cda863
+intake_party: customer
+business_context: royalty and insurance check before the franchise renewal window
+class: clear
+gold_obligations:
+- type: INS-COVERAGE
+  owed_by: customer
+  clause_category: Insurance
+  clause_ref:
+    category: Insurance
+    char_start: 138971
+    char_end: 139324
+  deadline:
+    kind: recurring
+    period: term
+    anchor_event: effective_date
+- type: PAY-REVENUE-SHARE
+  owed_by: customer
+  clause_category: Revenue/Profit Sharing
+  clause_ref:
+    category: Revenue/Profit Sharing
+    char_start: 43715
+    char_end: 44082
+  deadline:
+    kind: recurring
+    period: weekly
+    anchor_event: effective_date
+    deadline_text: a  continuing  Royalty of seven  percent  (7%)
+gold_should_escalate: false
+gold_escalation_codes: []
+rationale: The franchisee owes the continuing seven percent royalty at 43715-44082 and must maintain the insurance schedule at 138971-139324; both run for the term and neither is conditioned on anything
+  the franchisor must do first. The franchisor protection radius at 32913-33212 and the perpetual mark licence at 221470-221889 are the other side's rights, not this intake's duties.
+difficulty: 2

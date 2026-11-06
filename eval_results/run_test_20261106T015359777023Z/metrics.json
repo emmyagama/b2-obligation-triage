@@ -1,0 +1,110 @@
+{
+  "constructed_e2_cases": 9,
+  "constructed_e2_exception_rate": {
+    "denominator": 9,
+    "numerator": 9,
+    "value": 1.0,
+    "wilson_95": [
+      0.7008549515804559,
+      1
+    ]
+  },
+  "constructed_e2_recall": {
+    "denominator": 9,
+    "numerator": 3,
+    "value": 0.3333333333333333,
+    "wilson_95": [
+      0.1205838183869109,
+      0.6457978644196036
+    ]
+  },
+  "cost": {
+    "mean_usd": 0.007870434333333332,
+    "n": 30
+  },
+  "deadline_absolute": {
+    "denominator": 0,
+    "numerator": 0,
+    "value": null,
+    "wilson_95": null
+  },
+  "deadline_none": {
+    "denominator": 18,
+    "numerator": 1,
+    "value": 0.05555555555555555,
+    "wilson_95": [
+      0.009875190978303097,
+      0.25757300781872594
+    ]
+  },
+  "deadline_recurring": {
+    "denominator": 18,
+    "numerator": 3,
+    "value": 0.16666666666666666,
+    "wilson_95": [
+      0.05836576805861446,
+      0.39222038103915724
+    ]
+  },
+  "deadline_relative": {
+    "denominator": 5,
+    "numerator": 1,
+    "value": 0.2,
+    "wilson_95": [
+      0.03622410863243014,
+      0.6244653702374747
+    ]
+  },
+  "escalation_recall": {
+    "denominator": 9,
+    "numerator": 7,
+    "value": 0.7777777777777778,
+    "wilson_95": [
+      0.45258896910698887,
+      0.9367748928821533
+    ]
+  },
+  "exception_rate": {
+    "denominator": 30,
+    "numerator": 29,
+    "value": 0.9666666666666667,
+    "wilson_95": [
+      0.8332960900859082,
+      0.9940914096183874
+    ]
+  },
+  "false_escalation": {
+    "denominator": 21,
+    "numerator": 17,
+    "value": 0.8095238095238095,
+    "wilson_95": [
+      0.5999943530979508,
+      0.9233243494723822
+    ]
+  },
+  "grounded_rate": {
+    "denominator": 38,
+    "numerator": 38,
+    "value": 1.0,
+    "wilson_95": [
+      0.908190131774416,
+      0.9999999999999999
+    ]
+  },
+  "latency": {
+    "n": 30,
+    "p50_ms": 74656.0,
+    "p95_ms": 120603.0
+  },
+  "mode": "live",
+  "obligation_recall": {
+    "denominator": 41,
+    "numerator": 11,
+    "value": 0.2682926829268293,
+    "wilson_95": [
+      0.1569496404781167,
+      0.41933533107076637
+    ]
+  },
+  "split": "test"
+}

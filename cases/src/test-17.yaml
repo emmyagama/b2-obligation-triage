@@ -1,0 +1,36 @@
+id: test-17
+split: test
+document_id: composite_12f8dcd43b68eb16d09d
+intake_party: licensor
+business_context: data-migration alliance; can the perpetual licence be ended at will
+class: conflicting
+constructed: true
+conflict_pair_id: CP-test-17
+source_document_ids:
+- cuad_ae248d81c03ed8dc2225
+- cuad_4dec9f284717d01e7349
+gold_obligations:
+- type: LIC-GRANT
+  owed_by: provider
+  clause_category: License Grant
+  clause_ref:
+    category: License Grant
+    char_start: 51797
+    char_end: 53863
+  deadline:
+    kind: none
+gold_should_escalate: true
+gold_escalation_codes:
+- E2_CONFLICTING_CLAUSES
+conflict_clause_refs:
+- category: Irrevocable Or Perpetual License
+  char_start: 51797
+  char_end: 53812
+- category: Termination For Convenience
+  char_start: 164207
+  char_end: 164376
+rationale: 'Clause A grants a fully paid, perpetual, worldwide licence; clause B, spliced in from the second source, lets the consultant walk away at any time on 120 days'' notice. A perpetual grant and
+  an at-will exit are not jointly performable - the exit ends the licence the first clause says runs forever - and neither clause carves the licensed rights out. Constructed pair: verbatim spans, spliced
+  document. The perpetual, irrevocable quality is a grant qualifier on this one LIC-GRANT, not a separate obligation (guide §3.3, D3), so the excluded `Irrevocable Or Perpetual License` category is used
+  only as the conflict anchor, never as the obligation''s category.'
+difficulty: 3

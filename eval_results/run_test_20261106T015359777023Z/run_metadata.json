@@ -1,0 +1,9 @@
+{
+  "case_sha256": "ea702983aeb145a0b15afaa2d7085af25792cd3a9731cdabb86caaddef40417f",
+  "cases": 30,
+  "git_sha": "d6456ae6cf7039039007a91a0318bb9b3b8474e8",
+  "mode": "live",
+  "prompt_version": "system_v3",
+  "split": "test",
+  "threshold_sha256": "c591ea9addfff3d50d3ac7c50c81814912fab028fac70533310bbc80049e3e00"
+}

@@ -1,0 +1,35 @@
+id: test-21
+split: test
+document_id: composite_975deac30eb0cdb76eed
+intake_party: provider
+business_context: transition-services review; fees cap against per-day service credits
+class: conflicting
+constructed: true
+conflict_pair_id: CP-test-21
+source_document_ids:
+- cuad_fca73dd7b89c2e571f11
+- cuad_3d9c71ed150a6a3c3f1f
+gold_obligations:
+- type: CTL-AUDIT-RIGHT
+  owed_by: provider
+  clause_category: Audit Rights
+  clause_ref:
+    category: Audit Rights
+    char_start: 13918
+    char_end: 14487
+  deadline:
+    kind: none
+gold_should_escalate: true
+gold_escalation_codes:
+- E2_CONFLICTING_CLAUSES
+conflict_clause_refs:
+- category: Cap On Liability
+  char_start: 52996
+  char_end: 53187
+- category: Liquidated Damages
+  char_start: 128962
+  char_end: 129781
+rationale: 'Clause A caps a party''s liability for services at the fees paid for the specific service that caused the loss; clause B, spliced in from the second source, makes the service provider pay a
+  per-day sum as liquidated damages until conversion is achieved. Once the delay runs long enough the per-day duty exceeds the fee cap, and neither clause carves the other out, so the cap and the accruing
+  payment cannot both hold. Constructed pair: verbatim spans, spliced document.'
+difficulty: 3

@@ -1,0 +1,35 @@
+id: test-18
+split: test
+document_id: composite_134e5c3bea32a9a6632a
+intake_party: customer
+business_context: customer exit costing against the supplier remedy waiver
+class: conflicting
+constructed: true
+conflict_pair_id: CP-test-18
+source_document_ids:
+- cuad_3d9c71ed150a6a3c3f1f
+- cuad_7714bf6314a468cda863
+gold_obligations:
+- type: LIA-LIQUIDATED-DAMAGES
+  owed_by: customer
+  clause_category: Liquidated Damages
+  clause_ref:
+    category: Liquidated Damages
+    char_start: 38832
+    char_end: 39066
+  deadline:
+    kind: none
+gold_should_escalate: true
+gold_escalation_codes:
+- E2_CONFLICTING_CLAUSES
+conflict_clause_refs:
+- category: Liquidated Damages
+  char_start: 38832
+  char_end: 39066
+- category: Cap On Liability
+  char_start: 244706
+  char_end: 245263
+rationale: 'Clause A requires the customer to pay the Termination Fee as liquidated damages on a partial termination; clause B, spliced in from the second source, says the supplier is not liable and the
+  customer waives all claims for damages of any type whatsoever. The same document therefore requires the payment and extinguishes the claim that supports it; neither clause orders the other. Constructed
+  pair: verbatim spans, spliced document.'
+difficulty: 3

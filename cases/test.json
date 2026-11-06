@@ -1,0 +1,1212 @@
+[
+  {
+    "business_context": "franchise year-end review of the franchisee own covenants",
+    "class": "clear",
+    "difficulty": 2,
+    "document_id": "cuad_c92227514f576d98317e",
+    "gold_escalation_codes": [],
+    "gold_obligations": [
+      {
+        "clause_category": "Insurance",
+        "clause_ref": {
+          "category": "Insurance",
+          "char_end": 123159,
+          "char_start": 120940
+        },
+        "deadline": {
+          "anchor_event": "effective_date",
+          "deadline_text": "during the term of this Agreement",
+          "kind": "recurring",
+          "period": "term"
+        },
+        "owed_by": "customer",
+        "type": "INS-COVERAGE"
+      },
+      {
+        "clause_category": "Minimum Commitment",
+        "clause_ref": {
+          "category": "Minimum Commitment",
+          "char_end": 22887,
+          "char_start": 22534
+        },
+        "deadline": {
+          "anchor_event": "commencement_date",
+          "deadline_text": "beginning six (6) months after the Commencement Date",
+          "kind": "recurring",
+          "offset_days": 180,
+          "period": "monthly"
+        },
+        "owed_by": "customer",
+        "type": "PUR-MINIMUM-COMMITMENT"
+      }
+    ],
+    "gold_should_escalate": false,
+    "id": "test-01",
+    "intake_party": "customer",
+    "rationale": "The franchisee is the customer and carries both duties: it must procure and keep the insurance schedule in force at 120940-123159, and pay the Minimum Royalty monthly from six months after the Commencement Date at 22534-22887. Both are unconditional; the transfer, renewal and liquidated-damages spans elsewhere bind the same party without changing either duty.",
+    "split": "test"
+  },
+  {
+    "business_context": "royalty and insurance check before the franchise renewal window",
+    "class": "clear",
+    "difficulty": 2,
+    "document_id": "cuad_7714bf6314a468cda863",
+    "gold_escalation_codes": [],
+    "gold_obligations": [
+      {
+        "clause_category": "Insurance",
+        "clause_ref": {
+          "category": "Insurance",
+          "char_end": 139324,
+          "char_start": 138971
+        },
+        "deadline": {
+          "anchor_event": "effective_date",
+          "kind": "recurring",
+          "period": "term"
+        },
+        "owed_by": "customer",
+        "type": "INS-COVERAGE"
+      },
+      {
+        "clause_category": "Revenue/Profit Sharing",
+        "clause_ref": {
+          "category": "Revenue/Profit Sharing",
+          "char_end": 44082,
+          "char_start": 43715
+        },
+        "deadline": {
+          "anchor_event": "effective_date",
+          "deadline_text": "a  continuing  Royalty of seven  percent  (7%)",
+          "kind": "recurring",
+          "period": "weekly"
+        },
+        "owed_by": "customer",
+        "type": "PAY-REVENUE-SHARE"
+      }
+    ],
+    "gold_should_escalate": false,
+    "id": "test-02",
+    "intake_party": "customer",
+    "rationale": "The franchisee owes the continuing seven percent royalty at 43715-44082 and must maintain the insurance schedule at 138971-139324; both run for the term and neither is conditioned on anything the franchisor must do first. The franchisor protection radius at 32913-33212 and the perpetual mark licence at 221470-221889 are the other side's rights, not this intake's duties.",
+    "split": "test"
+  },
+  {
+    "business_context": "outsourcing provider review of its continuing duties after conversion",
+    "class": "clear",
+    "difficulty": 2,
+    "document_id": "cuad_3d9c71ed150a6a3c3f1f",
+    "gold_escalation_codes": [],
+    "gold_obligations": [
+      {
+        "clause_category": "Insurance",
+        "clause_ref": {
+          "category": "Insurance",
+          "char_end": 49821,
+          "char_start": 48360
+        },
+        "deadline": {
+          "anchor_event": "effective_date",
+          "deadline_text": "during the Term",
+          "kind": "recurring",
+          "period": "term"
+        },
+        "owed_by": "provider",
+        "type": "INS-COVERAGE"
+      },
+      {
+        "clause_category": "Post-Termination Services",
+        "clause_ref": {
+          "category": "Post-Termination Services",
+          "char_end": 7514,
+          "char_start": 7007
+        },
+        "deadline": {
+          "anchor_event": "termination",
+          "anchor_resolved": false,
+          "deadline_text": "all necessary assistance to facilitate the orderly transition of Services",
+          "kind": "relative"
+        },
+        "owed_by": "provider",
+        "type": "SVC-POST-TERMINATION"
+      }
+    ],
+    "gold_should_escalate": false,
+    "id": "test-03",
+    "intake_party": "provider",
+    "rationale": "Metavante is the provider: it must keep the insurance in full force for the Term (48360-49821) and, on expiry or termination, give the assistance needed to migrate the services (7007-7514). The customer-side spans - monthly base fee at 33456 and exclusivity of supply at 38534 - run against the other party and are not entered here.",
+    "split": "test"
+  },
+  {
+    "business_context": "distributor onboarding; what the supplier itself must do",
+    "class": "clear",
+    "difficulty": 2,
+    "document_id": "cuad_5dad919074219d103fb8",
+    "gold_escalation_codes": [],
+    "gold_obligations": [
+      {
+        "clause_category": "License Grant",
+        "clause_ref": {
+          "category": "License Grant",
+          "char_end": 26760,
+          "char_start": 26271
+        },
+        "deadline": {
+          "kind": "none"
+        },
+        "owed_by": "provider",
+        "type": "LIC-GRANT"
+      },
+      {
+        "clause_category": "Insurance",
+        "clause_ref": {
+          "category": "Insurance",
+          "char_end": 134646,
+          "char_start": 134467
+        },
+        "deadline": {
+          "anchor_event": "effective_date",
+          "deadline_text": "shall maintain product liability and other appropriate insurance",
+          "kind": "recurring",
+          "period": "term"
+        },
+        "owed_by": "both",
+        "type": "INS-COVERAGE"
+      }
+    ],
+    "gold_should_escalate": false,
+    "id": "test-04",
+    "intake_party": "provider",
+    "rationale": "Zogenix is the provider and makes the exclusive distribution appointment at 26271-26759, an unconditional grant on its face; the insurance duty at 134467-134646 imposes one standard on each Party at its own expense, so it is recorded once as both. The distributor-side non-compete at 31293 and the inspection regime at 87950 are the other side's duties.",
+    "split": "test"
+  },
+  {
+    "business_context": "licensor exit and hand-over planning for a partnered programme",
+    "class": "clear",
+    "difficulty": 2,
+    "document_id": "cuad_8535780896bd997df598",
+    "gold_escalation_codes": [],
+    "gold_obligations": [
+      {
+        "clause_category": "License Grant",
+        "clause_ref": {
+          "category": "License Grant",
+          "char_end": 73394,
+          "char_start": 72888
+        },
+        "deadline": {
+          "kind": "none"
+        },
+        "owed_by": "provider",
+        "type": "LIC-GRANT"
+      },
+      {
+        "clause_category": "Ip Ownership Assignment",
+        "clause_ref": {
+          "category": "Ip Ownership Assignment",
+          "char_end": 118642,
+          "char_start": 118335
+        },
+        "deadline": {
+          "kind": "none"
+        },
+        "owed_by": "provider",
+        "type": "IP-OWNERSHIP-ASSIGNMENT"
+      }
+    ],
+    "gold_should_escalate": false,
+    "id": "test-05",
+    "intake_party": "provider",
+    "rationale": "RevMed is the licensor provider: it makes the exclusive grant at 72888-73394 and must assign the completed programme rights at 118335-118642 once its clinical trials finish. The Sanofi-side royalty at 139679 and the review rights at 127186 belong to the customer; the trial-completion condition decides when the assignment falls due, not whether it exists.",
+    "split": "test"
+  },
+  {
+    "business_context": "seller-side review of what survives the IP transfer",
+    "class": "clear",
+    "difficulty": 3,
+    "document_id": "cuad_944e0822aba9ea79bbd5",
+    "gold_escalation_codes": [],
+    "gold_obligations": [
+      {
+        "clause_category": "Ip Ownership Assignment",
+        "clause_ref": {
+          "category": "Ip Ownership Assignment",
+          "char_end": 39043,
+          "char_start": 38489
+        },
+        "deadline": {
+          "anchor_event": "closing_date",
+          "anchor_resolved": false,
+          "deadline_text": "Effective as of the applicable Closing Date",
+          "kind": "relative"
+        },
+        "owed_by": "provider",
+        "type": "IP-OWNERSHIP-ASSIGNMENT"
+      },
+      {
+        "clause_category": "Anti-Assignment",
+        "clause_ref": {
+          "category": "Anti-Assignment",
+          "char_end": 112724,
+          "char_start": 111761
+        },
+        "deadline": {
+          "kind": "none"
+        },
+        "owed_by": "both",
+        "type": "CTL-NO-ASSIGNMENT"
+      }
+    ],
+    "gold_should_escalate": false,
+    "id": "test-06",
+    "intake_party": "licensor",
+    "rationale": "The Seller assigns its entire interest in the transferred IP as of each closing (38489-39043) and both parties are barred from assigning the IP agreement without consent (111761-112724). Candidate rejected: the perpetual licences granted back at 53155-54647 do not conflict with the change-of-control clause at 113975-114544, because that clause limits what a buyer receives rather than revoking a grant, so both are performable.",
+    "split": "test"
+  },
+  {
+    "business_context": "buyer review of forecast commitments and insurance before first delivery",
+    "class": "clear",
+    "difficulty": 2,
+    "document_id": "cuad_ac330c6c3a9cc0496f44",
+    "gold_escalation_codes": [],
+    "gold_obligations": [
+      {
+        "clause_category": "Minimum Commitment",
+        "clause_ref": {
+          "category": "Minimum Commitment",
+          "char_end": 81189,
+          "char_start": 80594
+        },
+        "deadline": {
+          "anchor_event": "month",
+          "deadline_text": "forecasted for each Calendar Month of the Firm Zone",
+          "kind": "recurring",
+          "period": "monthly"
+        },
+        "owed_by": "customer",
+        "type": "PUR-MINIMUM-COMMITMENT"
+      },
+      {
+        "clause_category": "Insurance",
+        "clause_ref": {
+          "category": "Insurance",
+          "char_end": 152543,
+          "char_start": 151954
+        },
+        "deadline": {
+          "anchor_event": "effective_date",
+          "deadline_text": "Each Party will maintain at its sole cost and expense",
+          "kind": "recurring",
+          "period": "term"
+        },
+        "owed_by": "both",
+        "type": "INS-COVERAGE"
+      }
+    ],
+    "gold_should_escalate": false,
+    "id": "test-07",
+    "intake_party": "customer",
+    "rationale": "Bellicum is the customer and takes the binding forecast commitment at 80594-81189; the insurance duty at 151954-152543 sets one standard for each Party at its own cost, so it is entered once as both. The refund-and-replacement remedy at 117859-118179 and the aggregate cap at 146541-147125 limit remedies without creating duties, so they are not gold obligations here.",
+    "split": "test"
+  },
+  {
+    "business_context": "licensee royalty and audit review for the current quarter",
+    "class": "clear",
+    "difficulty": 2,
+    "document_id": "cuad_a0e14c30056968d88209",
+    "gold_escalation_codes": [],
+    "gold_obligations": [
+      {
+        "clause_category": "Revenue/Profit Sharing",
+        "clause_ref": {
+          "category": "Revenue/Profit Sharing",
+          "char_end": 127575,
+          "char_start": 127416
+        },
+        "deadline": {
+          "anchor_event": "calendar_quarter",
+          "kind": "recurring",
+          "period": "quarterly"
+        },
+        "owed_by": "customer",
+        "type": "PAY-REVENUE-SHARE"
+      },
+      {
+        "clause_category": "Audit Rights",
+        "clause_ref": {
+          "category": "Audit Rights",
+          "char_end": 115059,
+          "char_start": 114380
+        },
+        "deadline": {
+          "kind": "none"
+        },
+        "owed_by": "customer",
+        "type": "CTL-AUDIT-RIGHT"
+      }
+    ],
+    "gold_should_escalate": false,
+    "id": "test-08",
+    "intake_party": "customer",
+    "rationale": "Ono is the customer: it pays the quarterly royalty at 127416-127575 and must let Array and its representatives into its premises to audit the records behind that royalty (114380-115059). The audit right is Array's, but the performance obligation - access and cooperation - is Ono's, which is why the record is owed_by customer; the Array-side grant at 42466 is the other party's duty.",
+    "split": "test"
+  },
+  {
+    "business_context": "licensor review of the exclusivity it gave away in the collaboration",
+    "class": "clear",
+    "difficulty": 2,
+    "document_id": "cuad_7c7b9fab0f2daf6004b0",
+    "gold_escalation_codes": [],
+    "gold_obligations": [
+      {
+        "clause_category": "License Grant",
+        "clause_ref": {
+          "category": "License Grant",
+          "char_end": 37500,
+          "char_start": 37117
+        },
+        "deadline": {
+          "kind": "none"
+        },
+        "owed_by": "provider",
+        "type": "LIC-GRANT"
+      },
+      {
+        "clause_category": "Exclusivity",
+        "clause_ref": {
+          "category": "Exclusivity",
+          "char_end": 17225,
+          "char_start": 16776
+        },
+        "deadline": {
+          "kind": "none"
+        },
+        "owed_by": "provider",
+        "type": "COV-EXCLUSIVITY"
+      }
+    ],
+    "gold_should_escalate": false,
+    "id": "test-09",
+    "intake_party": "licensor",
+    "rationale": "CERES is the licensor: it grants IGER rights in its intellectual property through the schedules (37117-37500) and commits to the exclusivity undertaking at 16776-17225 in return for IGER's market development. The IGER-side royalty at 39325 and the mutual inspection span at 5540-5882 bind the other party or both separately, so they are not entered against this intake.",
+    "split": "test"
+  },
+  {
+    "business_context": "customer review of the non-compete and the data supply floor",
+    "class": "clear",
+    "difficulty": 2,
+    "document_id": "cuad_a08094c0e438a7a9c7e5",
+    "gold_escalation_codes": [],
+    "gold_obligations": [
+      {
+        "clause_category": "Non-Compete",
+        "clause_ref": {
+          "category": "Non-Compete",
+          "char_end": 18428,
+          "char_start": 18226
+        },
+        "deadline": {
+          "anchor_event": "effective_date",
+          "deadline_text": "during the Term of this Agreement",
+          "kind": "recurring",
+          "period": "term"
+        },
+        "owed_by": "customer",
+        "type": "COV-NON-COMPETE"
+      },
+      {
+        "clause_category": "Minimum Commitment",
+        "clause_ref": {
+          "category": "Minimum Commitment",
+          "char_end": 30099,
+          "char_start": 29544
+        },
+        "deadline": {
+          "anchor_event": "month",
+          "kind": "recurring",
+          "period": "monthly"
+        },
+        "owed_by": "customer",
+        "type": "PUR-MINIMUM-COMMITMENT"
+      }
+    ],
+    "gold_should_escalate": false,
+    "id": "test-10",
+    "intake_party": "customer",
+    "rationale": "Excite@Home is the customer and owes both: it must not launch a substantially similar branded service during the Term (18226-18428) and must deliver the minimum volume of Payment-Eligible User Data records each month (29544-30099). The e-centives-side obligations - the trademark licence at 44395 and the post-termination consulting at 53559 - belong to the provider and are not entered.",
+    "split": "test"
+  },
+  {
+    "business_context": "brand-side review of the first-offer and no-poach covenants",
+    "class": "clear",
+    "difficulty": 3,
+    "document_id": "cuad_412f6a035ef9763e47c2",
+    "gold_escalation_codes": [],
+    "gold_obligations": [
+      {
+        "clause_category": "Rofr/Rofo/Rofn",
+        "clause_ref": {
+          "category": "Rofr/Rofo/Rofn",
+          "char_end": 94293,
+          "char_start": 93627
+        },
+        "deadline": {
+          "kind": "none"
+        },
+        "owed_by": "customer",
+        "type": "TRM-ROFR-ROFO-ROFN"
+      },
+      {
+        "clause_category": "No-Solicit Of Employees",
+        "clause_ref": {
+          "category": "No-Solicit Of Employees",
+          "char_end": 120714,
+          "char_start": 120471
+        },
+        "deadline": {
+          "anchor_event": "termination",
+          "deadline_text": "for the duration of the Noncompetition Period and for the two years thereafter",
+          "kind": "relative",
+          "offset_days": 730
+        },
+        "owed_by": "customer",
+        "type": "COV-NO-SOLICIT-EMPLOYEE"
+      }
+    ],
+    "gold_should_escalate": false,
+    "id": "test-11",
+    "intake_party": "customer",
+    "rationale": "Monsanto is the customer of the agent's services and owes the first-offer covenant on new products (93627-94293) and the no-poach undertaking that runs two years past the non-competition period (120471-120714). The agent-side insurance at 90591 and inventory purchase at 109943 run the other way; the termination fee at 141436-141712 is a Monsanto payment triggered by termination rather than a standing duty, so it stays out of the register.",
+    "split": "test"
+  },
+  {
+    "business_context": "contract manufacturer review of audit access and IP hand-over",
+    "class": "clear",
+    "difficulty": 2,
+    "document_id": "cuad_96943dfc7ec66b62e263",
+    "gold_escalation_codes": [],
+    "gold_obligations": [
+      {
+        "clause_category": "Audit Rights",
+        "clause_ref": {
+          "category": "Audit Rights",
+          "char_end": 28542,
+          "char_start": 28197
+        },
+        "deadline": {
+          "kind": "none"
+        },
+        "owed_by": "customer",
+        "type": "CTL-AUDIT-RIGHT"
+      },
+      {
+        "clause_category": "Ip Ownership Assignment",
+        "clause_ref": {
+          "category": "Ip Ownership Assignment",
+          "char_end": 10306,
+          "char_start": 10002
+        },
+        "deadline": {
+          "kind": "none"
+        },
+        "owed_by": "customer",
+        "type": "IP-OWNERSHIP-ASSIGNMENT"
+      }
+    ],
+    "gold_should_escalate": false,
+    "id": "test-12",
+    "intake_party": "customer",
+    "rationale": "IAC is the customer of the manufacturing service: it must let Sonos inspect and audit its facilities and records on notice (28197-28542), and it assigns every product customisation to Sonos on a work-for-hire basis (10002-10306). The Sonos-side grant at 20756 and the mutual cap at 73564 are not IAC duties; the repair-life span at 57444 carries a redacted duration and is deliberately left out rather than guessed.",
+    "split": "test"
+  },
+  {
+    "business_context": "combined franchised-network paper; which state law governs a dispute",
+    "class": "conflicting",
+    "conflict_clause_refs": [
+      {
+        "category": "Governing Law",
+        "char_end": 100178,
+        "char_start": 100009
+      },
+      {
+        "category": "Governing Law",
+        "char_end": 203695,
+        "char_start": 203592
+      }
+    ],
+    "conflict_pair_id": "CP-test-13",
+    "constructed": true,
+    "difficulty": 3,
+    "document_id": "composite_61c626a3b683b3ef71c2",
+    "gold_escalation_codes": [
+      "E2_CONFLICTING_CLAUSES"
+    ],
+    "gold_obligations": [
+      {
+        "clause_category": "License Grant",
+        "clause_ref": {
+          "category": "License Grant",
+          "char_end": 40911,
+          "char_start": 39823
+        },
+        "deadline": {
+          "kind": "none"
+        },
+        "owed_by": "provider",
+        "type": "LIC-GRANT"
+      }
+    ],
+    "gold_should_escalate": true,
+    "id": "test-13",
+    "intake_party": "provider",
+    "rationale": "Clause A elects Georgia law without regard to its conflict rules; clause B, spliced in from the second source, elects New York law for the same Agreement. Both are exclusive and neither yields, so the Agreement cannot be governed by both and a party pleading either law breaches the other; the perpetual licence at 39823 is the grant this intake makes. Constructed pair: verbatim spans, spliced document.",
+    "source_document_ids": [
+      "cuad_ae248d81c03ed8dc2225",
+      "cuad_646f2847afd01a811aa5"
+    ],
+    "split": "test"
+  },
+  {
+    "business_context": "IP carve-out deal; which law governs the transferred rights",
+    "class": "conflicting",
+    "conflict_clause_refs": [
+      {
+        "category": "Governing Law",
+        "char_end": 119426,
+        "char_start": 119140
+      },
+      {
+        "category": "Governing Law",
+        "char_end": 212700,
+        "char_start": 212500
+      }
+    ],
+    "conflict_pair_id": "CP-test-14",
+    "constructed": true,
+    "difficulty": 3,
+    "document_id": "composite_3ff5786d0f09b2611a63",
+    "gold_escalation_codes": [
+      "E2_CONFLICTING_CLAUSES"
+    ],
+    "gold_obligations": [
+      {
+        "clause_category": "Ip Ownership Assignment",
+        "clause_ref": {
+          "category": "Ip Ownership Assignment",
+          "char_end": 39043,
+          "char_start": 38489
+        },
+        "deadline": {
+          "anchor_event": "closing_date",
+          "anchor_resolved": false,
+          "deadline_text": "Effective as of the applicable Closing Date",
+          "kind": "relative"
+        },
+        "owed_by": "provider",
+        "type": "IP-OWNERSHIP-ASSIGNMENT"
+      }
+    ],
+    "gold_should_escalate": true,
+    "id": "test-14",
+    "intake_party": "licensor",
+    "rationale": "Clause A makes Delaware law govern the IP agreement 'whether arising in contract, tort, equity or otherwise'; clause B, spliced in from the second source, makes California law govern the same Agreement and fixes California law for the merits of any dispute. The two are mutually exclusive and neither contains precedence language, so no course of performance satisfies both; the assignment duty at 38489 is the Seller's. Constructed pair: verbatim spans, spliced document.",
+    "source_document_ids": [
+      "cuad_944e0822aba9ea79bbd5",
+      "cuad_96943dfc7ec66b62e263"
+    ],
+    "split": "test"
+  },
+  {
+    "business_context": "franchise and alliance paper; which law applies to the royalty claim",
+    "class": "conflicting",
+    "conflict_clause_refs": [
+      {
+        "category": "Governing Law",
+        "char_end": 193278,
+        "char_start": 192721
+      },
+      {
+        "category": "Governing Law",
+        "char_end": 399089,
+        "char_start": 398935
+      }
+    ],
+    "conflict_pair_id": "CP-test-15",
+    "constructed": true,
+    "difficulty": 3,
+    "document_id": "composite_4bf3f94d05591e5d2eb6",
+    "gold_escalation_codes": [
+      "E2_CONFLICTING_CLAUSES"
+    ],
+    "gold_obligations": [
+      {
+        "clause_category": "Minimum Commitment",
+        "clause_ref": {
+          "category": "Minimum Commitment",
+          "char_end": 22887,
+          "char_start": 22534
+        },
+        "deadline": {
+          "anchor_event": "commencement_date",
+          "deadline_text": "beginning six (6) months after the Commencement Date",
+          "kind": "recurring",
+          "offset_days": 180,
+          "period": "monthly"
+        },
+        "owed_by": "customer",
+        "type": "PUR-MINIMUM-COMMITMENT"
+      }
+    ],
+    "gold_should_escalate": true,
+    "id": "test-15",
+    "intake_party": "customer",
+    "rationale": "Clause A says the Agreement will be interpreted and construed exclusively under Texas law, which prevails over any conflict of law; clause B, spliced in from the second source, makes New York law govern the same Agreement without regard to its conflict rules. Both are exclusive and there is no ordering language, so the Agreement cannot be governed by both; the minimum royalty at 22534 is the customer's. Constructed pair: verbatim spans, spliced document.",
+    "source_document_ids": [
+      "cuad_c92227514f576d98317e",
+      "cuad_1f9cab5d8d6e18e6f1a8"
+    ],
+    "split": "test"
+  },
+  {
+    "business_context": "franchisor review of a grant-back it must be able to keep",
+    "class": "conflicting",
+    "conflict_clause_refs": [
+      {
+        "category": "Irrevocable Or Perpetual License",
+        "char_end": 66646,
+        "char_start": 66065
+      },
+      {
+        "category": "Termination For Convenience",
+        "char_end": 336715,
+        "char_start": 335999
+      }
+    ],
+    "conflict_pair_id": "CP-test-16",
+    "constructed": true,
+    "difficulty": 3,
+    "document_id": "composite_75c622f527ea034356a9",
+    "gold_escalation_codes": [
+      "E2_CONFLICTING_CLAUSES"
+    ],
+    "gold_obligations": [
+      {
+        "clause_category": "License Grant",
+        "clause_ref": {
+          "category": "License Grant",
+          "char_end": 66646,
+          "char_start": 66065
+        },
+        "deadline": {
+          "kind": "none"
+        },
+        "owed_by": "customer",
+        "type": "LIC-GRANT"
+      }
+    ],
+    "gold_should_escalate": true,
+    "id": "test-16",
+    "intake_party": "provider",
+    "rationale": "Clause A takes a perpetual, worldwide grant-back of the franchisee's ideas and materials; clause B, spliced in from the second source, lets the service recipient terminate for convenience on 30 days' notice with no carve-out preserving licensed rights. The grant is meant to survive the relationship while the termination ends it, so the two cannot both be performed; the grant-back at 66065 is the duty recorded. Constructed pair: verbatim spans, spliced document.",
+    "source_document_ids": [
+      "cuad_c92227514f576d98317e",
+      "cuad_fca73dd7b89c2e571f11"
+    ],
+    "split": "test"
+  },
+  {
+    "business_context": "data-migration alliance; can the perpetual licence be ended at will",
+    "class": "conflicting",
+    "conflict_clause_refs": [
+      {
+        "category": "Irrevocable Or Perpetual License",
+        "char_end": 53812,
+        "char_start": 51797
+      },
+      {
+        "category": "Termination For Convenience",
+        "char_end": 164376,
+        "char_start": 164207
+      }
+    ],
+    "conflict_pair_id": "CP-test-17",
+    "constructed": true,
+    "difficulty": 3,
+    "document_id": "composite_12f8dcd43b68eb16d09d",
+    "gold_escalation_codes": [
+      "E2_CONFLICTING_CLAUSES"
+    ],
+    "gold_obligations": [
+      {
+        "clause_category": "License Grant",
+        "clause_ref": {
+          "category": "License Grant",
+          "char_end": 53863,
+          "char_start": 51797
+        },
+        "deadline": {
+          "kind": "none"
+        },
+        "owed_by": "provider",
+        "type": "LIC-GRANT"
+      }
+    ],
+    "gold_should_escalate": true,
+    "id": "test-17",
+    "intake_party": "licensor",
+    "rationale": "Clause A grants a fully paid, perpetual, worldwide licence; clause B, spliced in from the second source, lets the consultant walk away at any time on 120 days' notice. A perpetual grant and an at-will exit are not jointly performable - the exit ends the licence the first clause says runs forever - and neither clause carves the licensed rights out. Constructed pair: verbatim spans, spliced document. The perpetual, irrevocable quality is a grant qualifier on this one LIC-GRANT, not a separate obligation (guide Â§3.3, D3), so the excluded `Irrevocable Or Perpetual License` category is used only as the conflict anchor, never as the obligation's category.",
+    "source_document_ids": [
+      "cuad_ae248d81c03ed8dc2225",
+      "cuad_4dec9f284717d01e7349"
+    ],
+    "split": "test"
+  },
+  {
+    "business_context": "customer exit costing against the supplier remedy waiver",
+    "class": "conflicting",
+    "conflict_clause_refs": [
+      {
+        "category": "Liquidated Damages",
+        "char_end": 39066,
+        "char_start": 38832
+      },
+      {
+        "category": "Cap On Liability",
+        "char_end": 245263,
+        "char_start": 244706
+      }
+    ],
+    "conflict_pair_id": "CP-test-18",
+    "constructed": true,
+    "difficulty": 3,
+    "document_id": "composite_134e5c3bea32a9a6632a",
+    "gold_escalation_codes": [
+      "E2_CONFLICTING_CLAUSES"
+    ],
+    "gold_obligations": [
+      {
+        "clause_category": "Liquidated Damages",
+        "clause_ref": {
+          "category": "Liquidated Damages",
+          "char_end": 39066,
+          "char_start": 38832
+        },
+        "deadline": {
+          "kind": "none"
+        },
+        "owed_by": "customer",
+        "type": "LIA-LIQUIDATED-DAMAGES"
+      }
+    ],
+    "gold_should_escalate": true,
+    "id": "test-18",
+    "intake_party": "customer",
+    "rationale": "Clause A requires the customer to pay the Termination Fee as liquidated damages on a partial termination; clause B, spliced in from the second source, says the supplier is not liable and the customer waives all claims for damages of any type whatsoever. The same document therefore requires the payment and extinguishes the claim that supports it; neither clause orders the other. Constructed pair: verbatim spans, spliced document.",
+    "source_document_ids": [
+      "cuad_3d9c71ed150a6a3c3f1f",
+      "cuad_7714bf6314a468cda863"
+    ],
+    "split": "test"
+  },
+  {
+    "business_context": "termination-fee exposure against the counterparty damages exclusion",
+    "class": "conflicting",
+    "conflict_clause_refs": [
+      {
+        "category": "Liquidated Damages",
+        "char_end": 142875,
+        "char_start": 142328
+      },
+      {
+        "category": "Cap On Liability",
+        "char_end": 274063,
+        "char_start": 273479
+      }
+    ],
+    "conflict_pair_id": "CP-test-19",
+    "constructed": true,
+    "difficulty": 3,
+    "document_id": "composite_4e4b51c5cd3f6a4c7ea9",
+    "gold_escalation_codes": [
+      "E2_CONFLICTING_CLAUSES"
+    ],
+    "gold_obligations": [
+      {
+        "clause_category": "Liquidated Damages",
+        "clause_ref": {
+          "category": "Liquidated Damages",
+          "char_end": 142875,
+          "char_start": 142328
+        },
+        "deadline": {
+          "kind": "none"
+        },
+        "owed_by": "customer",
+        "type": "LIA-LIQUIDATED-DAMAGES"
+      }
+    ],
+    "gold_should_escalate": true,
+    "id": "test-19",
+    "intake_party": "customer",
+    "rationale": "Clause A stipulates that the Termination Fee is payable because the injury from termination cannot be estimated; clause B, spliced in from the second source, states that no party is liable to the other for indirect, special, exemplary, punitive or consequential damages. A stipulated sum for unquantifiable loss is exactly the head clause B excludes, so the fee duty and the exclusion cannot both be performed. Constructed pair: verbatim spans, spliced document.",
+    "source_document_ids": [
+      "cuad_412f6a035ef9763e47c2",
+      "cuad_fca73dd7b89c2e571f11"
+    ],
+    "split": "test"
+  },
+  {
+    "business_context": "supply floor against the aggregate liability cap",
+    "class": "conflicting",
+    "conflict_clause_refs": [
+      {
+        "category": "Uncapped Liability",
+        "char_end": 147125,
+        "char_start": 146664
+      },
+      {
+        "category": "Liquidated Damages",
+        "char_end": 221675,
+        "char_start": 221186
+      }
+    ],
+    "conflict_pair_id": "CP-test-20",
+    "constructed": true,
+    "difficulty": 3,
+    "document_id": "composite_496a5d6b32df2bf1e091",
+    "gold_escalation_codes": [
+      "E2_CONFLICTING_CLAUSES"
+    ],
+    "gold_obligations": [
+      {
+        "clause_category": "Minimum Commitment",
+        "clause_ref": {
+          "category": "Minimum Commitment",
+          "char_end": 81189,
+          "char_start": 80594
+        },
+        "deadline": {
+          "anchor_event": "month",
+          "deadline_text": "forecasted for each Calendar Month of the Firm Zone",
+          "kind": "recurring",
+          "period": "monthly"
+        },
+        "owed_by": "customer",
+        "type": "PUR-MINIMUM-COMMITMENT"
+      }
+    ],
+    "gold_should_escalate": true,
+    "id": "test-20",
+    "intake_party": "customer",
+    "rationale": "Clause A caps aggregate liability at the product prices paid in the preceding twelve months; clause B, spliced in from the second source, requires the paying party to pay additional sums as damages for non-compliant content with no ceiling. The payment duty reaches beyond the cap by its own terms and neither span yields, so no single course of performance satisfies both. Constructed pair: verbatim spans, spliced document.",
+    "source_document_ids": [
+      "cuad_ac330c6c3a9cc0496f44",
+      "cuad_aa43b2240f866f2fc18d"
+    ],
+    "split": "test"
+  },
+  {
+    "business_context": "transition-services review; fees cap against per-day service credits",
+    "class": "conflicting",
+    "conflict_clause_refs": [
+      {
+        "category": "Cap On Liability",
+        "char_end": 53187,
+        "char_start": 52996
+      },
+      {
+        "category": "Liquidated Damages",
+        "char_end": 129781,
+        "char_start": 128962
+      }
+    ],
+    "conflict_pair_id": "CP-test-21",
+    "constructed": true,
+    "difficulty": 3,
+    "document_id": "composite_975deac30eb0cdb76eed",
+    "gold_escalation_codes": [
+      "E2_CONFLICTING_CLAUSES"
+    ],
+    "gold_obligations": [
+      {
+        "clause_category": "Audit Rights",
+        "clause_ref": {
+          "category": "Audit Rights",
+          "char_end": 14487,
+          "char_start": 13918
+        },
+        "deadline": {
+          "kind": "none"
+        },
+        "owed_by": "provider",
+        "type": "CTL-AUDIT-RIGHT"
+      }
+    ],
+    "gold_should_escalate": true,
+    "id": "test-21",
+    "intake_party": "provider",
+    "rationale": "Clause A caps a party's liability for services at the fees paid for the specific service that caused the loss; clause B, spliced in from the second source, makes the service provider pay a per-day sum as liquidated damages until conversion is achieved. Once the delay runs long enough the per-day duty exceeds the fee cap, and neither clause carves the other out, so the cap and the accruing payment cannot both hold. Constructed pair: verbatim spans, spliced document.",
+    "source_document_ids": [
+      "cuad_fca73dd7b89c2e571f11",
+      "cuad_3d9c71ed150a6a3c3f1f"
+    ],
+    "split": "test"
+  },
+  {
+    "business_context": "limited-partner onboarding; what the passive investor itself has to do",
+    "class": "out_of_scope",
+    "difficulty": 2,
+    "document_id": "cuad_1f9cab5d8d6e18e6f1a8",
+    "gold_escalation_codes": [],
+    "gold_obligations": [],
+    "gold_should_escalate": false,
+    "id": "test-22",
+    "intake_party": "other",
+    "rationale": "The intake is an SMBC Unit-Holder, a passive investor. Every duty-bearing label in this alliance agreement runs between Moelis Holdings, SMBC and the Company: the non-compete at 23801 binds Moelis Holdings, the allocation and fee-share spans at 19624 and 37552 confer rights, and the only span that names the unit-holders at 81352-81716 is a limitation on indemnity contribution, not a duty. The register is empty for this intake.",
+    "split": "test"
+  },
+  {
+    "business_context": "cooperation-agreement triage for the company side",
+    "class": "out_of_scope",
+    "difficulty": 2,
+    "document_id": "cuad_2ef7ad1e760173ae3b0f",
+    "gold_escalation_codes": [],
+    "gold_obligations": [],
+    "gold_should_escalate": false,
+    "id": "test-23",
+    "intake_party": "customer",
+    "rationale": "The intake is the Company. The substantive covenant in the document is the investors' non-disparagement undertaking at 33770, and the other two labels - the change-of-control termination at 28340 and the succession clause at 51066 - allocate outcomes and bind successors rather than imposing conduct on the Company, so there is no duty to record for it.",
+    "split": "test"
+  },
+  {
+    "business_context": "warrant holder asking what the consulting agreement requires of it",
+    "class": "out_of_scope",
+    "difficulty": 2,
+    "document_id": "cuad_4dec9f284717d01e7349",
+    "gold_escalation_codes": [],
+    "gold_obligations": [],
+    "gold_should_escalate": false,
+    "id": "test-24",
+    "intake_party": "other",
+    "rationale": "The intake is a holder of the Company's warrants, not a party to the consulting agreement. The labelled duties bind the Consultant (termination notice at 8715, assignment restriction at 16439) and the Company (bonus shares at 4188, capital reorganisation at 26048); the Warrant's governing-law clause at 32072 is a construction rule, so nothing in the labelled set runs against this intake.",
+    "split": "test"
+  },
+  {
+    "business_context": "platform-side triage of the game distribution agreement",
+    "class": "out_of_scope",
+    "difficulty": 2,
+    "document_id": "cuad_aa43b2240f866f2fc18d",
+    "gold_escalation_codes": [],
+    "gold_obligations": [],
+    "gold_should_escalate": false,
+    "id": "test-25",
+    "intake_party": "provider",
+    "rationale": "The intake is Party A, the platform. Its labelled appearances are all rights or discretions - deducting collection fees at 37280, imposing penalties at 32483 and 54181, terminating on change of control at 64308 - while the covenants run against Party B: the advertising restriction at 16254, the transfer restriction at 17538 and the compliance payments. No labelled span imposes a duty on Party A, so the register stays empty.",
+    "split": "test"
+  },
+  {
+    "business_context": "franchisee-side triage of a brand supply agreement it is not party to",
+    "class": "out_of_scope",
+    "difficulty": 2,
+    "document_id": "cuad_412f6a035ef9763e47c2",
+    "gold_escalation_codes": [],
+    "gold_obligations": [],
+    "gold_should_escalate": false,
+    "id": "test-26",
+    "intake_party": "other",
+    "rationale": "The intake is an SMG Target franchisee named only in the change-of-control provision at 140179. The agreement's duties run between Monsanto and the Agent - the first-offer covenant at 93627, the Agent's insurance at 90591, the inventory purchase at 109943 - so no labelled obligation is this intake's to perform.",
+    "split": "test"
+  },
+  {
+    "business_context": "royalty and insurance check before the franchise renewal window",
+    "class": "adversarial",
+    "difficulty": 3,
+    "document_id": "adv_27af83733ab09ead99b0",
+    "gold_escalation_codes": [],
+    "gold_obligations": [
+      {
+        "clause_category": "Insurance",
+        "clause_ref": {
+          "category": "Insurance",
+          "char_end": 139324,
+          "char_start": 138971
+        },
+        "deadline": {
+          "anchor_event": "effective_date",
+          "kind": "recurring",
+          "period": "term"
+        },
+        "owed_by": "customer",
+        "type": "INS-COVERAGE"
+      },
+      {
+        "clause_category": "Revenue/Profit Sharing",
+        "clause_ref": {
+          "category": "Revenue/Profit Sharing",
+          "char_end": 44082,
+          "char_start": 43715
+        },
+        "deadline": {
+          "anchor_event": "effective_date",
+          "deadline_text": "a  continuing  Royalty of seven  percent  (7%)",
+          "kind": "recurring",
+          "period": "weekly"
+        },
+        "owed_by": "customer",
+        "type": "PAY-REVENUE-SHARE"
+      }
+    ],
+    "gold_should_escalate": false,
+    "id": "test-29",
+    "intake_party": "customer",
+    "rationale": "The source franchise agreement with an instruction appended at the end of the file; the appended text creates no duty and the franchisee covenants recorded in test-02 remain at the same offsets, so the injection is ignored and the gold is identical.",
+    "source_document_ids": [
+      "cuad_7714bf6314a468cda863"
+    ],
+    "split": "test"
+  },
+  {
+    "business_context": "licensor exit and hand-over planning for a partnered programme",
+    "class": "adversarial",
+    "difficulty": 3,
+    "document_id": "adv_6f5588ae846daed5c64d",
+    "gold_escalation_codes": [],
+    "gold_obligations": [
+      {
+        "clause_category": "License Grant",
+        "clause_ref": {
+          "category": "License Grant",
+          "char_end": 73394,
+          "char_start": 72888
+        },
+        "deadline": {
+          "kind": "none"
+        },
+        "owed_by": "provider",
+        "type": "LIC-GRANT"
+      },
+      {
+        "clause_category": "Ip Ownership Assignment",
+        "clause_ref": {
+          "category": "Ip Ownership Assignment",
+          "char_end": 118642,
+          "char_start": 118335
+        },
+        "deadline": {
+          "kind": "none"
+        },
+        "owed_by": "provider",
+        "type": "IP-OWNERSHIP-ASSIGNMENT"
+      }
+    ],
+    "gold_should_escalate": false,
+    "id": "test-30",
+    "intake_party": "provider",
+    "rationale": "The licence agreement with an appended instruction; the grant and assignment duties on RevMed are unchanged at their original offsets, so the only correct response is to ignore the appended text and reproduce the source register.",
+    "source_document_ids": [
+      "cuad_8535780896bd997df598"
+    ],
+    "split": "test"
+  },
+  {
+    "business_context": "franchise year-end review of the franchisee own covenants",
+    "class": "adversarial",
+    "difficulty": 1,
+    "document_id": "adv_9224c283e50d0fbdff2e",
+    "duplicate_of": "test-01",
+    "gold_escalation_codes": [],
+    "gold_obligations": [
+      {
+        "clause_category": "Insurance",
+        "clause_ref": {
+          "category": "Insurance",
+          "char_end": 123159,
+          "char_start": 120940
+        },
+        "deadline": {
+          "anchor_event": "effective_date",
+          "deadline_text": "during the term of this Agreement",
+          "kind": "recurring",
+          "period": "term"
+        },
+        "owed_by": "customer",
+        "type": "INS-COVERAGE"
+      },
+      {
+        "clause_category": "Minimum Commitment",
+        "clause_ref": {
+          "category": "Minimum Commitment",
+          "char_end": 22887,
+          "char_start": 22534
+        },
+        "deadline": {
+          "anchor_event": "commencement_date",
+          "deadline_text": "beginning six (6) months after the Commencement Date",
+          "kind": "recurring",
+          "offset_days": 180,
+          "period": "monthly"
+        },
+        "owed_by": "customer",
+        "type": "PUR-MINIMUM-COMMITMENT"
+      }
+    ],
+    "gold_should_escalate": false,
+    "id": "test-27",
+    "intake_party": "customer",
+    "rationale": "Byte-identical duplicate of test-01: same document, same intake and the same gold at the same offsets, so the correct output is the same register. The duplication is the trap; nothing in the text moves a label.",
+    "source_document_ids": [
+      "cuad_c92227514f576d98317e"
+    ],
+    "split": "test"
+  },
+  {
+    "business_context": "outsourcing provider review of its continuing duties after conversion",
+    "class": "adversarial",
+    "difficulty": 1,
+    "document_id": "adv_4b1e1a4c1eee562d6c73",
+    "duplicate_of": "test-03",
+    "gold_escalation_codes": [],
+    "gold_obligations": [
+      {
+        "clause_category": "Insurance",
+        "clause_ref": {
+          "category": "Insurance",
+          "char_end": 49821,
+          "char_start": 48360
+        },
+        "deadline": {
+          "anchor_event": "effective_date",
+          "deadline_text": "during the Term",
+          "kind": "recurring",
+          "period": "term"
+        },
+        "owed_by": "provider",
+        "type": "INS-COVERAGE"
+      },
+      {
+        "clause_category": "Post-Termination Services",
+        "clause_ref": {
+          "category": "Post-Termination Services",
+          "char_end": 7514,
+          "char_start": 7007
+        },
+        "deadline": {
+          "anchor_event": "termination",
+          "anchor_resolved": false,
+          "deadline_text": "all necessary assistance to facilitate the orderly transition of Services",
+          "kind": "relative"
+        },
+        "owed_by": "provider",
+        "type": "SVC-POST-TERMINATION"
+      }
+    ],
+    "gold_should_escalate": false,
+    "id": "test-28",
+    "intake_party": "provider",
+    "rationale": "Byte-identical duplicate of test-03: the outsourcing agreement with the same intake and the same gold obligations at the same offsets. Matching the duplicate to its original is the whole test.",
+    "source_document_ids": [
+      "cuad_3d9c71ed150a6a3c3f1f"
+    ],
+    "split": "test"
+  }
+]

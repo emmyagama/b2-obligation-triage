@@ -1,0 +1,12 @@
+id: test-24
+split: test
+document_id: cuad_4dec9f284717d01e7349
+intake_party: other
+business_context: warrant holder asking what the consulting agreement requires of it
+class: out_of_scope
+gold_obligations: []
+gold_should_escalate: false
+gold_escalation_codes: []
+rationale: The intake is a holder of the Company's warrants, not a party to the consulting agreement. The labelled duties bind the Consultant (termination notice at 8715, assignment restriction at 16439)
+  and the Company (bonus shares at 4188, capital reorganisation at 26048); the Warrant's governing-law clause at 32072 is a construction rule, so nothing in the labelled set runs against this intake.
+difficulty: 2

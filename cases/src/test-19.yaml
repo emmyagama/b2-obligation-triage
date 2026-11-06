@@ -1,0 +1,35 @@
+id: test-19
+split: test
+document_id: composite_4e4b51c5cd3f6a4c7ea9
+intake_party: customer
+business_context: termination-fee exposure against the counterparty damages exclusion
+class: conflicting
+constructed: true
+conflict_pair_id: CP-test-19
+source_document_ids:
+- cuad_412f6a035ef9763e47c2
+- cuad_fca73dd7b89c2e571f11
+gold_obligations:
+- type: LIA-LIQUIDATED-DAMAGES
+  owed_by: customer
+  clause_category: Liquidated Damages
+  clause_ref:
+    category: Liquidated Damages
+    char_start: 142328
+    char_end: 142875
+  deadline:
+    kind: none
+gold_should_escalate: true
+gold_escalation_codes:
+- E2_CONFLICTING_CLAUSES
+conflict_clause_refs:
+- category: Liquidated Damages
+  char_start: 142328
+  char_end: 142875
+- category: Cap On Liability
+  char_start: 273479
+  char_end: 274063
+rationale: 'Clause A stipulates that the Termination Fee is payable because the injury from termination cannot be estimated; clause B, spliced in from the second source, states that no party is liable to
+  the other for indirect, special, exemplary, punitive or consequential damages. A stipulated sum for unquantifiable loss is exactly the head clause B excludes, so the fee duty and the exclusion cannot
+  both be performed. Constructed pair: verbatim spans, spliced document.'
+difficulty: 3

@@ -1,0 +1,28 @@
+{
+  "chunking": {
+    "max_chars": 700,
+    "overlap": 100
+  },
+  "chunks": 8724,
+  "chunks_sha256": "196eafedcd2d2ba5a34516e54bcf390d9dce71a2ab7774cbdfcb3ee5475a5b01",
+  "dimensions": 384,
+  "document_sha256": {
+    "adv_27af83733ab09ead99b0": "dfa2bf5f690cf3eaf3d08507c652feee15689e4a10a9c9c3367c200352c65c37",
+    "adv_4b1e1a4c1eee562d6c73": "2c0cbfce0cdc073b09800802a58fd0f025e9d1f7014713ecc5dd47f7c62f2c52",
+    "adv_6f5588ae846daed5c64d": "1db350b1b8d245c249573a032b9b1a3f04e26e53be7112e0459addf6ae3e022b",
+    "adv_9224c283e50d0fbdff2e": "0c6be355977150d83d8f1ee5dd30f176e637a4e02df72b731131860b079f1b41",
+    "composite_12f8dcd43b68eb16d09d": "63f949d2a466126c57f4291d7961a2b4ed956cf119c9d1a9880f742e3be76a84",
+    "composite_134e5c3bea32a9a6632a": "acf7bd12709886e03576956142711676df6bf11b2c2d73203d64c1cd509d2f36",
+    "composite_3ff5786d0f09b2611a63": "54b0a9f9148175cf174b34e5d24359cf04601719a15ca9cb30de2dad1af5c03d",
+    "composite_496a5d6b32df2bf1e091": "a41762473aea9254ce6bc1d91a2398425b155bf810f49d3ef01b52cacc3274ce",
+    "composite_4bf3f94d05591e5d2eb6": "dab507172961372fd8d08e87511701b3f76fcb2d3b9346526dcfd70fb7af8470",
+    "composite_4e4b51c5cd3f6a4c7ea9": "2089edfba9a94b497e0f9619526f44bdf8cc2d0dc92afeb5623130d48e71d6a6",
+    "composite_61c626a3b683b3ef71c2": "563b8c1597971e2ba0e625f56b3184df4d4a121912000b9998ec3cd1bb4b9416",
+    "composite_75c622f527ea034356a9": "f2e2fa4d3f73124eb05ef2ec6b63ec63b5316289e16ff172cf92fe6096997141",
+    "composite_975deac30eb0cdb76eed": "a2f8578f3d59fa22036842e0871baf301aebc87ffe4a1a7cd8666a435ae40da0"
+  },
+  "dtype": "float16",
+  "format": "b2-lean-v1",
+  "model_id": "all-MiniLM-L6-v2",
+  "vectors_sha256": "136c13d8abef64859ba9eeabbc8aa21f49ddb88bd34ce4ae97d6a7c6fa9b5b31"
+}

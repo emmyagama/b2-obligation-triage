@@ -1,0 +1,12 @@
+id: test-26
+split: test
+document_id: cuad_412f6a035ef9763e47c2
+intake_party: other
+business_context: franchisee-side triage of a brand supply agreement it is not party to
+class: out_of_scope
+gold_obligations: []
+gold_should_escalate: false
+gold_escalation_codes: []
+rationale: The intake is an SMG Target franchisee named only in the change-of-control provision at 140179. The agreement's duties run between Monsanto and the Agent - the first-offer covenant at 93627,
+  the Agent's insurance at 90591, the inventory purchase at 109943 - so no labelled obligation is this intake's to perform.
+difficulty: 2

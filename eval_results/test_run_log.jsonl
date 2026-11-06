@@ -1,0 +1,2 @@
+{"attempt_id":"20261106T015359777023Z","case_sha256":"ea702983aeb145a0b15afaa2d7085af25792cd3a9731cdabb86caaddef40417f","git_sha":"d6456ae6cf7039039007a91a0318bb9b3b8474e8","mode":"live","status":"started"}
+{"attempt_id":"20261106T015359777023Z","case_sha256":"ea702983aeb145a0b15afaa2d7085af25792cd3a9731cdabb86caaddef40417f","cases":30,"git_sha":"d6456ae6cf7039039007a91a0318bb9b3b8474e8","mode":"live","status":"completed","timestamp":"20261106T015359777023Z","valid":true}

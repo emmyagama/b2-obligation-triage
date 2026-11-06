@@ -4,29 +4,17 @@ __pycache__/
 annotation/workspace/
 cache/scratch/
 .env
-# Pre-freeze embargo; force-add only after a completed valid held-out live run.
-cases/src/test-*.yaml
-cases/test.json
+# Test-split reviewer notes stay local (not part of the Phase F release list).
 cases/TEST-NOTES.md
-cache/llm/
-eval_results/run_test_*
-eval_results/run_all_*
-eval_results/summary_test.md
-eval_results/metrics_test.json
-eval_results/cost_latency.csv
-eval_results/deadline_breakdown.csv
-eval_results/drift.csv
 # Preserved from OpenCode Phase A.
 data/
 eval_results/scratch/
-eval_results/**/*test*
+eval_results/run_all_*
 # Review packets may include held-out excerpts and identifiable reviewer feedback.
 reviews/packets/
 corpus/adversarial/source/
 # v1.1: legacy Chroma store remains local (not committed); lean index is committed.
 corpus/embeddings/chroma
-# Local-only test synthetics (embargoed until valid test run)
-corpus/synthetic_test/
-db/test_docs.sqlite
-db/test_docs.sqlite-*
+# Synthetic test embed cache stays local; documents + index + DB are released.
 corpus/synthetic_test/embed_cache/
+db/test_docs.sqlite-*
