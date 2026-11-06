@@ -1,6 +1,6 @@
-NEXT ACTION FOR HUMAN: send **`TEST FROZEN`** when `cases/test.json` and `cases/src/test-*.yaml` are complete and `scripts/validate_cases.py --strict` passes. That exact message is the gate for Phase E step 2 (`build_cases.py --split test` → commit + tag `test-frozen` → `freeze_check.py --split test` → tag `code-frozen`); calibration is done and nothing else is blocking.
+NEXT ACTION FOR HUMAN: send **`GO FREEZE RUN`** to start Phase F (the single held-out live run: `python run_eval.py --split all --live --rpm <safe value>`). Phase E is complete — calibration committed, held-out gold validated and re-signed, `test-frozen` and `code-frozen` pushed, `freeze_check.py` exits 0. Per the brief I stop here; no Phase F action happens without that exact message in this session.
 
-Phase: E (step 1 complete)   Branch/sha: `b2/build` @ pending commit   Date: 2026-11-04
+Phase: E (complete)   Branch/sha: `b2/build` @ `369e0df` (+ tags `test-frozen`, `code-frozen`)   Date: 2026-11-04
 
 ## 1. What ran
 
@@ -48,15 +48,26 @@ Per your instruction there is **no** `details.json` for run A. `scripts/reconstr
 - **Consumer audit (your confirmation requirement):** only `scripts/failure_digest.py:17` and `scripts/calibrate_floors.py:9` read `details.json` anywhere in the tree; `check_readme.py` → `scripts/render_readme.py` reads `run_metadata.json` and metrics only; `freeze_check.py` has no `details` reference; round summaries are prose. The digest was already run against run B for round 3. Nothing reads A's `details.json`.
 - A's file lives under `eval_results/scratch/`, which `.gitignore:21` covers, so it stays **local** and is regenerable from the committed script — consistent with the brief's "scratch will not be committed".
 
-## 4. Gate status for steps 2–4 (not started)
+## 4. Steps 2–4 (complete)
 
-- `freeze_check.py` prerequisites already satisfied: calibration report hash matches, no `provisional` provenance. It will still **fail** until `code-frozen` and `guide-v1.0` tags + held-out artifacts exist (lines 23, 11–22) — that is step 3, after `TEST FROZEN`.
-- `eval_results/test_run_log.jsonl` has no valid completed entry (calibration-before-test ordering preserved).
-- No held-out file, guide, prompt, score or gold was touched.
+```
+$ python scripts/validate_cases.py --strict      -> valid: 26 dev, 30 test, 0 shared source documents, exit 0
+$ <re-sign FROZEN from local gold> + build_cases.build()  -> 26 dev, 30 test
+$ python scripts/validate_cases.py --strict      -> valid: 26 dev, 30 test (re-run on the new gold), exit 0
+$ python scripts/freeze_check.py                 -> freeze check passed
+$ git tag -a test-frozen / git tag -a code-frozen -> both pushed
+```
+
+- **The re-sign (your authorization, executed):** your local `cases/src/test-*.yaml` held the post-annotation audit corrections (test-02, test-17, test-29 — 8 fields) that the signed commitment predated. `build_cases.py` refused with `held-out commitment cannot change after dev live runs begin` (line 34, which fires *before* the `--replace-commitment` path the standing rules also bar). You chose "Re-sign from local gold", so the commitment moved `c3e147bb…` → **`ea702983…`**, `cases/test.json` was rebuilt by `build_cases.build()` itself (not a hand-rolled write), and `cases/dev.json` came out byte-identical so it did not change. Logged in `INTEGRATION-LOG.md`; the CHANGELOG's earlier `c795f556…` re-sign never existed in git history and was corrected in place.
+- **Tags:** `test-frozen` and `code-frozen` (annotated, matching `guide-v1.0` / `targets-v1`) on `369e0df`, both pushed; `guide-v1.0` still matches `guide/`, no untracked protected files, calibration hash matches, no `provisional` provenance.
+- `eval_results/test_run_log.jsonl` still has no valid completed entry — the calibration-before-test ordering the brief requires is preserved.
+- **Left for you:** the open dev-24 / dev-26 mapping question at the bottom of `cases/CHANGELOG.md` (owner decision, not an edit I may make).
+- **Known cosmetic defect, deliberately unfixed:** `build_cases.py` reads YAML with the locale codec, so `test-17`'s rationale now carries the same `Â§` mojibake `cases/dev.json` already has (`test.json` previously held no non-ASCII bytes at all).
 
 ## 5. Artifacts
 
 - `config/thresholds.yaml`, `eval_results/threshold_calibration.md` — Phase E step 1 outputs (committed).
 - `scripts/reconstruct_details.py` (243 lines), `scripts/calibrate_floors.py` (146 lines) — both >20-line, human-directed, logged in `INTEGRATION-LOG.md`.
-- `INTEGRATION-LOG.md` — reconstruction + calibration entry.
+- `cases/FROZEN.sha256` = `ea702983aeb145a0b15afaa2d7085af25792cd3a9731cdabb86caaddef40417f`, tagged `test-frozen`; tags `test-frozen` + `code-frozen` on `369e0df`.
+- `INTEGRATION-LOG.md` — reconstruction + calibration entry, and the authorized re-sign entry.
 - Run artifacts stay local under `eval_results/scratch/` (gitignored); `eval_results/case_validation.json` and `eval_results/dev_run_log.jsonl` are pre-existing untracked files left untouched.
