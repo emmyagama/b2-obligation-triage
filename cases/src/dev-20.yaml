@@ -38,7 +38,7 @@ gold_obligations:
     kind: relative
     anchor_event: last_shipment
     offset_days: 3650
-    deadline_text: for a minimum period of 10 years after the last shipment of a System pursuant to this Agreement
+    deadline_text: for a minimum period of 10 years after the  last shipment of a System pursuant to this Agreement
 gold_should_escalate: false
 gold_escalation_codes: []
 rationale: 'Exact duplicate of dev-01: same document, same intake and identical business context, so an idempotent pipeline must return byte-identical gold.'

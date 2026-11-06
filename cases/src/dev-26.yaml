@@ -11,25 +11,27 @@ source_document_ids:
 - cuad_2a450f18c7649b3d7561
 gold_obligations:
 - type: LIA-UNCAPPED
-  owed_by: provider
-  clause_category: Cap On Liability
+  owed_by: both
+  clause_category: Uncapped Liability
   clause_ref:
-    category: Cap On Liability
-    char_start: 61222
-    char_end: 62596
+    category: Uncapped Liability
+    char_start: 182126
+    char_end: 183750
   deadline:
     kind: none
 gold_should_escalate: true
 gold_escalation_codes:
 - E2_CONFLICTING_CLAUSES
 conflict_clause_refs:
-- category: Cap On Liability
-  char_start: 61222
-  char_end: 62596
+- category: Uncapped Liability
+  char_start: 182126
+  char_end: 183750
 - category: Cap On Liability
   char_start: 284339
   char_end: 284587
-rationale: 'Clause A makes the manufacturer liable for any actual amounts its customer is contractually required to pay its third-party customers, with no monetary ceiling in the span. Clause B, spliced
-  in from the second source, caps total liability under the Agreement at the amounts actually received, ''regardless of the number or type of claims''. Where the downstream exposure exceeds receipts - the
-  case the clause A duty exists for - the two cannot both hold, and neither span yields to the other: there is no carve-out and no precedence language. Constructed pair: verbatim spans, spliced document.'
+rationale: 'Clause A lists the claims that fall outside the liability cap - third-party claims under the indemnities, gross negligence, fraud, willful misconduct, willful breach, breach of confidentiality,
+  and customer liabilities under Section 2.5(e), which is the downstream cash exposure this intake carries - so those amounts are recoverable without a ceiling. Clause B, spliced in from the second source,
+  provides that total liability under the Agreement shall not exceed the amounts actually received, ''regardless of the number or type of claims''. Where the downstream exposure exceeds receipts - the case
+  the carve-out exists for - the uncapped limb and the total cap cannot both hold, and neither span yields to the other: there is no precedence language and no carve-out in the second clause. The uncapped
+  record is mutual, because the cap it excepts restrains both parties (''neither Party''s aggregate liability''). Constructed pair: verbatim spans, spliced document.'
 difficulty: 3

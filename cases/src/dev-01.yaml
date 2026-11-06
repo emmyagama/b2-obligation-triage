@@ -37,7 +37,7 @@ gold_obligations:
     kind: relative
     anchor_event: last_shipment
     offset_days: 3650
-    deadline_text: for a minimum period of 10 years after the last shipment of a System pursuant to this Agreement
+    deadline_text: for a minimum period of 10 years after the  last shipment of a System pursuant to this Agreement
 gold_should_escalate: false
 gold_escalation_codes: []
 rationale: Section 4.6.2 fixes a one-year product warranty running from installation, the Section 2 software grant is unilateral and carries no time limit, and Section 4.7 keeps support and spare parts

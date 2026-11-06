@@ -44,7 +44,7 @@
         },
         "deadline": {
           "anchor_event": "last_shipment",
-          "deadline_text": "for a minimum period of 10 years after the last shipment of a System pursuant to this Agreement",
+          "deadline_text": "for a minimum period of 10 years after the  last shipment of a System pursuant to this Agreement",
           "kind": "relative",
           "offset_days": 3650
         },
@@ -416,11 +416,11 @@
     "gold_escalation_codes": [],
     "gold_obligations": [
       {
-        "clause_category": "Irrevocable Or Perpetual License",
+        "clause_category": "License Grant",
         "clause_ref": {
-          "category": "Irrevocable Or Perpetual License",
-          "char_end": 174659,
-          "char_start": 174486
+          "category": "License Grant",
+          "char_end": 175709,
+          "char_start": 174108
         },
         "deadline": {
           "kind": "none"
@@ -432,7 +432,7 @@
     "gold_should_escalate": false,
     "id": "dev-09",
     "intake_party": "licensor",
-    "rationale": "Candidate rejected: 174486-174659 makes the BLI-to-Ginkgo licences perpetual and irrevocable only where termination follows the Buy-Down Election, whereas 74863-75104 is Ginkgo at-will termination of the separate Software License Agreement, so the two run on different termination routes and can both be performed; the surviving grant is the licensor duty recorded.",
+    "rationale": "Candidate rejected: 174486-174659 makes the BLI-to-Ginkgo licences perpetual and irrevocable only where termination follows the Buy-Down Election, whereas 74863-75104 is Ginkgo at-will termination of the separate Software License Agreement, so the two run on different termination routes and can both be performed; the surviving grant is the licensor duty recorded. The perpetual, irrevocable quality is a grant qualifier on this single LIC-GRANT (guide Â§3.3, D3), so the excluded `Irrevocable Or Perpetual License` category is not used as the obligation's category; the record is anchored to the enclosing CUAD `License Grant` span.",
     "split": "dev"
   },
   {
@@ -838,10 +838,10 @@
     ],
     "gold_obligations": [
       {
-        "clause_category": "Irrevocable Or Perpetual License",
+        "clause_category": "License Grant",
         "clause_ref": {
-          "category": "Irrevocable Or Perpetual License",
-          "char_end": 8913,
+          "category": "License Grant",
+          "char_end": 9072,
           "char_start": 7675
         },
         "deadline": {
@@ -854,7 +854,7 @@
     "gold_should_escalate": true,
     "id": "dev-23",
     "intake_party": "licensor",
-    "rationale": "Clause A grants the licence as irrevocable and payable up front; clause B, spliced in from the second source, lets either party terminate the Agreement for convenience on written notice, with no carve-out preserving the licensed rights. Keeping the grant irrevocable and ending the Agreement at will are not jointly performable: terminating on convenience revokes the licence that the first clause says cannot be revoked, and honouring the grant denies the termination right its effect. This is the pattern the guide lists for review, reproduced here by construction: verbatim spans, manufactured collision.",
+    "rationale": "Clause A grants the licence as irrevocable and payable up front; clause B, spliced in from the second source, lets either party terminate the Agreement for convenience on written notice, with no carve-out preserving the licensed rights. Keeping the grant irrevocable and ending the Agreement at will are not jointly performable: terminating on convenience revokes the licence that the first clause says cannot be revoked, and honouring the grant denies the termination right its effect. This is the pattern the guide lists for review, reproduced here by construction: verbatim spans, manufactured collision. Per guide Â§3.3/D3 the irrevocable, perpetual quality is a qualifier on one LIC-GRANT, not a separate obligation, so the record is anchored to the full CUAD `License Grant` span rather than the excluded `Irrevocable Or Perpetual License` label.",
     "source_document_ids": [
       "cuad_5c2a9dcbe0cc7593bb1d",
       "cuad_93a7191ff01200e8fe44"
@@ -885,6 +885,19 @@
     ],
     "gold_obligations": [
       {
+        "clause_category": "Audit Rights",
+        "clause_ref": {
+          "category": "Audit Rights",
+          "char_end": 347693,
+          "char_start": 347004
+        },
+        "deadline": {
+          "kind": "none"
+        },
+        "owed_by": "provider",
+        "type": "CTL-AUDIT-RIGHT"
+      },
+      {
         "clause_category": "Post-Termination Services",
         "clause_ref": {
           "category": "Post-Termination Services",
@@ -898,13 +911,13 @@
           "offset_days": 1095
         },
         "owed_by": "provider",
-        "type": "CTL-AUDIT-RIGHT"
+        "type": "SVC-POST-TERMINATION"
       }
     ],
     "gold_should_escalate": true,
     "id": "dev-24",
     "intake_party": "provider",
-    "rationale": "Clause A makes the manufacturer liable for the actual amounts its customer must pay its own third-party customers when the customer cannot be supplied - the classic indirect loss. Clause B, spliced in from the second source, excludes indirect, special and consequential loss outright 'notwithstanding anything contained in this Agreement to the contrary', carving out only indemnity, confidentiality and breaches of law, none of which covers the clause A duty. The same party must pay the customer's downstream losses and must have no liability for them; the only route out of the collision would be a precedence rule, and neither clause contains one. Constructed pair: verbatim spans, spliced document.",
+    "rationale": "Clause A makes the manufacturer liable for the actual amounts its customer must pay its own third-party customers when the customer cannot be supplied - the classic indirect loss. Clause B, spliced in from the second source, excludes indirect, special and consequential loss outright 'notwithstanding anything contained in this Agreement to the contrary', carving out only indemnity, confidentiality and breaches of law, none of which covers the clause A duty. The same party must pay the customer's downstream losses and must have no liability for them; the only route out of the collision would be a precedence rule, and neither clause contains one. Two duties are recorded, each under the CUAD label that surfaced it: the audit-access duty owed by the Vendor (records and facilities open to AT&T and its auditors at all reasonable times, 121881-122570) and the retention duty that gives the audit its tail (records kept during the term and for three years after, 349788-350136). Constructed pair: verbatim spans, spliced document.",
     "source_document_ids": [
       "cuad_66e33fbe68d408120418",
       "cuad_bb70642fec2aa263b6d7"
@@ -963,9 +976,9 @@
     "class": "conflicting",
     "conflict_clause_refs": [
       {
-        "category": "Cap On Liability",
-        "char_end": 62596,
-        "char_start": 61222
+        "category": "Uncapped Liability",
+        "char_end": 183750,
+        "char_start": 182126
       },
       {
         "category": "Cap On Liability",
@@ -982,23 +995,23 @@
     ],
     "gold_obligations": [
       {
-        "clause_category": "Cap On Liability",
+        "clause_category": "Uncapped Liability",
         "clause_ref": {
-          "category": "Cap On Liability",
-          "char_end": 62596,
-          "char_start": 61222
+          "category": "Uncapped Liability",
+          "char_end": 183750,
+          "char_start": 182126
         },
         "deadline": {
           "kind": "none"
         },
-        "owed_by": "provider",
+        "owed_by": "both",
         "type": "LIA-UNCAPPED"
       }
     ],
     "gold_should_escalate": true,
     "id": "dev-26",
     "intake_party": "provider",
-    "rationale": "Clause A makes the manufacturer liable for any actual amounts its customer is contractually required to pay its third-party customers, with no monetary ceiling in the span. Clause B, spliced in from the second source, caps total liability under the Agreement at the amounts actually received, 'regardless of the number or type of claims'. Where the downstream exposure exceeds receipts - the case the clause A duty exists for - the two cannot both hold, and neither span yields to the other: there is no carve-out and no precedence language. Constructed pair: verbatim spans, spliced document.",
+    "rationale": "Clause A lists the claims that fall outside the liability cap - third-party claims under the indemnities, gross negligence, fraud, willful misconduct, willful breach, breach of confidentiality, and customer liabilities under Section 2.5(e), which is the downstream cash exposure this intake carries - so those amounts are recoverable without a ceiling. Clause B, spliced in from the second source, provides that total liability under the Agreement shall not exceed the amounts actually received, 'regardless of the number or type of claims'. Where the downstream exposure exceeds receipts - the case the carve-out exists for - the uncapped limb and the total cap cannot both hold, and neither span yields to the other: there is no precedence language and no carve-out in the second clause. The uncapped record is mutual, because the cap it excepts restrains both parties ('neither Party's aggregate liability'). Constructed pair: verbatim spans, spliced document.",
     "source_document_ids": [
       "cuad_66e33fbe68d408120418",
       "cuad_2a450f18c7649b3d7561"
@@ -1051,7 +1064,7 @@
         },
         "deadline": {
           "anchor_event": "last_shipment",
-          "deadline_text": "for a minimum period of 10 years after the last shipment of a System pursuant to this Agreement",
+          "deadline_text": "for a minimum period of 10 years after the  last shipment of a System pursuant to this Agreement",
           "kind": "relative",
           "offset_days": 3650
         },

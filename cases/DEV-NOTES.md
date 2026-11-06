@@ -1,9 +1,9 @@
 # B2 obligation triage — dev case notes
 
 **Owner:** Emmanuel
-**Version:** 2.0 (dev set closed at 26 cases, constructed `E2` cases included)
+**Version:** 2.2 (dev set closed at 26 cases, constructed `E2` cases included; `dev-15` reclassified with `E1`, and the gold corrected by the post-annotation audit - `dev-24`, `dev-26`, 2026-11-04)
 **Date:** 3 November 2026
-**Scope:** `cases/src/dev-01.yaml` … `dev-26.yaml` — 14 clear, 5 conflicting, 5 out of scope, 2 adversarial — matching the `dev` line of `config/splits.yaml` exactly. Built against `guide/annotation-guide.md` 1.1.0 (ERR-03) and `guide/obligation_types.yaml` 1.1.0.
+**Scope:** `cases/src/dev-01.yaml` … `dev-26.yaml` — 15 clear, 5 conflicting, 4 out of scope, 2 adversarial — matching the `dev` line of `config/splits.yaml` exactly. Built against `guide/annotation-guide.md` 1.1.0 (ERR-03) and `guide/obligation_types.yaml` 1.1.0.
 
 This note replaces the 21-case version of 3 November. The dev split grew by five **constructed** composite cases (`dev-22` … `dev-26`): two real contracts spliced by `scripts/make_composite.py`, each contributing a clause that cannot be performed alongside the other. Every clause is a source contract's own text at its own offset; only the collision is manufactured, and every case says so in `constructed: true`.
 
@@ -62,7 +62,7 @@ That is the outcome the guide predicts in §7.2 — CUAD's co-occurrence counts 
 
 `dev-14` is `clear` and escalates `E3`; the five composites are `conflicting` and escalate `E2` on the pair only. Guide §8 now states the principle: `class` describes the triage situation of the case, escalation describes the record.
 
-In `dev-14` (`cuad_08636f6df2840b29991a`, Azul / ATR) the duties, parties and categories are plain — insurance during the Term, notice before the Repairer's own audit, a warranty running from Delivery — but every period that fixes when they run is `[*****]` in the filed copy, so all three deadlines are `relative` with an unresolvable anchor and no date may be guessed (§6.4). The five conflicting cases escalate on the pair, carried on both halves by `conflict_pair_id`. The out-of-scope cases do not escalate at all: the empty register is the answer.
+In `dev-14` (`cuad_08636f6df2840b29991a`, Azul / ATR) the duties, parties and categories are plain — insurance during the Term, notice before the Repairer's own audit, a warranty running from Delivery — but every period that fixes when they run is `[*****]` in the filed copy, so all three deadlines are `relative` with an unresolvable anchor and no date may be guessed (§6.4). The five conflicting cases escalate on the pair, carried on both halves by `conflict_pair_id`. The four remaining out-of-scope cases (`dev-16`…`dev-19`) do not escalate at all: for them the empty register is the answer, because the duties exist and belong to another party. `dev-15` is the one case where the document yields no duty for *anyone* — its only labels are Document Name, Agreement Date and Parties — so the null is a claim a human has to confirm, and that is `E1` inside a `clear` case, not an escalation read off the `out_of_scope` class (guide §8). Reclassified 2026-11-04; the reasoning and the calibration consequence are in `DECISIONS.md` and `cases/CHANGELOG.md`. The E1 floor stays disabled (`config/thresholds.yaml`, provenance `uncalibrated`) because one positive cannot calibrate a retrieval threshold and E1 is a role-mapping answer.
 
 ## 6. Dev-only build now works
 
@@ -97,7 +97,7 @@ valid: 26 dev, 0 test, 0 shared source documents
 | dev-12 | clear | customer | Dova co-promotion | 3 | PAY-REVENUE-SHARE@87456, INS-COVERAGE@137034 — rejected candidate (sole remedy vs carve-out) |
 | dev-13 | clear | licensor | Changepoint licence and hosting | 3 | LIC-SOURCE-ESCROW@63120 — rejected candidate (two governing laws, two instruments) |
 | dev-14 | clear | customer | Azul / ATR maintenance | 3 | INS-COVERAGE@47917, CTL-AUDIT-RIGHT@36541, WAR-DURATION@53349 — **E3**, redacted anchors |
-| dev-15 | out_of_scope | provider | OneMain joint filing | 1 | none — only document name, date and party labels |
+| dev-15 | clear | provider | OneMain joint filing | 1 | none — only document name, date and party labels; the null itself is the finding — **E1** |
 | dev-16 | out_of_scope | customer | Accuray distributor agreement | 2 | none — every duty-bearing label runs against the distributor |
 | dev-17 | out_of_scope | licensor | LoyaltyPoint reseller | 2 | none — the licensor holds only rights in the labelled spans |
 | dev-18 | out_of_scope | other | Verizon ABS servicing | 2 | none — the Owner Trustee owes none of the labelled duties |
@@ -106,11 +106,11 @@ valid: 26 dev, 0 test, 0 shared source documents
 | dev-21 | adversarial | customer | synthetic from `cuad_2a450f18…` | 3 | identical gold to the source; appended instruction ignored |
 | dev-22 | conflicting | licensor | composite: Changepoint + Manufacturers Services | 3 | LIC-SOURCE-ESCROW@63120 — **E2** California vs New York governing law |
 | dev-23 | conflicting | licensor | composite: Changepoint + Dova | 3 | LIC-GRANT@7675 — **E2** irrevocable grant vs at-will termination |
-| dev-24 | conflicting | provider | composite: manufacturer + AT&T vendor | 3 | CTL-AUDIT-RIGHT@349788 — **E2** downstream cash duty vs indirect-loss exclusion |
+| dev-24 | conflicting | provider | composite: manufacturer + AT&T vendor | 3 | CTL-AUDIT-RIGHT@347004 + SVC-POST-TERMINATION@349788 — **E2** downstream cash duty vs indirect-loss exclusion |
 | dev-25 | conflicting | customer | composite: GranTierra + Papa John's | 3 | LIA-LIQUIDATED-DAMAGES@24803 — **E2** penalty vs punitive-damages exclusion |
-| dev-26 | conflicting | provider | composite: manufacturer + Papa John's | 3 | LIA-UNCAPPED@61222 — **E2** uncapped downstream duty vs total-liability cap |
+| dev-26 | conflicting | provider | composite: manufacturer + Papa John's | 3 | LIA-UNCAPPED@182126 — **E2** uncapped downstream duty vs total-liability cap |
 
-**Counts.** 26 cases over 18 source documents and 5 composites; 41 gold obligations across 20 types (`owed_by` 19 provider / 18 customer / 4 both); deadlines 19 none / 15 relative / 7 recurring, 21 with verbatim `deadline_text`; difficulty 2×1, 12×2, 12×3; escalations: one `E3` (dev-14) and five `E2` pairs (dev-22…dev-26); 10 conflict clause refs.
+**Counts.** 26 cases over 18 source documents and 5 composites; 42 gold obligations across 20 types (`owed_by` 19 provider / 18 customer / 5 both); deadlines 20 none / 15 relative / 7 recurring, 21 with verbatim `deadline_text`; difficulty 2×1, 12×2, 12×3; escalations: one `E1` (dev-15), one `E3` (dev-14) and five `E2` pairs (dev-22…dev-26); 10 conflict clause refs. `dev-15` is the dev split's only E1 positive and, because its document carries no obligation-bearing clause at all, the only case a retrieval floor could ever catch.
 
 ## 8. Reproducing the pass
 
@@ -123,4 +123,14 @@ python scripts/validate_cases.py
 python scripts/validate_cases.py --strict       # dev passes; fails on the empty test split, see below
 ```
 
-**Strict status.** The dev split matches `config/splits.yaml` exactly — 14 clear / 5 conflicting / 5 out of scope / 2 adversarial, 26 cases — and both scripts exit 0 without `--strict`. `--strict` still exits 1 with `test class counts or size do not match config/splits.yaml`, because the test half does not exist yet: 30 cases are configured (12 clear / 9 conflicting / 5 out of scope / 4 adversarial), of which the nine `E2` cases must be constructed too, drawing 18 further source contracts. Those test synthetics belong in the gitignored `corpus/synthetic_test/` + `db/test_docs.sqlite` store, which the current scripts cannot target yet (no `--out-db` / `--out-dir` flags, no separate manifest, no second embedding index). That tooling is the next piece of work before the test half can be annotated at all.
+**Strict status.** Both splits match `config/splits.yaml` — dev `{clear: 15, conflicting: 5, out_of_scope: 4, adversarial: 2}` = 26, test `{clear: 12, conflicting: 9, out_of_scope: 5, adversarial: 4}` = 30 — and `build_cases.py` and `validate_cases.py --strict` both exit 0 with `valid: 26 dev, 30 test, 0 shared source documents`. The test half is annotated and described in `TEST-NOTES.md`; its 13 synthetics are held local until the isolated store exists (that file, §6).
+
+## 7. Post-annotation audit
+
+After the split was closed, an audit was run over both splits for the four things no script was checking: that every obligation's `type` is the taxonomy code for the CUAD category that surfaced it and that the category is `include: true`; that every `deadline_text` appears verbatim in the case document; and that duplicate and adversarial gold is identical to its original. It found six dev defects and two test defects; all are fixed and recorded in `cases/CHANGELOG.md`.
+
+The two that mattered most were both mine, and both came from the same mistake — chasing the offset check instead of the rule. `dev-09` and `dev-23` had their `LIC-GRANT` recorded against `Irrevocable Or Perpetual License`, an excluded category: guide §3.3/D3 makes perpetual-irrevocable a *qualifier* on the grant, never its own obligation, so both records are now anchored to the enclosing CUAD `License Grant` span. `dev-01`/`dev-20` paraphrased a `deadline_text` across doubled spaces in the filed copy; the string is now the verbatim substring.
+
+`dev-24` and `dev-26` were mapping violations where the intended reading was right but the anchor was on a span CUAD labels differently. Neither was retyped, because retyping would have changed what the case tests. `dev-24` now records two duties, each under the label that surfaced it: the Vendor's audit-access duty (`CTL-AUDIT-RIGHT`, 121881-122570 → case 347004-347693) and the record-retention duty that gives the audit its three-year tail (`SVC-POST-TERMINATION`, 349788-350136). `dev-26` is re-anchored to a genuine `Uncapped Liability` span (182126-183750, the carve-out list that includes customer liabilities under Section 2.5(e) — the downstream exposure the case is about), recorded `owed_by: both` because the cap it excepts restrains both parties; the contrast with the spliced total-liability cap is intact.
+
+**Audit result:** `dev` 42 gold / `test` 41 gold, zero mapping defects, zero non-verbatim `deadline_text`, duplicates identical. `validate_cases.py --strict` exits 0 on both splits.

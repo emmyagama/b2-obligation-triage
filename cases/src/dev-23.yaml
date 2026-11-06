@@ -12,11 +12,11 @@ source_document_ids:
 gold_obligations:
 - type: LIC-GRANT
   owed_by: provider
-  clause_category: Irrevocable Or Perpetual License
+  clause_category: License Grant
   clause_ref:
-    category: Irrevocable Or Perpetual License
+    category: License Grant
     char_start: 7675
-    char_end: 8913
+    char_end: 9072
   deadline:
     kind: none
 gold_should_escalate: true
@@ -31,5 +31,7 @@ conflict_clause_refs:
   char_end: 302308
 rationale: 'Clause A grants the licence as irrevocable and payable up front; clause B, spliced in from the second source, lets either party terminate the Agreement for convenience on written notice, with
   no carve-out preserving the licensed rights. Keeping the grant irrevocable and ending the Agreement at will are not jointly performable: terminating on convenience revokes the licence that the first clause
-  says cannot be revoked, and honouring the grant denies the termination right its effect. This is the pattern the guide lists for review, reproduced here by construction: verbatim spans, manufactured collision.'
+  says cannot be revoked, and honouring the grant denies the termination right its effect. This is the pattern the guide lists for review, reproduced here by construction: verbatim spans, manufactured collision.
+  Per guide §3.3/D3 the irrevocable, perpetual quality is a qualifier on one LIC-GRANT, not a separate obligation, so the record is anchored to the full CUAD `License Grant` span rather than the excluded
+  `Irrevocable Or Perpetual License` label.'
 difficulty: 3

@@ -12,6 +12,15 @@ source_document_ids:
 gold_obligations:
 - type: CTL-AUDIT-RIGHT
   owed_by: provider
+  clause_category: Audit Rights
+  clause_ref:
+    category: Audit Rights
+    char_start: 347004
+    char_end: 347693
+  deadline:
+    kind: none
+- type: SVC-POST-TERMINATION
+  owed_by: provider
   clause_category: Post-Termination Services
   clause_ref:
     category: Post-Termination Services
@@ -35,5 +44,7 @@ conflict_clause_refs:
 rationale: 'Clause A makes the manufacturer liable for the actual amounts its customer must pay its own third-party customers when the customer cannot be supplied - the classic indirect loss. Clause B,
   spliced in from the second source, excludes indirect, special and consequential loss outright ''notwithstanding anything contained in this Agreement to the contrary'', carving out only indemnity, confidentiality
   and breaches of law, none of which covers the clause A duty. The same party must pay the customer''s downstream losses and must have no liability for them; the only route out of the collision would be
-  a precedence rule, and neither clause contains one. Constructed pair: verbatim spans, spliced document.'
+  a precedence rule, and neither clause contains one. Two duties are recorded, each under the CUAD label that surfaced it: the audit-access duty owed by the Vendor (records and facilities open to AT&T and
+  its auditors at all reasonable times, 121881-122570) and the retention duty that gives the audit its tail (records kept during the term and for three years after, 349788-350136). Constructed pair: verbatim
+  spans, spliced document.'
 difficulty: 3
