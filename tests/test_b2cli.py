@@ -105,7 +105,7 @@ def test_version_flag(capsys):
     with pytest.raises(SystemExit) as exc:
         build_parser().parse_args(['--version'])
     assert exc.value.code == 0
-    assert 'b2cli 0.1.0' in capsys.readouterr().out
+    assert 'b2cli 0.1.1' in capsys.readouterr().out
 
 
 def test_runs_as_module_in_subprocess():
@@ -113,7 +113,7 @@ def test_runs_as_module_in_subprocess():
     out = subprocess.run([sys.executable, '-m', 'b2cli', '--version'], cwd=str(ROOT),
                          capture_output=True, text=True, env=env)
     assert out.returncode == 0
-    assert 'b2cli 0.1.0' in out.stdout
+    assert 'b2cli 0.1.1' in out.stdout
 
 def test_positional_arguments_required(capsys):
     assert main(['--contract', 'x.txt', '--party', 'customer']) == 2
@@ -157,6 +157,9 @@ def test_offline_success_pipeline(tmp_path, monkeypatch, capsys):
     rep = report(tmp_path)
     assert rep['mode'] == 'offline-replay'
     assert rep['provider_calls'] == 0
+    assert rep['budget']['enforcement'] == 'offline-no-provider-calls'
+    assert rep['budget']['attempts'] == 0
+    assert rep['budget']['known_cost_estimate_usd'] is None
     assert rep['duplicate_intake'] is False
     assert rep['run_status'] == 'ok'
     assert len(rep['obligations']) == 1
@@ -314,18 +317,29 @@ class FakeCache:
         self.puts.append(metadata)
 
 
-def test_budget_caps_refuse_before_accounting():
+def test_cache_records_costs_without_being_the_gate():
     base = FakeCache()
-    capped = cli_runner.BudgetedCache(base, max_usd=0.001, max_requests=1)
-    with pytest.raises(cli_runner.BudgetExceeded):
-        capped.put({'r': 1}, {'ok': True}, {'cost_usd': 0.002})
-    assert base.puts == []
-    capped.put({'r': 2}, {'ok': True}, {'cost_usd': 0.0005})
-    with pytest.raises(cli_runner.BudgetExceeded):
-        capped.put({'r': 3}, {'ok': True}, {'cost_usd': 0.0})
-    assert len(base.puts) == 1
+    ledger = cli_runner.BudgetLedger(max_usd=1.0, max_requests=1)
+    capped = cli_runner.BudgetedCache(base, ledger=ledger)
+    # Cache writes only record observed usage; they are not the enforcement point.
+    capped.put({'r': 1}, {'usage': {'prompt_tokens': 1, 'completion_tokens': 1}},
+               {'cost_usd': 0.002})
+    capped.put({'r': 2}, {'usage': None}, {'cost_usd': 0.0})
+    assert ledger.attempts == 0
+    assert ledger.known_cost_attempts == 1
+    assert ledger.unknown_cost_attempts == 1
+    assert abs(ledger.spent_usd - 0.002) < 1e-12
 
-    base2 = FakeCache()
-    capped2 = cli_runner.BudgetedCache(base2, max_usd=None, max_requests=0)
+
+def test_transport_gate_refuses_before_http_call():
+    ledger = cli_runner.BudgetLedger(max_requests=1)
+    calls = []
+
+    def real_post(url, **kwargs):
+        calls.append(url)
+
+    transport = cli_runner._BudgetedTransport(real_post, ledger)
+    transport('http://first', json={'max_tokens': 10})
     with pytest.raises(cli_runner.BudgetExceeded):
-        capped2.put({'r': 4}, {'ok': True}, {'cost_usd': 0.0})
+        transport('http://second', json={'max_tokens': 10})
+    assert calls == ['http://first']

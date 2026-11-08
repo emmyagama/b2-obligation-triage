@@ -1,6 +1,6 @@
 """b2cli runner: local contract-triage pipeline over the frozen B2 engine.
 
-Design notes (v0.1.0):
+Design notes (v0.1.1):
 - Reuses the baseline engine, sqlite schema, tools, validation, escalation
   routing, cache and prompt unchanged.
 - Works on *user-supplied* contract text that has NO CUAD clause labels. The
@@ -11,16 +11,23 @@ Design notes (v0.1.0):
 - Default mode is offline replay: a cache miss is a hard error and no socket
   is opened (B2_OFFLINE is set before the agent package is imported).
 - Live mode requires an explicit acknowledgement flag and a real provider key.
+- Live budget caps are enforced at the HTTP boundary, before each attempt
+  (including retries), by wrapping ``requests.post`` for the run. A USD cap
+  reserves a conservative worst-case cost per attempt; unknown usage, failed
+  and interrupted attempts stay counted and are never treated as free.
 - All state (sqlite DB, cache, reports) lives outside tracked baseline paths.
 """
 import hashlib
 import json
+import math
 import os
 import re
 import sys
+import threading
+from contextlib import contextmanager
 from pathlib import Path
 
-VERSION = '0.1.0'
+VERSION = '0.1.1'
 
 MAX_CONTRACT_BYTES = 2_000_000
 EMBED_DIM = 384
@@ -28,8 +35,13 @@ CHUNK_MAX_CHARS = 700
 CHUNK_OVERLAP = 100
 
 
-class BudgetExceeded(Exception):
-    """Raised before a provider call that would exceed the approved cap."""
+class BudgetExceeded(BaseException):
+    """A provider request was refused because a budget cap would be exceeded.
+
+    Deliberately a ``BaseException``: the frozen engine contains broad
+    ``except Exception`` handlers that would otherwise convert a cap refusal
+    into a normal-looking E6 escalation and a successful exit code.
+    """
 
 
 class PathRefused(Exception):
@@ -92,32 +104,192 @@ def hash_embed_batch(texts, dim=EMBED_DIM):
     return np.array(vectors, dtype=np.float32)
 
 
-class BudgetedCache:
-    """Cache wrapper enforcing a hard spend/request cap for live smokeless runs."""
-    def __init__(self, cache, max_usd=None, max_requests=None):
-        self.cache = cache
-        self.path = getattr(cache, 'path', None)
+class BudgetLedger:
+    """Pre-transport request/spend gate for the user-facing CLI.
+
+    The request counter is enforced at the HTTP boundary, before every attempt
+    (including retries): cap N refuses attempt N+1 before it is sent.
+
+    A USD cap is enforced as a conservative worst-case reservation. Before an
+    attempt is allowed out, it permanently reserves
+    ``(bound_input_tokens * input_price + max_tokens * output_price) / 1e6``
+    using the verified pricing table. Bound input tokens are taken from the
+    serialised request body length (bytes), which is at least as large as any
+    tokenizer's token count for that text, and ``max_tokens`` bounds output.
+    Failed, interrupted and usage-less attempts keep their reservation, so the
+    ledger cannot silently drift above the cap. The resulting figure is an
+    estimate derived from provider-reported usage, not provider billing; only a
+    provider-side quota is authoritative.
+    """
+
+    def __init__(self, max_usd=None, max_requests=None, pricing=None):
+        if max_requests is not None and (type(max_requests) is not int or max_requests < 1):
+            raise ValueError('max_requests must be a positive integer')
+        if max_usd is not None:
+            if (not isinstance(max_usd, (int, float)) or isinstance(max_usd, bool)
+                    or not math.isfinite(max_usd) or max_usd <= 0):
+                raise ValueError('max_usd must be a positive finite number')
         self.max_usd = max_usd
         self.max_requests = max_requests
-        self.spent_usd = 0.0
-        self.requests = 0
+        self.pricing = pricing or {}
+        self._lock = threading.Lock()
+        self.attempts = 0
+        self.reserved_usd = 0.0
+        self.known_cost_usd = 0.0
+        self.known_cost_attempts = 0
+        self.unknown_cost_attempts = 0
+
+    @property
+    def requests(self):
+        return self.attempts
+
+    @property
+    def spent_usd(self):
+        return self.known_cost_usd
+
+    def _prices(self):
+        input_price = self.pricing.get('input_per_million_usd')
+        output_price = self.pricing.get('output_per_million_usd')
+        cached_price = self.pricing.get('cached_input_per_million_usd', input_price)
+        for name, value in (('input_per_million_usd', input_price),
+                            ('output_per_million_usd', output_price),
+                            ('cached_input_per_million_usd', cached_price)):
+            if (not isinstance(value, (int, float)) or isinstance(value, bool)
+                    or not math.isfinite(value) or value < 0):
+                raise BudgetExceeded(
+                    'cannot enforce a hard USD cap: verified pricing field '
+                    f'{name} is missing or invalid')
+        return max(input_price, cached_price), output_price
+
+    def worst_case_usd(self, body):
+        input_price, output_price = self._prices()
+        if not isinstance(body, dict):
+            body = {}
+        max_tokens = body.get('max_tokens')
+        if type(max_tokens) is not int or max_tokens < 1:
+            raise BudgetExceeded(
+                'cannot enforce a hard USD cap: request has no positive max_tokens bound')
+        try:
+            payload = json.dumps(body, allow_nan=False)
+        except (TypeError, ValueError) as exc:
+            raise BudgetExceeded(f'cannot bound request size for the USD cap: {exc}')
+        tokens_in_bound = len(payload.encode('utf-8'))
+        return (tokens_in_bound * input_price + max_tokens * output_price) / 1_000_000
+
+    def reserve_attempt(self, body):
+        with self._lock:
+            if (self.max_requests is not None
+                    and self.attempts + 1 > self.max_requests):
+                raise BudgetExceeded(
+                    f'request cap reached ({self.max_requests}); refusing request '
+                    f'{self.attempts + 1} before it is sent')
+            worst = None
+            if self.max_usd is not None:
+                worst = self.worst_case_usd(body)
+                if self.reserved_usd + worst > self.max_usd + 1e-12:
+                    raise BudgetExceeded(
+                        'spend cap would be exceeded (reserved worst case '
+                        f'{self.reserved_usd + worst:.6f} > {self.max_usd} USD); '
+                        'refusing request before it is sent')
+            self.attempts += 1
+            if worst is not None:
+                self.reserved_usd += worst
+
+    def record_cost(self, cost):
+        with self._lock:
+            try:
+                value = float(cost)
+            except (TypeError, ValueError):
+                self.unknown_cost_attempts += 1
+                return
+            if not math.isfinite(value) or value < 0:
+                self.unknown_cost_attempts += 1
+                return
+            self.known_cost_attempts += 1
+            self.known_cost_usd += value
+
+    def assert_cost_cap_enforceable(self):
+        if self.max_usd is not None:
+            self._prices()
+
+
+class _BudgetedTransport:
+    """Wrap the real HTTP POST so the gate runs before every attempt."""
+
+    def __init__(self, real_post, ledger):
+        self._real_post = real_post
+        self.ledger = ledger
+
+    def __call__(self, url, *args, **kwargs):
+        body = kwargs.get('json')
+        self.ledger.reserve_attempt(body if isinstance(body, dict) else {})
+        try:
+            return self._real_post(url, *args, **kwargs)
+        except BaseException:
+            self.ledger.record_cost(None)
+            raise
+
+
+@contextmanager
+def budgeted_transport(ledger):
+    """Install the budget gate on ``requests.post`` for the duration of a run."""
+    import requests
+    original = requests.post
+    requests.post = _BudgetedTransport(original, ledger)
+    try:
+        yield
+    finally:
+        requests.post = original
+
+
+class BudgetedCache:
+    """Cache proxy that records observed provider cost against a ledger.
+
+    The request/spend gate lives at the transport boundary
+    (:func:`budgeted_transport`); cache writes only record what the provider
+    actually reported, keeping unknown usage unknown.
+    """
+
+    def __init__(self, cache, max_usd=None, max_requests=None, ledger=None, pricing=None):
+        self.cache = cache
+        self.path = getattr(cache, 'path', None)
+        self.ledger = ledger or BudgetLedger(max_usd, max_requests, pricing)
+
+    @property
+    def max_usd(self):
+        return self.ledger.max_usd
+
+    @property
+    def max_requests(self):
+        return self.ledger.max_requests
+
+    @property
+    def requests(self):
+        return self.ledger.attempts
+
+    @property
+    def spent_usd(self):
+        return self.ledger.known_cost_usd
+
+    @property
+    def reserved_usd(self):
+        return self.ledger.reserved_usd
 
     def get(self, request, case_id=None, seq=None):
         return self.cache.get(request, case_id, seq)
 
     def put(self, request, response, metadata):
-        cost = metadata.get('cost_usd')
-        projected = self.spent_usd + (cost or 0.0)
-        if self.max_requests is not None and self.requests + 1 > self.max_requests:
-            raise BudgetExceeded(
-                f'request cap reached ({self.max_requests}); refusing further provider calls')
-        if self.max_usd is not None and projected > self.max_usd:
-            raise BudgetExceeded(
-                f'spend cap would be exceeded (spent {self.spent_usd:.6f} + '
-                f'{cost!r} > {self.max_usd} USD); refusing further provider calls')
         self.cache.put(request, response, metadata)
-        self.spent_usd = projected
-        self.requests += 1
+        usage = response.get('usage') if isinstance(response, dict) else None
+        reported = isinstance(usage, dict) and all(
+            isinstance(usage.get(k), int) for k in ('prompt_tokens', 'completion_tokens'))
+        # No readable usage means the frozen layer's zero is not evidence of a
+        # free call; keep it unknown instead of inventing a cost of 0.
+        self.ledger.record_cost(metadata.get('cost_usd') if reported else None)
+        if self.ledger.max_usd is not None and self.ledger.known_cost_usd > self.ledger.max_usd:
+            raise BudgetExceeded(
+                'observed cost exceeded the configured cap '
+                f'({self.ledger.known_cost_usd:.6f} > {self.ledger.max_usd} USD)')
 
 
 def _load_env_file(path):
@@ -276,6 +448,11 @@ def run_cli(args):
 
     load_taxonomy(db, root / 'guide' / 'obligation_types.yaml')
 
+    ledger = BudgetLedger(args.max_cost_usd, args.max_requests,
+                          pricing if args.live else None)
+    if args.live and args.max_cost_usd is not None:
+        ledger.assert_cost_cap_enforceable()
+
     with db:
         db.execute(
             "INSERT OR REPLACE INTO corpus_documents(id, title, contract_family, char_count) VALUES(?,?,?,?)",
@@ -293,7 +470,7 @@ def run_cli(args):
                 'corpus_version': model_cfg['corpus_version']}
 
     run_id, hit = begin(db, args.ref, document_id, args.party, args.context, 'b2cli', versions)
-    cache = BudgetedCache(Cache(cache_path), args.max_cost_usd, args.max_requests)
+    cache = BudgetedCache(Cache(cache_path), ledger=ledger)
 
     decision = None
     if hit:
@@ -310,11 +487,28 @@ def run_cli(args):
         # Unlabelled document: the category-filtered E1 precheck would read
         # "no CUAD labels" as "no obligation" and never call the model.
         # Neutralise the precheck; E1 is applied after the model loop instead.
-        result = run_agent(db, run_id, document_id, args.party, args.context,
-                           text, chunks_store, embed_query, cache, config,
-                           descriptions, prompt, live=args.live, resume=False,
-                           case_id=args.ref, precomputed_scores=0.0)
+        if args.live:
+            # The gate runs at the real transport boundary, so retries and
+            # interrupted attempts are counted and refused before they are sent.
+            with budgeted_transport(ledger):
+                result = run_agent(db, run_id, document_id, args.party, args.context,
+                                   text, chunks_store, embed_query, cache, config,
+                                   descriptions, prompt, live=True, resume=False,
+                                   case_id=args.ref, precomputed_scores=0.0)
+        else:
+            result = run_agent(db, run_id, document_id, args.party, args.context,
+                               text, chunks_store, embed_query, cache, config,
+                               descriptions, prompt, live=False, resume=False,
+                               case_id=args.ref, precomputed_scores=0.0)
         decision = result['decision']
+        if args.live:
+            metadata = result.get('metadata') or []
+            if metadata and all(isinstance(m.get('tokens_in'), int)
+                                and isinstance(m.get('tokens_out'), int) for m in metadata):
+                with db:
+                    db.execute('UPDATE runs SET tokens_in=?, tokens_out=? WHERE id=?',
+                               (sum(m['tokens_in'] for m in metadata),
+                                sum(m['tokens_out'] for m in metadata), run_id))
         n_obs = db.execute('SELECT count(*) FROM obligations WHERE decision_id=?',
                            (decision['decision_id'],)).fetchone()[0]
         codes = decision.get('escalation_codes') or []
@@ -386,8 +580,29 @@ def run_cli(args):
         'escalations': escalations,
         'run_status': run_row['status'] if run_row else None,
         'cost_usd': run_row['cost_usd'] if run_row else None,
-        'requests': cache.requests,
-        'provider_calls': cache.requests if args.live else 0,
+        'requests': ledger.attempts,
+        'provider_calls': ledger.attempts if args.live else 0,
+        'budget': {
+            'max_requests': args.max_requests,
+            'max_usd': args.max_cost_usd,
+            'enforcement': ('offline-no-provider-calls' if not args.live else
+                            'pre-transport-conservative-reservation'
+                            if args.max_cost_usd is not None else
+                            'pre-transport-request-cap'
+                            if args.max_requests is not None else 'none'),
+            'attempts': ledger.attempts,
+            'reserved_worst_case_usd': (round(ledger.reserved_usd, 6)
+                                        if args.live and args.max_cost_usd is not None else None),
+            'known_cost_estimate_usd': (round(ledger.known_cost_usd, 6)
+                                        if ledger.known_cost_attempts else None),
+            'known_cost_attempts': ledger.known_cost_attempts,
+            'unknown_cost_attempts': ledger.unknown_cost_attempts,
+            'cost_basis': ('estimated from provider-reported usage and config/pricing.yaml; '
+                           'not provider billing'),
+            'note': ('each attempt reserves its conservatively bounded worst-case cost '
+                     'before it is sent; failed, interrupted and usage-less attempts '
+                     'remain counted, so unknown usage is never treated as free'),
+        },
         'warning': ('Not legal advice. The system extracts and routes obligations for human '
                     'review; humans decide escalated issues.'),
     }
@@ -400,6 +615,9 @@ def run_cli(args):
     print(f'run {run_id}: status={report["run_status"]} obligations={len(obligations)} '
           f'escalated={esc} codes={codes}')
     if args.live:
-        print(f'provider requests={cache.requests} spent_usd={cache.spent_usd:.6f}')
+        estimate = (f'{ledger.known_cost_usd:.6f}' if ledger.known_cost_attempts else 'unknown')
+        print(f'provider attempts={ledger.attempts} known_cost_estimate_usd={estimate} '
+              f'unknown_cost_attempts={ledger.unknown_cost_attempts} '
+              f'reserved_worst_case_usd={ledger.reserved_usd:.6f}')
     print(f'report: {out_dir / "report.json"}')
     return 0

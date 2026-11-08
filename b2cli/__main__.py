@@ -1,10 +1,11 @@
 """b2cli - B2 local contract-obligation triage CLI (post-signature, not legal advice)."""
 import argparse
+import math
 import os
 import sys
 from pathlib import Path
 
-VERSION = '0.1.0'
+VERSION = '0.1.1'
 
 EPILOG = """\
 examples (POSIX / Windows use the same arguments):
@@ -17,8 +18,35 @@ and no network connection is attempted. live mode requires --live plus
 --acknowledge-live, an explicit provider key in the environment (or --env-file),
 and is only for functionality checks - it is not an accuracy claim.
 
+budget controls (live only): --max-requests is checked before every HTTP
+attempt, including retries. --max-cost-usd reserves each attempt's conservative
+worst-case cost (request bytes priced as tokens, output bounded by max_tokens,
+verified config/pricing.yaml) before the request is sent; the reported figure is
+an estimate from provider usage, not provider billing, and only a provider-side
+quota is authoritative.
+
 WARNING: this tool does not provide legal advice. Escalated items require a human.
 """
+
+
+def _positive_float(value):
+    try:
+        number = float(value)
+    except ValueError:
+        raise argparse.ArgumentTypeError(f'invalid float value: {value!r}')
+    if not math.isfinite(number) or number <= 0:
+        raise argparse.ArgumentTypeError('must be a positive finite number')
+    return number
+
+
+def _positive_int(value):
+    try:
+        number = int(value)
+    except ValueError:
+        raise argparse.ArgumentTypeError(f'invalid int value: {value!r}')
+    if number < 1:
+        raise argparse.ArgumentTypeError('must be a positive integer')
+    return number
 
 
 def build_parser():
@@ -38,8 +66,10 @@ def build_parser():
     p.add_argument('--db', type=Path, default=Path('b2cli_data/b2.sqlite'), help='sqlite database path')
     p.add_argument('--cache-dir', type=Path, default=Path('b2cli_data/cache'), help='response cache directory')
     p.add_argument('--out', type=Path, default=Path('b2cli_data/out'), help='report output directory')
-    p.add_argument('--max-cost-usd', type=float, help='hard spend cap enforced during live calls')
-    p.add_argument('--max-requests', type=int, help='hard request cap enforced during live calls')
+    p.add_argument('--max-cost-usd', type=_positive_float,
+                   help='live spend ceiling: each attempt reserves its conservative worst case first')
+    p.add_argument('--max-requests', type=_positive_int,
+                   help='live request ceiling: checked before every HTTP attempt, retries included')
     p.add_argument('--verbose', action='store_true')
     return p
 

@@ -50,8 +50,8 @@ Options:
 | `--live` | enable real provider calls |
 | `--acknowledge-live` | required with `--live`; accepts transmission of the text |
 | `--env-file` | optional `KEY=VALUE` file with provider credentials |
-| `--max-cost-usd` | hard spend cap for live calls |
-| `--max-requests` | hard request cap for live calls |
+| `--max-cost-usd` | live spend ceiling (conservative worst-case reservation per attempt) |
+| `--max-requests` | live request ceiling, checked before every HTTP attempt (retries included) |
 | `--version` | print the CLI version |
 
 ### Offline (default)
@@ -71,8 +71,25 @@ python -m b2cli --live --acknowledge-live --env-file ../.env \
 Live mode sends the contract text to the configured LLM provider. Do not use a
 confidential contract unless you accept that transmission. Keys are read from
 `GEMINI_API_KEY` (Gemini models) or `GROQ_API_KEY`; values are never printed.
-USD estimates use `config/pricing.yaml`; missing pricing re-prices as unknown
-rather than guessed.
+
+### Budget controls
+
+Caps are enforced at the HTTP boundary, before each attempt, including retries:
+
+- `--max-requests N` refuses attempt `N+1` before it is sent and exits `4`.
+- `--max-cost-usd` reserves each attempt's conservative worst-case cost before
+  the request is sent: request bytes are priced as input tokens (an upper bound
+  on any tokenizer's count) and `max_tokens` bounds output, using the verified
+  `config/pricing.yaml`. Failed, interrupted and usage-less attempts keep their
+  reservation, so unknown usage is never treated as free. If pricing is missing
+  or invalid, live mode refuses to run under a USD cap.
+
+The reported `budget.known_cost_estimate_usd` is an estimate derived from
+provider-reported usage, not provider billing; only a provider-side quota is
+authoritative. `cost_usd` stays `null` because per-request billing is not
+available, and `budget.unknown_cost_attempts` counts attempts whose usage could
+not be read. Values are rejected by the argument parser unless positive and
+finite.
 
 ## Exit codes
 
