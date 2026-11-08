@@ -68,13 +68,16 @@ def test_demo_metrics_and_honest_labels(tmp_path):
 
 def test_demo_writes_only_inside_its_workspace(tmp_path):
     workdir = tmp_path / 'ws'
+    before = subprocess.run(['git', 'status', '--porcelain'], cwd=str(ROOT),
+                            capture_output=True, text=True)
+    assert before.returncode == 0, before.stderr
     proc = run_demo(workdir)
     assert proc.returncode == 0, proc.stdout + proc.stderr
-    status = subprocess.run(['git', 'status', '--porcelain'], cwd=str(ROOT),
-                            capture_output=True, text=True)
-    assert status.returncode == 0, status.stderr
-    for line in status.stdout.splitlines():
-        path = line[3:]
-        assert path.startswith('prototype/'), f'unexpected repository change: {line}'
+    after = subprocess.run(['git', 'status', '--porcelain'], cwd=str(ROOT),
+                           capture_output=True, text=True)
+    assert after.returncode == 0, after.stderr
+    # The demo must not add, remove or modify any repository path: compare
+    # snapshots instead of assuming the branch contains only prototype/.
+    assert set(after.stdout.splitlines()) == set(before.stdout.splitlines())
     assert (workdir / 'out' / 'report.json').is_file()
     assert not (ROOT / 'eval_results' / 'scratch').exists()

@@ -18,3 +18,5 @@ corpus/embeddings/chroma
 # Synthetic test embed cache stays local; documents + index + DB are released.
 corpus/synthetic_test/embed_cache/
 db/test_docs.sqlite-*
+# b2cli local state (databases, response caches, reports) stays local.
+b2cli_data/
