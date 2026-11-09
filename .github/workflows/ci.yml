@@ -11,13 +11,44 @@ jobs:
         with: {python-version: '3.11'}
       - run: pip install -r requirements.txt
       - run: make test
-  replay:
-    runs-on: ubuntu-latest
-    env: {B2_OFFLINE: '1'}
+  replay-windows-cp1252:
+    # Historical no-key replay of the frozen held-out test split. The frozen
+    # embed cache keys were produced under a Windows cp1252 default text
+    # encoding, so this proves Windows/cp1252 compatibility only - not
+    # UTF-8/Linux replay. Linux test coverage stays in the `test` job above.
+    runs-on: windows-latest
+    timeout-minutes: 40
+    env:
+      B2_OFFLINE: '1'
+      PYTHONUTF8: '0'
     steps:
       - uses: actions/checkout@v4
         with: {fetch-depth: 0}
       - uses: actions/setup-python@v5
         with: {python-version: '3.11'}
       - run: pip install -r requirements.txt
-      - run: python run_eval.py --split test && python check_readme.py
+      - name: Assert cp1252 text encoding, offline mode and no provider keys
+        shell: pwsh
+        run: |
+          python -c "import locale,os,sys; enc=locale.getpreferredencoding(False).lower(); print('preferred:',enc,'utf8_mode:',sys.flags.utf8_mode,'B2_OFFLINE:',os.environ.get('B2_OFFLINE')); assert enc in ('cp1252','windows-1252'), enc; assert sys.flags.utf8_mode==0, sys.flags.utf8_mode; assert os.environ.get('B2_OFFLINE')=='1'; assert not os.environ.get('GEMINI_API_KEY'); assert not os.environ.get('GROQ_API_KEY')"
+      - name: Replay frozen held-out test split offline
+        run: python run_eval.py --split test
+      - name: Verify historical replay output hashes
+        shell: pwsh
+        run: |
+          $expected = @{
+            'eval_results/summary_test.md'    = '7f7af0c6dd83a7726dd5831e81a1938c705850574400a19a7e243ad03b83ab12'
+            'eval_results/test_run_log.jsonl' = 'dc7fcde7daefe1b251d36b91c8d41064a6d9f45c253f97d41966384f322f0093'
+          }
+          foreach ($path in $expected.Keys) {
+            $actual = (Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash.ToLower()
+            if ($actual -ne $expected[$path]) { throw "hash mismatch for $path : $actual" }
+            Write-Host "verified $path $actual"
+          }
+      - name: Check README matches evaluation results
+        shell: pwsh
+        run: |
+          # README and its render inputs are UTF-8 text. The replay step keeps
+          # the job-wide cp1252 mode; this comparison needs UTF-8 mode.
+          $env:PYTHONUTF8 = '1'
+          python check_readme.py
