@@ -46,4 +46,9 @@ jobs:
             Write-Host "verified $path $actual"
           }
       - name: Check README matches evaluation results
-        run: python check_readme.py
+        shell: pwsh
+        run: |
+          # README and its render inputs are UTF-8 text. The replay step keeps
+          # the job-wide cp1252 mode; this comparison needs UTF-8 mode.
+          $env:PYTHONUTF8 = '1'
+          python check_readme.py
