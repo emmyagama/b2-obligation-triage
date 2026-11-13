@@ -177,6 +177,14 @@ def test_heldout_digest_and_calibration_refuse_before_freeze(tmp_path):
         p=subprocess.run([sys.executable,script,*args_],capture_output=True,text=True)
         assert p.returncode!=0
 
+def completed_live_test_run():
+    path=Path('eval_results/test_run_log.jsonl')
+    if not path.exists(): return False
+    try:
+        return any(json.loads(line).get('status')=='completed' and json.loads(line).get('valid') is True and json.loads(line).get('mode')=='live' for line in path.read_text().splitlines() if line.strip())
+    except (ValueError,TypeError): return False
+
+@pytest.mark.skipif(completed_live_test_run(),reason='a completed frozen live test run is already recorded')
 def test_heldout_eval_refuses_before_freeze():
     p=subprocess.run([sys.executable,'run_eval.py','--split','test'],capture_output=True,text=True,env={**os.environ,'B2_OFFLINE':'1'})
     assert p.returncode!=0

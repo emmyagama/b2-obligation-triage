@@ -24,7 +24,7 @@ def valid_log():
     return False
 def main():
     if valid_log():
-        subprocess.run([sys.executable,str(ROOT/'scripts/freeze_check.py')],cwd=ROOT,check=True,stdout=subprocess.DEVNULL)
+        subprocess.run([sys.executable,str(ROOT/'scripts/freeze_select.py')],cwd=ROOT,check=True,stdout=subprocess.DEVNULL)
         print('pre-push guard passed: valid completed live run recorded'); return
     # Pre-push stdin lines are local_ref local_sha remote_ref remote_sha.
     # If no hook data is provided, conservatively check all commits not on remotes.

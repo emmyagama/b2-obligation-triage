@@ -55,7 +55,7 @@ def main(a):
     if a.scratch and (a.cache_dir or a.out): raise ValueError('--scratch cannot be combined with --cache-dir or --out')
     if a.split in ('test','all'):
         if a.cases or a.limit or a.scratch or (a.live and a.split!='test'): raise ValueError('live held-out run must be full test only, without filters or scratch')
-        subprocess.run([sys.executable,str(ROOT/'scripts/freeze_check.py')],cwd=ROOT,check=True)
+        subprocess.run([sys.executable,str(ROOT/'scripts/freeze_select.py')],cwd=ROOT,check=True)
         if not a.live:
             if not log_path.exists(): raise ValueError('held-out replay requires a completed valid live test run')
             committed=(ROOT/'cases/FROZEN.sha256').read_text().split()[0]

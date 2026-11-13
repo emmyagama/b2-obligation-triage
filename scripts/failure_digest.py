@@ -6,7 +6,7 @@ def permitted(run,post):
     m=json.loads((run/'run_metadata.json').read_text()); split=m['split']
     if split=='dev': return m
     if split!='test' or not post: raise ValueError('per-case digest refuses non-dev runs before post-freeze')
-    subprocess.run([sys.executable,str(ROOT/'scripts/freeze_check.py')],cwd=ROOT,check=True,stdout=subprocess.DEVNULL)
+    subprocess.run([sys.executable,str(ROOT/'scripts/freeze_select.py')],cwd=ROOT,check=True,stdout=subprocess.DEVNULL)
     log=ROOT/'eval_results/test_run_log.jsonl'
     if not log.exists(): raise ValueError('valid live test run not recorded')
     entries=[json.loads(x) for x in log.read_text().splitlines() if x.strip()]
